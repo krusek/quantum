@@ -1,0 +1,137 @@
+\documentclass{article}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage[all]{xy}
+\usepackage{ifthen}
+\usepackage{makeidx}
+\usepackage{physics}
+\usepackage{exercise}
+\newcommand{\makeind}{\makeindex } \newcommand{\ind}[1]{ } \newcommand{\printind} {}
+%\usepackage{hyperref} \hypersetup{backref,colorlinks=true} \renewcommand{\ind}[1]{\index{#1}} \renewcommand{\makeind}{\makeindex} \renewcommand{\printind}{\printindex }
+\makeind
+\author{Korben Rusek}
+\title{Quantum Computing}
+\date{9-5-2007}
+\pagestyle{myheadings}
+\markright{Korben Rusek - Chapter 2 Notes}
+\oddsidemargin 0.1in
+\evensidemargin 0.0in
+\textwidth 6.0in
+\begin{document}
+\maketitle
+\newcommand{\gindex}[2]{|#1\!:\!#2|}
+\newcommand{\lcm}{\textrm{lcm}}
+\newcommand{\irr}{\textrm{irr}}
+\newcommand{\sylp}{$Syl_{p}$}
+\newcommand{\phnt}[1]{$\phantom{1}^{#1}$}
+\newcommand{\gen}[1]{\langle#1\rangle}
+\newcommand{\BN}{\mathbb{N}}
+\newcommand{\BZ}{\mathbb{Z}}
+\newcommand{\BQ}{\mathbb{Q}}
+\newcommand{\BR}{\mathbb{R}}
+\newcommand{\BC}{\mathbb{C}}
+\newcommand{\BF}{\mathbb{F}}
+\newcommand{\CF}{\mathcal{F}}
+\newcommand{\CQ}{\mathcal{Q}}
+\newcommand{\fa}{\mathfrak{a}}
+\newcommand{\fb}{\mathfrak{b}}
+\newcommand{\fp}{\mathfrak{p}}
+\newcommand{\fq}{\mathfrak{q}}
+\newcommand{\fm}{\mathfrak{m}}
+\newcommand{\FN}{\mathfrak{N}}
+\newcommand{\FR}{\mathfrak{R}}
+\newcommand{\set}[1]{\{#1\}}
+\newcommand{\trv}{\set{1}}
+\newcommand{\Aut}{\mathrm{Aut}}
+\newcommand{\End}{\mathrm{End}}
+\newcommand{\Ker}{\mathrm{Ker}}
+\newcommand{\chr}{\mathrm{char}}
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{definition}[theorem]{Definition}
+
+
+\section{The Pauli matrices}
+
+
+\[
+  \sigma_0=I
+\]
+
+\[
+  \sigma_1=\sigma_x=X=
+  \begin{bmatrix}
+    0&1 \\
+    1&0
+  \end{bmatrix}
+\]
+
+\[
+  \sigma_2=\sigma_y=Y=
+  \begin{bmatrix}
+    0&-i \\
+    i&0
+  \end{bmatrix}
+\]
+
+\[
+  \sigma_3=\sigma_z=Z=
+  \begin{bmatrix}
+    1&0 \\
+    0&-1
+  \end{bmatrix}
+\]
+
+\section{Adjoints and Hermitian operators}
+
+\begin{definition}[Hermitian]
+  An operator $A$ is Hermitian if $A=A^\dagger$.
+\end{definition}
+
+\begin{theorem}
+  Two eigenvectors of a Hermitian operator with different eigenvalues are orthogonal.
+\end{theorem}
+
+\begin{definition}
+  A matrix is normal if $AA^\dagger=A^\dagger A$.
+\end{definition}
+
+\begin{theorem}
+  A normal matrix is Hermitian iff it has real eigenvalues.
+\end{theorem}
+
+\begin{definition}[Unitary]
+  A matrix $U$ is unitary if $U^\dagger U=I$.
+\end{definition}
+
+\begin{definition}[Positive and Positive definite]
+  A positive operator $A$ is defined to be an operator
+  such that for any vector $\ket{v}$, $(\ket{v},A\ket{v})$
+  is a real, non-negative number. If $(\ket{v}, A\ket{v})>0$
+  then $A$ is positive definite.
+\end{definition}
+
+\section{The polar and singular value decompositions}
+
+\begin{theorem}[Polar decompositions]
+  Let $A$ be a linear operator on a vector space $V$. Then
+  there exists unitary $U$ and positive operators $J$ and $K$
+  such that
+  \[A=UJ=KU,\]
+  where the unique positive operators $J$ and $K$ satisfying
+  these equations are $J=\sqrt{A^\dagger A}$ and $K=\sqrt{AA^\dagger}$.
+  Moreover, if $A$ is invertible then $U$ is unique.
+\end{theorem}
+
+\begin{theorem}[Singular value decomposition]
+  Let $A$ be a square matrix. Then there exist unitary matrices
+  $U$ and $V$, and a diagonal matrix $D$ with non-negative entries
+  such that
+  \[A=UDV.\]
+  The diagonal elements of $D$ are known as the
+  \it{singular values} of $A$.
+\end{theorem}
+
+\end{document}

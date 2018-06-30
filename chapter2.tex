@@ -1,0 +1,268 @@
+\documentclass{article}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage[all]{xy}
+\usepackage{ifthen}
+\usepackage{makeidx}
+\usepackage{physics}
+\usepackage{exercise}
+\newcommand{\makeind}{\makeindex } \newcommand{\ind}[1]{ } \newcommand{\printind} {}
+%\usepackage{hyperref} \hypersetup{backref,colorlinks=true} \renewcommand{\ind}[1]{\index{#1}} \renewcommand{\makeind}{\makeindex} \renewcommand{\printind}{\printindex }
+\makeind
+\author{Korben Rusek}
+\title{Quantum Computing}
+\date{9-5-2007}
+\pagestyle{myheadings}
+\markright{Korben Rusek - Quantum Computing}
+\oddsidemargin 0.1in
+\evensidemargin 0.0in
+\textwidth 6.0in
+\begin{document}
+\maketitle
+\newcommand{\gindex}[2]{|#1\!:\!#2|}
+\newcommand{\lcm}{\textrm{lcm}}
+\newcommand{\irr}{\textrm{irr}}
+\newcommand{\sylp}{$Syl_{p}$}
+\newcommand{\phnt}[1]{$\phantom{1}^{#1}$}
+\newcommand{\gen}[1]{\langle#1\rangle}
+\newcommand{\BN}{\mathbb{N}}
+\newcommand{\BZ}{\mathbb{Z}}
+\newcommand{\BQ}{\mathbb{Q}}
+\newcommand{\BR}{\mathbb{R}}
+\newcommand{\BC}{\mathbb{C}}
+\newcommand{\BF}{\mathbb{F}}
+\newcommand{\CF}{\mathcal{F}}
+\newcommand{\CQ}{\mathcal{Q}}
+\newcommand{\fa}{\mathfrak{a}}
+\newcommand{\fb}{\mathfrak{b}}
+\newcommand{\fp}{\mathfrak{p}}
+\newcommand{\fq}{\mathfrak{q}}
+\newcommand{\fm}{\mathfrak{m}}
+\newcommand{\FN}{\mathfrak{N}}
+\newcommand{\FR}{\mathfrak{R}}
+\newcommand{\set}[1]{\{#1\}}
+\newcommand{\trv}{\set{1}}
+\newcommand{\Aut}{\mathrm{Aut}}
+\newcommand{\End}{\mathrm{End}}
+\newcommand{\Ker}{\mathrm{Ker}}
+\newcommand{\chr}{\mathrm{char}}
+
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{exercise}{Exercise}[section]
+
+\setcounter{section}{1}
+\section{Linear Algebra}
+\begin{lemma}
+  Let $A$ be a non-singular linear operator.
+  If all the eigenvalues of $A$ are $\pm 1$ then $A^2=I$
+  \begin{proof}
+    Since $A$ is non-singular and normal with eigenvalues $\pm1$ then we
+    can write $A=\sum\lambda_i\ket{i}\bra{i}$ with $\ket{i}$ spanning the
+    vector space. Then we
+    have
+    \begin{align*}
+      A^2&=\left(\sum_i\lambda_i\ket{i}\bra{i}\right)\left(\sum_j\lambda_j\ket{j}\bra{j}\right) \\
+      &=\sum_i\sum_j\lambda_i\ket{i}\bra{i}\lambda_j\ket{j}\bra{j} \\
+      &=\sum_i\sum_j\lambda_i\lambda_j\ket{i}\bra{i}\ket{j}\bra{j} \\
+      &=\sum_i\sum_j\lambda_i\lambda_j\ket{i}\delta_{i,j}\bra{j} \\
+      &=\sum_i\sum_j\lambda_i\lambda_j\delta_{i,j}\ket{i}\bra{j} \\
+      &=\sum_i\lambda_i^2\ket{i}\bra{i} \\
+      &=\sum_i\ket{i}\bra{i} \\
+      &=I
+    \end{align*}
+  \end{proof}
+\end{lemma}
+
+\begin{lemma}
+  Let $A=\sum_x\ket{x}\bra{x}-\sum_y\ket{y}\bra{y}$, where $\{\ket{x},\ket{y}\}_{x,y}$ form an orthonormal basis.
+  Then
+  \[
+    f(\theta A) = \frac{f(\theta)+f(-\theta)}{2}I + \frac{f(\theta)-f(-\theta)}{2}A.
+  \]
+  \begin{proof}
+    We can write $A=\sum_x\ket{x}\bra{x}-\sum_y\ket{y}\bra{y}$.
+    Let $X=\sum_x \ket{x}\bra{x}$ and
+    $Y=\sum_y \ket{y}\bra{y}$. That means that
+    $I=X+Y$ and $A=X-Y$. Then we have
+    \begin{eqnarray*}
+      f(\theta)A&=&\sum_xf(\theta)\ket{x}\bra{x}+\sum_yf(-\theta)\ket{y}\bra{y} \\
+      &=&f(\theta)\sum_x\ket{x}\bra{x}+f(-\theta)\sum_y\ket{y}\bra{y} \\
+      &=&f(\theta)X+f(-\theta)Y \\
+      &=&\frac{f(\theta)}{2}X+\frac{f(\theta)}{2}Y+\frac{f(\theta)}{2}X-\frac{f(\theta)}{2}Y+\frac{f(-\theta)}{2}Y+\frac{f(-\theta)}{2}Y+\frac{f(-\theta)}{2}X-\frac{f(-\theta)}{2}X \\
+      &=&\frac{f(\theta)}{2}(X+Y)+\frac{f(-\theta)}{2}(X+Y)+\frac{f(\theta)}{2}(X-Y)-\frac{f(-\theta)}{2}(X-Y) \\
+      &=&\frac{f(\theta)+f(-\theta)}{2}I+\frac{f(\theta)-f(-\theta)}{2}A
+    \end{eqnarray*}
+  \end{proof}
+\end{lemma}
+\setcounter{exercise}{43}
+\begin{exercise}
+  Suppose that $A$ is invertible and that $\{A,B\}=[A,B]=0$. Show that $B$ is 0.
+  \begin{proof}
+    $[A,B]=0$ tells us that $AB=BA$ and $\{A,B\}=0$ tells us that $AB=-BA$. Therefore we
+    know that $BA=-BA$. Now multiplying on the right side by $A^{-1}$, we get $B=-B$. Thus
+    $-2B=0$ which implies that $B=0$.
+  \end{proof}
+\end{exercise}
+
+\begin{exercise}
+  Show that $[A,B]^\dagger=[B^\dagger,A^\dagger]$.
+  \begin{proof}
+    \begin{eqnarray*}
+      [A,B]^\dagger&=&\left(AB-BA\right)^\dagger \\
+      &=&B^\dagger A^\dagger - A^\dagger B^\dagger \\
+      &=&[B^\dagger,A^\dagger ].
+    \end{eqnarray*}
+  \end{proof}
+\end{exercise}
+
+\begin{exercise}
+  Show that $[A,B]=-[B,A]$.
+  \begin{proof}
+    \begin{eqnarray*}
+      [A,B]&=&AB-BA \\
+      &=&- (BA-AB) \\
+      &=&-[B,A]
+    \end{eqnarray*}
+  \end{proof}
+\end{exercise}
+
+\begin{exercise}
+  Suppose that $A$ and $B$ are Hermitian. Show that $i[A,B]$ is Hermitian.
+  \begin{proof}
+    Suppose that $A=A^\dagger$ and $B=B^\dagger$. Then we have
+    \begin{eqnarray*}
+      \left(i[A,B]\right)^\dagger&=&-i[B^\dagger,A^\dagger] \\
+      &=&-i[B,A]=i[A,B].
+    \end{eqnarray*}
+    Therefore $i[A,B]$ is Hermitian.
+  \end{proof}
+\end{exercise}
+
+\begin{lemma}
+  Let $A$ be a diagonalizable matrix. Write $A=\sum_i\lambda_i\ket{i}$. Then $\sqrt{A^\dagger A}=\sum_i|\lambda_i|\ket{i}\bra{i}$.
+  \begin{proof}
+    The proof is pretty straight forward. We start with
+    \begin{eqnarray*}
+      A^\dagger A &=& \left(\sum_i \lambda_i^*\ket{i}\bra{i}\right)\left(\sum_i\lambda_i\ket{i}\bra{i}\right) \\
+      &=&\sum_i|\lambda_i|^2\ket{i}\bra{i}.
+    \end{eqnarray*}
+    Therefore $\sqrt{A^\dagger A}=\sum_i|\lambda_i|\ket{i}\bra{i}$.
+  \end{proof}
+\end{lemma}
+
+\begin{exercise}
+What is the polar decomposition of a positive matrix, $P$? Of a unitary matrix, $U$? or a Hermitian matrix, $H$?
+\begin{proof}[Positive matrix]
+  By the above lemma, for a positive matrix, $P$, $\sqrt{P^\dagger P}=P$. Therefore we have $IP$ or $PI$ as the polar decompositions.
+\end{proof}
+\begin{proof}[Unitary matrix]
+  Suppose $V$ is unitary. By the above lemma $\sqrt{V^\dagger V}=I$. Therefore $V=VI=IV$ is the polar decomposition.
+\end{proof}
+\begin{proof}[Hermitian matrix]
+  Suppose that $H$ is Hermitian. Write $H=\sum_i\lambda_i\ket{i}\bra{i}$. Then $J=\sum_i|\lambda_i|\ket{i}\bra{i}$. Let $a_i$ be defined as $\lambda_i/|\lambda_i|$ when $\lambda_i\ne0$ and $1$ when $\lambda_i=0$. Then $U=\sum_iv_i\ket{i}\bra{i}$.
+\end{proof}
+\end{exercise}
+
+\begin{exercise}
+  Express the polar decomposition of a normal matrix in the outer product representation.
+  \begin{proof}
+    The solution is similar to what we see in the Hermitian version of the above exercise. $J$ has eigenvalues that are the absolute value of the eigenvalues of $H$. $U$ would have eigenvalues that are the unit vectors of the eigenvalues of $H$ (or 1 when eigenvalues are 0).
+  \end{proof}
+\end{exercise}
+
+\begin{exercise}
+  Find the left and right polar decompositions of the matrix
+  \[
+  P=\begin{bmatrix}
+    1&0 \\
+    1&1
+  \end{bmatrix}.
+  \]
+  \begin{proof}
+    It is easy to see that the eigenvalues of $P$ is $1$ repeated. Therefore $P$ is positive. Therefore $U=I$ and $J=K=P$.
+  \end{proof}
+\end{exercise}
+
+\begin{definition}
+  We define $H$ to be the Hadamard matrix.
+  \[
+    H=\frac{1}{\sqrt2}\begin{bmatrix}
+    1&1 \\
+    1&-1
+  \end{bmatrix}.
+    \]
+\end{definition}
+
+\begin{exercise}
+  Verify that th Hadamard gate $H$ is unitary.
+  \begin{proof}
+    \begin{eqnarray*}
+      H^2&=&\frac{1}{2}\begin{bmatrix}
+        2&0 \\
+        0&2
+      \end{bmatrix} = I.
+    \end{eqnarray*}
+    It is clear that $H^\dagger = H$. Thus $H\dagger H=I$ and $H$ is unitary.
+  \end{proof}
+\end{exercise}
+
+\begin{exercise}
+  Verify that $H^2=I$.
+  \begin{proof}
+    This was shown in the previous exercise.
+  \end{proof}
+\end{exercise}
+
+\begin{exercise}
+  What are the eigenvalues and eigenvectors of $H$?
+  \begin{proof}
+    To find the eigenvalues of $H$ we solve the  polynomial equation
+    \begin{eqnarray*}
+      0&=&(1-\lambda)(-1-\lambda)-1 \\
+      &=&(\lambda-1)(\lambda + 1)-1 \\
+      &=&\lambda^2-2.
+    \end{eqnarray*}
+    Thus our eigenvalues are $\lambda=\pm\sqrt2$. To find the eigenvectors we solve the system:
+    \begin{eqnarray*}
+      x+y&=&\frac{\lambda}{\sqrt2} x \\
+      x-y&=&\frac{\lambda}{\sqrt2} y
+    \end{eqnarray*}
+    Since $(0,1)$ is clearly not an eigenvector we can assume that $x=1$. For $\lambda=1$ we have
+    $y=\frac{1-\sqrt2}{\sqrt2}$. For $\lambda=-1$ we get $y=\frac{-1+\sqrt2}{\sqrt2}$. Therefore we have the eigenvectors $(\sqrt2,1-\sqrt2)$ and $(\sqrt2,\sqrt2-1)$ with eigenvalues $1$ and $-1$ respectively.
+  \end{proof}
+\end{exercise}
+
+\begin{exercise}
+  Suppose $A$ and $B$ are commuting Hermitian operators. Prove that $exp(A)exp(B)=exp(A+B)$.
+  \begin{proof}
+    We can write $A=\sum_ia_i\ket{i}\bra{i}$ and $B=\sum_ib_i\ket{i}\bra{i}$ for some orthonormal basis $\ket{i}$. Then we have
+    \[exp(A)=\sum_ie^{a_i}ket{i}\bra{i},\]
+    \[exp(B)=\sum_ie^{b_i}ket{i}\bra{i},\]
+    and so
+    \begin{eqnarray*}
+      exp(A)exp(B)&=&\sum_ie^{a_i}e^{b_i}ket{i}\bra{i} \\
+       &=&\sum_ie^{a_i+b_i}ket{i}\bra{i} \\
+       &=&exp(A+B).
+    \end{eqnarray*}
+  \end{proof}
+\end{exercise}
+
+\begin{definition}
+  \[
+    U(t_1,t_2)=exp\left[\frac{-iH(t_2-t_1)}{\hbar}\right].
+    \]
+\end{definition}
+
+\begin{exercise}
+  Prove that $U(t_1,t_2)$ is unitary.
+  \begin{proof}
+    This is simple as $exp(x)$ is non-zero, so $U$ is unitary.
+  \end{proof}
+\end{exercise}
+
+\end{document}
