@@ -140,21 +140,9 @@ class Gates:
 
   @classmethod
   def Z(self, q, index):
-    perm = Operators.Z(q.length, index)
-    q.v = perm * q.v
+    m = Operators.Z(q.length, index)
+    q.v = m * q.v
     return q
-
-  @classmethod
-  def __Hrow(self, q, row, index):
-    flag = flag_value(row, q.length, index)
-    invert = invert_index(row, q.length, index)
-    r = [0]*q.size
-    r[invert] = 1
-    if flag:
-      r[row] = -1
-    else:
-      r[row] = 1
-    return r
 
   @classmethod
   def H(self, q, index):
