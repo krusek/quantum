@@ -8,6 +8,16 @@ def from_binary_tuple(tpl):
   sl = "".join(map(lambda x: str(x), tpl))
   return int(sl, 2)
 
+def flag_value(monomial, varlength, index):
+  tpl = binary_tuple(monomial, varlength)
+  return tpl[index] == 1
+
+def invert_index(monomial, varlength, index):
+  tpl = list(binary_tuple(monomial, varlength))
+  tpl[index] = abs(tpl[index] - 1)
+  return from_binary_tuple(tpl)
+
+
 class Qubits:
   def __init__(self, length):
     self.length = length
@@ -16,15 +26,6 @@ class Qubits:
     self.group = "(" + ",".join(ns) + ")"
     self.v = matrix([[0]]*self.size)
     self.v[0,0] = 1
-
-  def flag(self, number, index):
-    tpl = binary_tuple(number, self.length)
-    return tpl[index] == 1
-
-  def invert(self, number, index):
-    tpl = list(binary_tuple(number, self.length))
-    tpl[index] = abs(tpl[index] - 1)
-    return from_binary_tuple(tpl)
 
   def __repr__(self):
     nonzero = self.monomials()
@@ -50,24 +51,25 @@ class Qubits:
       s = "{0:d}".format(v)
     return "{0:s} |{1:s}>".format(s, self.binary_string(m))
 
-class Gates:
+class Operators:
   @classmethod
-  def X(self, q, index):
-    identity = matrix.identity(q.size)
-    zeros = filter(lambda y: q.flag(y, index) == False, xrange(q.size))
-    ones = map(lambda y: q.invert(y, index), zeros)
+  def X(self, qcount, index):
+    size = 2^qcount
+    identity = matrix.identity(size)
+    zeros = filter(lambda y: flag_value(y, qcount, index) == False, xrange(size))
+    ones = map(lambda y: invert_index(y, qcount, index), zeros)
     pairs = map(lambda x: "({0:d},{1:d})".format(x[0]+1, x[1]+1), zip(zeros, ones))
     gs = "".join(pairs)
     G = PermutationGroup([gs])
     tau = G.gens()[0]
-    q.v = identity.with_permuted_rows(tau) * q.v
-    return q
+    return identity.with_permuted_rows(tau)
 
   @classmethod
-  def Y(self, q, index):
-    identity = matrix.identity(q.size)
-    zeros = filter(lambda y: q.flag(y, index) == False, xrange(q.size))
-    ones = map(lambda y: q.invert(y, index), zeros)
+  def Y(self, qcount, index):
+    size = 2^qcount
+    identity = matrix.identity(size)
+    zeros = filter(lambda y: flag_value(y, qcount, index) == False, xrange(size))
+    ones = map(lambda y: invert_index(y, qcount, index), zeros)
     pairs = map(lambda x: "({0:d},{1:d})".format(x[0]+1, x[1]+1), zip(zeros, ones))
     gs = "".join(pairs)
     G = PermutationGroup([gs])
@@ -78,22 +80,74 @@ class Gates:
       if index in ones:
         scale = -1*scale
       perm = perm.with_rescaled_row(index, scale)
-    q.v = perm * q.v
+    return perm
+
+  @classmethod
+  def Z(self, qcount, index):
+    size = 2**qcount
+    perm = matrix.identity(size)
+    ones = filter(lambda y: flag_value(y, qcount, index) == True, xrange(size))
+    for index in ones:
+      perm = perm.with_rescaled_row(index, -1)
+    return perm
+
+  @classmethod
+  def __Hrow(self, qcount, row, index):
+    flag = flag_value(row, qcount, index)
+    invert = invert_index(row, qcount, index)
+    r = [0]*(2^qcount)
+    r[invert] = 1
+    if flag:
+      r[row] = -1
+    else:
+      r[row] = 1
+    return r
+
+  @classmethod
+  def H(self, qcount, index):
+    size = 2^qcount
+    rows = [self.__Hrow(qcount, ix, index) for ix in xrange(size)]
+    m = matrix(QQbar, rows)
+    m = (m.transpose())*2^(-1/2)
+    return m
+
+  @classmethod
+  def CNOT(self, qcount, control, ix2):
+    size = 2^qcount
+    identity = matrix.identity(size)
+    ones = filter(lambda x: flag_value(x, qcount, control) and flag_value(x, qcount, ix2), xrange(size))
+    zeros = map(lambda x: invert_index(x, qcount, ix2), ones)
+    pairs = map(lambda x: "({0:d},{1:d})".format(x[0]+1, x[1]+1), zip(zeros, ones))
+    gs = "".join(pairs)
+    G = PermutationGroup([gs])
+    tau = G.gens()[0]
+    perm = identity.with_permuted_rows(tau)
+    return perm
+
+
+class Gates:
+  @classmethod
+  def X(self, q, index):
+    m = Operators.X(q.length, index)
+    q.v = m * q.v
+    return q
+
+  @classmethod
+  def Y(self, q, index):
+    m = Operators.Y(q.length, index)
+    q.v = m * q.v
     return q
 
   @classmethod
   def Z(self, q, index):
-    perm = matrix.identity(q.size)
-    ones = filter(lambda y: q.flag(y, index) == True, xrange(q.size))
-    for index in ones:
-      perm = perm.with_rescaled_row(index, -1)
+    perm = Operators.Z(q.length, index)
     q.v = perm * q.v
     return q
 
   @classmethod
   def __Hrow(self, q, row, index):
-    flag = q.flag(row, index)
-    invert = q.invert(row, index)
+    flag = flag_value(row, q.length, index)
+    invert = invert_index(row, q.length, index)
     r = [0]*q.size
     r[invert] = 1
     if flag:
@@ -104,23 +158,14 @@ class Gates:
 
   @classmethod
   def H(self, q, index):
-    rows = [self.__Hrow(q, ix, index) for ix in xrange(q.size)]
-    m = matrix(QQbar, rows)
-    m = (m.transpose())*2^(-1/2)
+    m = Operators.H(q.length, index)
     q.v = m * q.v
     return q
 
   @classmethod
   def CNOT(self, q, control, ix2):
-    identity = matrix.identity(q.size)
-    ones = filter(lambda x: q.flag(x, control) and q.flag(x, ix2), xrange(q.size))
-    zeros = map(lambda x: q.invert(x, ix2), ones)
-    pairs = map(lambda x: "({0:d},{1:d})".format(x[0]+1, x[1]+1), zip(zeros, ones))
-    gs = "".join(pairs)
-    G = PermutationGroup([gs])
-    tau = G.gens()[0]
-    perm = identity.with_permuted_rows(tau)
-    q.v = perm * q.v
+    m = Operators.CNOT(q.length, control, ix2)
+    q.v = m * q.v
     return q
 
 
