@@ -17,6 +17,9 @@ def invert_index(monomial, varlength, index):
   tpl[index] = abs(tpl[index] - 1)
   return from_binary_tuple(tpl)
 
+def my_norm(v):
+  # I keep getting floating point values rather than exact values.
+  return sage_eval("({0:s})^(1/2)".format(v.norm()^2))
 
 class Qubits:
   def __init__(self, length):
@@ -24,8 +27,8 @@ class Qubits:
     self.size = 2**length
     ns = map(lambda x: "{0:d}".format(x+1), xrange(self.size))
     self.group = "(" + ",".join(ns) + ")"
-    self.v = matrix([[0]]*self.size)
-    self.v[0,0] = 1
+    self.v = vector([0]*self.size)
+    self.v[0] = 1
 
   def __repr__(self):
     nonzero = self.monomials()
@@ -37,7 +40,27 @@ class Qubits:
     return filter(lambda x: x[1] != 0, en)
 
   def list(self):
-    return list(enumerate(self.v.columns()[0]))
+    return list(enumerate(self.v.list()))
+
+  @classmethod
+  def ghz(self, length):
+    q = Qubits(length)
+    number = q.size
+    l = [0]*(number)
+    l[0] = 2^(-1/2)
+    l[-1] = 2^(-1/2)
+    q.v = vector(l)
+    return q
+
+  @classmethod
+  def w(self, length):
+    q = Qubits(length)
+    l = [0]*q.size
+    for ix in xrange(length):
+      number = 2^ix
+      l[number] = length^(-1/2)
+    q.v = vector(l)
+    return q
 
   def binary_string(self, number):
     s = "{0:b}".format(number)
@@ -156,6 +179,35 @@ class Gates:
     q.v = m * q.v
     return q
 
+class Measurement:
+  @classmethod
+  def measure_z(self, q, index):
+    qcount = q.length
+    zeros = filter(lambda y: flag_value(y, qcount, index) == False, xrange(q.size))
+    ones = filter(lambda y: flag_value(y, qcount, index) == True, xrange(q.size))
+    p1 = self.__projector(q.size, ones)
+    pn1 = self.__projector(q.size, zeros)
+    v1 = p1 * q.v
+    vn1 = pn1 * q.v
+    n1 = my_norm(v1)
+    nn1 = my_norm(vn1)
+    if n1 != 0:
+      v1 = simplify(v1 / n1)
+    if nn1 != 0:
+      vn1 = simplify(vn1 / nn1)
+    q1 = Qubits(q.length)
+    qn1 = Qubits(q.length)
+    q1.v = v1
+    qn1.v = vn1
+    return [(1, n1^2, q1), (-1, nn1^2, qn1)]
+
+  @classmethod
+  def __projector(self, size, zeros):
+    i = matrix.identity(QQbar, size)
+    l = list(i)
+    for z in zeros:
+      l[z] = tuple([0]*size)
+    return matrix(QQbar, l)
 
 class Solution:
   def assert_signs(self, q, signs):
