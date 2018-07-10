@@ -9,8 +9,21 @@ class Measurement:
   only Z measurement is defined, but I plan on adding other +/-1 measurements. For speed purposes
   it should be updated to not use projector matrices but instead to do the projection by hand.
   """
+
   @classmethod
   def _d_measure(self, q, index):
+    """
+    This is an internal helper method used for measurement. It is provided as public to aid in
+    understanding how measurement works in quantum computation. This method returns a list
+    containing tuples of eigenvalue, probability, and qubits. For example, suppose that
+    q = 1/sqrt(3)|00> + 1/sqrt(3)|10> + 1/sqrt(3)|11>
+
+    Then _d_measure(q, 0) will return
+    [(1, 1/3, |00>), (-1, 2/3, 1/sqrt(2)|10> + 1/sqrt(2)|11>)]
+
+    Returns:
+      [(e1, p1, q1), (e2, p2, q2)]: A list of tuples eigenvalues, probabilities, and qubits.
+    """
     qcount = q.length
     zeros = filter(lambda y: flag_value(y, qcount, index) == False, xrange(q.size))
     ones = filter(lambda y: flag_value(y, qcount, index) == True, xrange(q.size))
@@ -36,6 +49,15 @@ class Measurement:
 
   @classmethod
   def measure(self, q, index):
+    """
+    The method performs a measurement using the Z gate at the given index. Based on the value of
+    rnd it will either select all the states where the indexth qubit is 0 or 1. It also updates the
+    value of the input qubit array, q.
+
+    Returns:
+      m - the selected eigenvalue
+      q - the updated input qubit array
+    """
     rnd = random.random()
     m, qq = self.r_measure(q, index, rnd)
     q.v = qq.v
@@ -43,6 +65,12 @@ class Measurement:
 
   @classmethod
   def r_measure(self, q, index, rnd):
+    """
+    This is a helper method that will pick one of the measurements based on rnd.
+
+    Returns
+      (eigenvalue, qubit array): The eigenvalue and qubit array selected based on rnd.
+    """
     m = self._d_measure(q, index)
     if rnd > m[0][1]:
       return (m[1][0], m[1][2])
