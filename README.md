@@ -1,4 +1,5 @@
-# quantum
+This repository is broken up into a few folders. Here's a rough summary of the contents of each
+folder.
 
 # sage
 
@@ -16,7 +17,8 @@ CCNOT
 
 You can also perform some simple measurements. I plan on adding more in the future.
 
-The main reason I wrote this code was to better understand how quantum computing works. It is not
+The main reason I wrote this code was to better understand how quantum computing works and so I
+could more easily see what happens when different gates are applied to arrays of qubits. It is not
 necessarily expected to be a particularly fast implementation.
 
 # tex
