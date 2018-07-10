@@ -2,6 +2,15 @@ load("qubit.sage")
 load("operators.sage")
 
 class Gates:
+  """
+  This class contains several class methods to apply Gates to qubit arrays. In order to attempt to
+  mimic true quantum computing each gate changes the input qubit. For convenience they also return
+  the qubit.
+
+  NOTE:
+  One could easily update the Gates to optionally return a new qubit rather than updating the input
+  qubit.
+  """
   @classmethod
   def oX(self, q, index):
     m = Operators.X(q.length, index)

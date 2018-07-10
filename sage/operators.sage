@@ -1,5 +1,15 @@
 load("qubit.sage")
 class Operators:
+  """
+  This class has static methods for creating operators that can be used to perform the the given
+  PauliX, Y, and Z gates and the CNOT and CCNOT gates. For each method qcount is the number
+  of input qubits and the index or control inputs are 0 based indexes. See the Qubit class for
+  a more detailed explanation of the way these indexes are used.
+
+  NOTE:
+  These methods used to be used by the Gates class to perform operations, but that has been
+  replaced by a much quicker gate implementation.
+  """
   @classmethod
   def X(self, qcount, index):
     size = 2^qcount

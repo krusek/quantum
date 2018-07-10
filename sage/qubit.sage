@@ -29,6 +29,24 @@ def my_norm(v):
     return r
 
 class Qubits:
+  """
+  This class represents an array of qubits.
+
+  NOTE:
+
+  Internally a sage vector object is used, but at this point it could easily be replaced with
+  a simple list. Likely the only changes would be to remove the slower versions of the gates
+  (oX, oY, oZ, etc) and to remove the Operators class. You would also need to update the my_norm
+  function to do norm calculations.
+  """
+
+  """
+  This is the default constructor for the Qubits class. It will create an array of qubits in the
+  |00...0> basis state.
+
+  Args:
+    length (int): The number of qubits to create.
+  """
   def __init__(self, length):
     self.length = length
     self.size = 2**length

@@ -3,6 +3,15 @@ load("measurement.sage")
 load("gates.sage")
 load("operators.sage")
 
+"""
+This file contains several subclasses of the Solution class. I used it as a playground to solve
+various problems from:
+http://codeforces.com/contest/1002
+
+It now can serve as a sort of a test harness to ensure that refactors still work correctly. There
+is a method run_all_solutions that will run all the tests in this file.
+"""
+
 class PlusMinusSolution(Solution):
   def plus_minus_state(self, q, sign):
     assert q.length == 1

@@ -1,6 +1,11 @@
 load("operators.sage")
 
 class Measurement:
+  """
+  This class contains class methods that can be used to perform measurements on qubits. Currently
+  only Z measurement is defined, but I plan on adding other +/-1 measurements. For speed purposes
+  it should be updated to not use projector matrices but instead to do the projection by hand.
+  """
   @classmethod
   def _d_measure(self, q, index):
     qcount = q.length
