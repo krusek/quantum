@@ -1,6 +1,10 @@
 load("qubit.sage")
 
 class Solution:
+  """
+  This is a simple class used to run solutions/tests. There is likely a built-in framework that
+  could have been used, but I threw this together anyway.
+  """
   def assert_signs(self, q, signs):
     mons = q.monomials()
     signed = map(lambda m: (m[0], self.sign(m[1])), mons)
