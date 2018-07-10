@@ -190,11 +190,6 @@ class SolutionB4(Solution):
       s = SolutionB4.s_state(ix)
       assert self.check_state(s) == ix, "bad s state: {0:d}".format(ix)
 
-class SolutionC1(Solution):
-  def check_qubit(self, q):
-    qq = Qubits(1)
-    CNOT()
-
 class OracleE1:
   def __init__(self, bits):
     self.b = bits
@@ -285,6 +280,9 @@ class SolutionE2(Solution):
 def run_all_solutions():
   PlusMinusSolution().run_all_tests()
   BellSolution().run_all_tests()
-  #GHZSolution().run_all_tests()
+  GHZSolution().run_all_tests()
   SolutionE().run_all_tests()
+  SolutionA4().run_all_tests()
+  SolutionB2().run_all_tests()
   SolutionB3().run_all_tests()
+  SolutionB4().run_all_tests()
