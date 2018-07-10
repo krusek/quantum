@@ -65,18 +65,18 @@ class GHZSolution(Solution):
 
 class SolutionA4(Solution):
   def w_state(self, q):
-    Gates.sX(q, 0)
+    Gates.X(q, 0)
     power = 1
     while power < q.length:
       oldpower = power
       power = power * 2
-      Gates.sH(q, power - 1)
+      Gates.H(q, power - 1)
       for ix in range(oldpower-1):
         index = oldpower + ix
-        Gates.sCCNOT(q, ix, power - 1, index)
-        Gates.sCNOT(q, index, ix)
-        Gates.sCNOT(q, index, power - 1)
-      Gates.sCNOT(q, power-1, oldpower-1)
+        Gates.CCNOT(q, ix, power - 1, index)
+        Gates.CNOT(q, index, ix)
+        Gates.CNOT(q, index, power - 1)
+      Gates.CNOT(q, power-1, oldpower-1)
     return q
 
 class SolutionE(Solution):

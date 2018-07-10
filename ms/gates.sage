@@ -3,37 +3,37 @@ load("operators.sage")
 
 class Gates:
   @classmethod
-  def X(self, q, index):
+  def oX(self, q, index):
     m = Operators.X(q.length, index)
     q.v = m * q.v
     return q
 
   @classmethod
-  def Y(self, q, index):
+  def oY(self, q, index):
     m = Operators.Y(q.length, index)
     q.v = m * q.v
     return q
 
   @classmethod
-  def Z(self, q, index):
+  def oZ(self, q, index):
     m = Operators.Z(q.length, index)
     q.v = m * q.v
     return q
 
   @classmethod
-  def H(self, q, index):
+  def oH(self, q, index):
     m = Operators.H(q.length, index)
     q.v = m * q.v
     return q
 
   @classmethod
-  def CNOT(self, q, control, ix2):
+  def oCNOT(self, q, control, ix2):
     m = Operators.CNOT(q.length, control, ix2)
     q.v = m * q.v
     return q
 
   @classmethod
-  def CCNOT(self, q, control1, control2, ix2):
+  def oCCNOT(self, q, control1, control2, ix2):
     m = Operators.CCNOT(q.length, control1, control2, ix2)
     q.v = m * q.v
     return q
@@ -56,7 +56,7 @@ class Gates:
     return (ones, zeros)
 
   @classmethod
-  def sH(self, q, index):
+  def H(self, q, index):
     ones, zeros = self.__ones_zeros(q.length, index)
     l = list(q.v)
     lz = copy(l)
@@ -75,22 +75,22 @@ class Gates:
 
 
   @classmethod
-  def sX(self, q, index):
+  def X(self, q, index):
     ones, zeros = self.__ones_zeros(q.length, index)
     return self.__swap(q, ones, zeros)
 
   @classmethod
-  def sZ(self, q, index):
+  def Z(self, q, index):
     ones, zeros = self.__ones_zeros(q.length, index)
     return self.__swap(q, ones, ones, multipliers = [1, -1])
 
   @classmethod
-  def sY(self, q, index):
+  def Y(self, q, index):
     ones, zeros = self.__ones_zeros(q.length, index)
     return self.__swap(q, ones, zeros, multipliers = [i, -i])
 
   @classmethod
-  def sCNOT(self, q, control, ix2):
+  def CNOT(self, q, control, ix2):
     qcount = q.length
     size = 2^qcount
     ones = filter(lambda x: flag_value(x, qcount, control) and flag_value(x, qcount, ix2), xrange(size))
@@ -98,7 +98,7 @@ class Gates:
     return self.__swap(q, ones, zeros)
 
   @classmethod
-  def sCCNOT(self, q, control1, control2, ix2):
+  def CCNOT(self, q, control1, control2, ix2):
     qcount = q.length
     size = 2^qcount
     ones = filter(lambda x: flag_value(x, qcount, control1) and flag_value(x, qcount, control2) and flag_value(x, qcount, ix2), xrange(size))
