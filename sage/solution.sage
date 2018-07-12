@@ -18,9 +18,10 @@ class Solution:
     return 0
 
   def run_all_tests(self):
+    print "--- Test harness: {0:s} ---".format(self)
     ll = filter(lambda x: x.startswith("test_"), dir(self))
     for s in ll:
-      print("------------")
       print("running test: {0:s}".format(s))
       getattr(self, s)()
       print("passed test: {0:s}".format(s))
+      print("------------")

@@ -72,6 +72,32 @@ class GHZSolution(Solution):
       self.assert_signs(q, exp)
     print("ghz states equal")
 
+class SolutionA1(Solution):
+  def generate_superposition(self, qs):
+    for ix in range(qs.length):
+      Gates.H(qs, ix)
+
+  def assert_qubits(self, qs):
+    coeff = sqrt(1/qs.size)
+    ll = [(ix, coeff) for ix in range(qs.size)]
+    actual = qs.list()
+    assert ll == actual, "{0:s} and {1:s} not equal".format(ll, actual)
+
+  def test_superposition(self):
+    for ix in range(1, 5):
+      print "superposition for {0:d}".format(ix)
+      qs = Qubits(ix)
+      self.generate_superposition(qs)
+      self.assert_qubits(qs)
+
+class SolutionA2(Solution):
+  def test_null(self):
+    print "I don't know for sure what this algorithm does."
+
+class SolutionA3(Solution):
+  def test_null(self):
+    print "I don't know for sure what this algorithm does."
+
 class SolutionA4(Solution):
   def w_state(self, q):
     Gates.X(q, 0)
@@ -88,28 +114,17 @@ class SolutionA4(Solution):
       Gates.CNOT(q, power-1, oldpower-1)
     return q
 
-class SolutionE(Solution):
-  def check_bell(self, q):
-    Gates.CNOT(q, 0, 1)
-    Gates.H(q, 0)
-    m, q = Measurement.measure(q, 0)
-    mm, q = Measurement.measure(q, 1)
-    i = 0 if m == 1 else 1
-    ii = 0 if mm == 1 else 1
-    return i + 2*ii
-
-  def test_check_bell(self):
-    for ix in xrange(4):
-      q = Qubits.bell(ix)
-      assert self.check_bell(q) == ix, "incorrect for {0:d}".format(ix)
+class SolutionB1(Solution):
+  def test_null(self):
+    print "I don't know for sure what this algorithm does."
 
 class SolutionB2(Solution):
   def check_state(self, q, rnd):
     l = q.length
     if l % 2 == 1:
-      m, q = Measurement.r_measure(q, l-1, rnd)
+      m = Measurement.r_measure(q, l-1, rnd)
       if m == -1:
-        m, q = Measurement.measure(q, 0)
+        m = Measurement.measure(q, 0)
         if m == 1:
           return 1
         if m == -1:
@@ -123,7 +138,7 @@ class SolutionB2(Solution):
       Gates.CNOT(q, 0, ix)
     # if l % 2 == 1:
     #   Gates.H(q, 0)
-    m, q = Measurement.measure(q, 0)
+    m = Measurement.measure(q, 0)
     if m == -1:
       return 1
     else:
@@ -159,8 +174,8 @@ class SolutionB3(Solution):
   def check_state(self, q):
     Gates.H(q, 0)
     Gates.H(q, 1)
-    m, q = Measurement.measure(q, 0)
-    mm, q = Measurement.measure(q, 1)
+    m = Measurement.measure(q, 0)
+    mm = Measurement.measure(q, 1)
     ii = 0 if m == 1 else 1
     i = 0 if mm == 1 else 1
     return i + 2*ii
@@ -188,8 +203,8 @@ class SolutionB4(Solution):
     Gates.H(q, 0)
     Gates.CNOT(q, 0, 1)
     Gates.H(q, 0)
-    m, q = Measurement.measure(q, 0)
-    mm, q = Measurement.measure(q, 1)
+    m = Measurement.measure(q, 0)
+    mm = Measurement.measure(q, 1)
     ii = 0 if m == -1 else 1
     i = 0 if mm == -1 else 1
     return i + 2*ii
@@ -198,6 +213,26 @@ class SolutionB4(Solution):
     for ix in range(4):
       s = SolutionB4.s_state(ix)
       assert self.check_state(s) == ix, "bad s state: {0:d}".format(ix)
+
+class SolutionC1(Solution):
+  def test_null(self):
+    print "I don't know for sure what this algorithm does."
+
+class SolutionC2(Solution):
+  def test_null(self):
+    print "I don't know for sure what this algorithm does."
+
+class SolutionD1(Solution):
+  def test_null(self):
+    print "I don't know for sure what this algorithm does."
+
+class SolutionD2(Solution):
+  def test_null(self):
+    print "I don't know for sure what this algorithm does."
+
+class SolutionD3(Solution):
+  def test_null(self):
+    print "I don't know for sure what this algorithm does."
 
 class OracleE1:
   def __init__(self, bits):
@@ -219,16 +254,12 @@ class SolutionE1(Solution):
     Gates.X(q, n)
     for ix in xrange(n+1):
       Gates.H(q, ix)
-    print("preparred: ", q)
     oracle(q)
-    print("ran oracle: ", q)
     for ix in xrange(n):
       Gates.H(q, ix)
-    print("reorganized: ", q)
     r = [True]*n
     for ix in xrange(n):
-      m, q = Measurement.measure(q, ix)
-      print "measurement", m, q
+      m = Measurement.measure(q, ix)
       if m == -1:
         Gates.X(q, ix)
       r[ix] = (m != 1)
@@ -260,7 +291,7 @@ class SolutionE2(Solution):
   def check_bva(self, n, oracle):
     q = Qubits(n+1)
     oracle(q)
-    m, q = Measurement.measure(q, n)
+    m = Measurement.measure(q, n)
     v = 1 if m == -1 else 0
     r = [True]*n
     if n % 2 != v:
@@ -285,13 +316,38 @@ class SolutionE2(Solution):
     bv = oracle(q)
     assert vv == bv, "incorrect returned bitstring"
 
+# Contest preparation.
+class SolutionE(Solution):
+  def check_bell(self, q):
+    Gates.CNOT(q, 0, 1)
+    Gates.H(q, 0)
+    m = Measurement.measure(q, 0)
+    mm = Measurement.measure(q, 1)
+    i = 0 if m == 1 else 1
+    ii = 0 if mm == 1 else 1
+    return i + 2*ii
+
+  def test_check_bell(self):
+    for ix in xrange(4):
+      q = Qubits.bell(ix)
+      assert self.check_bell(q) == ix, "incorrect for {0:d}".format(ix)
 
 def run_all_solutions():
   PlusMinusSolution().run_all_tests()
   BellSolution().run_all_tests()
   GHZSolution().run_all_tests()
   SolutionE().run_all_tests()
+  SolutionA1().run_all_tests()
+  SolutionA2().run_all_tests()
+  SolutionA3().run_all_tests()
   SolutionA4().run_all_tests()
+  SolutionB1().run_all_tests()
   SolutionB2().run_all_tests()
   SolutionB3().run_all_tests()
   SolutionB4().run_all_tests()
+  SolutionC1().run_all_tests()
+  SolutionC2().run_all_tests()
+  SolutionD1().run_all_tests()
+  SolutionD2().run_all_tests()
+  SolutionD3().run_all_tests()
+  SolutionE1().run_all_tests()

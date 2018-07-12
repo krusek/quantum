@@ -54,12 +54,11 @@ class Measurement:
 
     Returns:
       m - the selected eigenvalue
-      q - the updated input qubit array
     """
     rnd = random.random()
     m, qq = self.r_measure(q, index, rnd)
     q.v = qq.v
-    return (m, q)
+    return m
 
   @classmethod
   def r_measure(self, q, index, rnd):
