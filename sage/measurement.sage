@@ -30,15 +30,13 @@ class Measurement:
     l = list(q.v)
     lz = copy(l)
     lo = copy(l)
-    for iz, io in zip(ones, zeros):
+    for io, iz in zip(ones, zeros):
       lz[io] = 0
       lo[iz] = 0
-    print lz, lo
     nz = list_norm_squared(lz)
     no = list_norm_squared(lo)
     dz = sqrt(nz) if nz != 0 else 1
     do = sqrt(no) if no != 0 else 1
-    print (no, nz), (do, dz)
     lz = map(lambda x: x / dz, lz)
     lo = map(lambda x: x / do, lo)
     qz = Qubits(qcount)
