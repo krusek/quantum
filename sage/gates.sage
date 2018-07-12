@@ -48,9 +48,14 @@ class Gates:
     return q
 
   @classmethod
-  def __swap(self, q, ones, zeros, multipliers = [1,1]):
+  def __swap(self, q, ones, zeros, controls = [], multipliers = [1,1]):
     l = list(q.v)
+    qcount = q.length
     for one, zero in zip(ones, zeros):
+      flags = map(lambda control: flag_value(one, qcount, control) and flag_value(zero, qcount, control), controls)
+      flag = reduce(lambda f, x: f and x, flags, True)
+      if len(flags) > 0 and flag == False:
+        continue
       t = l[one]
       l[one] = multipliers[0]*l[zero]
       l[zero] = multipliers[1]*t
@@ -89,6 +94,11 @@ class Gates:
     return self.__swap(q, ones, zeros)
 
   @classmethod
+  def CX(self, q, control, index):
+    ones, zeros = self.__ones_zeros(q.length, index)
+    return self.__swap(q, ones, zeros, controls = [control])
+
+  @classmethod
   def Z(self, q, index):
     ones, zeros = self.__ones_zeros(q.length, index)
     return self.__swap(q, ones, ones, multipliers = [1, -1])
@@ -100,16 +110,9 @@ class Gates:
 
   @classmethod
   def CNOT(self, q, control, ix2):
-    qcount = q.length
-    size = 2^qcount
-    ones = filter(lambda x: flag_value(x, qcount, control) and flag_value(x, qcount, ix2), xrange(size))
-    zeros = map(lambda x: invert_index(x, qcount, ix2), ones)
-    return self.__swap(q, ones, zeros)
+    return self.CX(q, control, ix2)
 
   @classmethod
   def CCNOT(self, q, control1, control2, ix2):
-    qcount = q.length
-    size = 2^qcount
-    ones = filter(lambda x: flag_value(x, qcount, control1) and flag_value(x, qcount, control2) and flag_value(x, qcount, ix2), xrange(size))
-    zeros = map(lambda x: invert_index(x, qcount, ix2), ones)
-    return self.__swap(q, ones, zeros)
+    ones, zeros = self.__ones_zeros(q.length, index)
+    return self.__swap(q, ones, zeros, controls = [control1, control2])
