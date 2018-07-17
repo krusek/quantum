@@ -224,4 +224,104 @@ We introduce Postulate 3 in order to describe the effects that measurement have 
 The completeness equation expresses the fact that probabilities sum to one:
 \[I=\sum p(m)=\sum \bra\phi M^\dagger_m M_m\ket\phi.\]
 
+
+We can use this understanding to illustrate measurement of a single qubit in the computational basis. We have two measurement operators, $M_0=\ket{0}\bra{0}$ and $M_1=\ket{1}\bra{1}$. Of course each is Hermitian as we have real eigenvalues on computational basis elements. We see that $M_0^\dagger M_0=M_0^2=M_0$ and similarly $M_1^\dagger M_1=M_1^2=M_1$. Thus the completeness relation is obeyed, $I=M_0^\dagger M_0+M_1^\dagger M_1$. Then the probability of obtaining the measurement outcome $0$ is
+\[
+  p(0)=\bra{\psi}M_0^\dagger M_0\ket{\psi}
+  =\bra{\psi}M_0\ket{\psi}=|a|^2.
+\]
+Similarly $p(1)=|b|^2$. The state after measurement is therefore
+\begin{eqnarray*}
+  \frac{M_0\ket\psi}{|a|}&=&\frac{a}{|a|}\ket0\\
+  \frac{M_1\ket\psi}{|b|}&=&\frac{b}{|b|}\ket1.\\
+\end{eqnarray*}
+Later we will see that modulus one multipliers like $\frac{a}{|a|}$ can effectively be ignored so we can consider the post-measurement states as $\ket0$ and $\ket1$.
+
+\subsection{Distinguishing quantum states}
+
+\subsection{Projective measurements}
+
+\begin{definition}[Projective measurements]
+  A projectiv measurement is described by an \textit{observable}, $M$, a Hermitian operator on the state space of the system being observed. The observable has a spectral decomposition,
+  \[M=\sum_m mP_m,\]
+  where $P_m$ is the projector onto the eigenspace of $M$ is eigenvalue $m$. The possible outcomes of the easurement correspond to the eigenvalues, $m$ of the observable. Upon measuring the state $\ket\psi$, the probability of getting result $m$ is given by
+  \[p(m)=\bra\psi P_m\ket\psi.\]
+  Given that the outcome of $m$ occursed, the state of the quantum system immediately after the measurement is
+  \[\frac{P_m\ket\psi}{\sqrt{p(m)}}.\]
+\end{definition}
+
+Projective measurements can be viewed as a special case of Postulate 3. We have the added restriction that the measurement operators $M_m$ are orthoganal projectors. That is $M_m$ are Hermitian and $M_m M_{m'}=\delta_{m,m'}M_m$ and $\sum M_m^\dagger M_m=I$.
+
+Projective measurements have many nice properties. For example, the average value of the measurment is
+
+\begin{eqnarray*}
+  E(M)&=&\sum_m mp(m) \\
+  &=&\sum_m m\bra{\psi}P_m\ket{\psi} \\
+  &=&\bra{\psi}\left(\sum_m mP_m\right)\ket\psi\\
+  &=&\bra\psi M\ket\psi.
+\end{eqnarray*}
+
+The average value of an observable $M$ is often written $\langle M\rangle =\bra\psi M\ket\psi$. This gives us a formula for standard deviation as
+\begin{eqnarray*}
+  [\Delta(M)]^2&=&\langle(M-\langle M\rangle)^2\rangle \\
+  &=&\langle M^2\rangle-\langle M\rangle^2.
+\end{eqnarray*}
+
+\begin{theorem}[Heisenberg uncertainty principle, Box 2.4, page 89]
+  Suppose $C$ and $D$ are two observables. Then we have the Heisenberg uncertainty principle,
+  \[\Delta(C)\Delta(D)\ge \frac{|\bra\psi [C,D]\ket\psi|}{2}.\]
+\end{theorem}
+
+A very common misconception about the uncertainty principle is that measuring an observable $C$ to some 'accuracy' $\Delta(C)$ causes the value of $D$ to be 'disturbed' by an amount $\Delta(D)$ in such a way that some sort of inequality like the above inequality is satisified.
+
+The correct interpretation is that if we prepare a large number of quantum systems in identical states, $\ket\psi$, and then perform measurements of $C$ on some of those systems and of $D$ on others, the the standard deviation $\Delta(C)$ of the $C$ results times the standard deviation $\Delta(D)$ of the $D$ results will satisfy the above inequality.
+
+\subsection{POVM measurements}
+
+\begin{definition}[POVM elements]
+   Suppose a measurement is described by the measurement operators $M_m$. The probability of a measurement $m$ is given by $p(m)=\bra\psi M_m^\dagger M_m\ket\psi$. Then we define the elements $E_m=M_m^\dagger M_m$. From Postulate 3 and linear algebra we see that $E_m$ are positive operators and $\sum_m E_m=I$ and $p(m)=\bra\psi E_m\ket\psi$. This set of operators $E_m$ is sufficient to determine the probabilities of different measurement outcomes. The individual operators $E_m$ are known as the \textit{POVM elements} associated with the measurement. The complete set $\{E_m\}$ is known as a \textit{POVM}.
+\end{definition}
+
+A simple example of a POVM is a projective measurement, where the elements are disjoint projections and $\sum P_m=I$. In this case, and only this case the POVM elements are the same as the measurement operators themselves.
+
+We defined a POVM in terms of an preexisting set of measurement operators. A worthwhile observation follows. Suppose that $\{E_m\}$ is some arbitrary set of positive operators such that $\sum_m E_m=I$. Then there is a set of measurement operators $M_m$ defining a measurement described by the POVM $\{E_m\}$. We can define $M_m=\sqrt{E_m}$. We see that $\sum_m M_m^\dagger M_m=\sum_mE_m = I$, and therefore the set $\{M_m\}$ describes a measurement with POVM $\{E_m\}$. For this reason the following definition  of POVM is often used:
+
+\begin{definition}[POVM]
+  We define a \textit{POVM} to be any set of operators $\{E_m\}$ such that
+  \begin{itemize}
+    \item[a] each operator $E_m$ is positive
+    \item[b] the completeness relation $\sum_m E_m=I$ is obeyed.
+  \end{itemize}
+  As in other places, the completeness relation expresses the fact that probabilities sum to one. We reiterate the fact that
+  \[p(m)=\bra\psi E_m\ket\psi.\]
+\end{definition}
+
+This gives rise to a worthwhile example regarding distinguising quantum states that are not orthognonal. Suppose Alice gives Bob a qubit prepared in either $\ket{\psi_1}=\ket0$ or $\ket{\psi_2}=\ket+$. Since these two states are not orthogonal it is not possible to distinguish them with without error. However it is possible to perform a measurement that sometimes is able to correctly identify the states, but never makes an error. (This is in some ways related to an BPP style algorithm.) Consider the POVM containing three elements:
+\begin{eqnarray*}
+  E_1&=&\frac{\sqrt2}{1+\sqrt2}\ket1\bra1 \\
+  E_2&=&\frac{\sqrt2}{1+\sqrt2}\ket{-}\bra{-} \\
+  E_3&=&I-E_1-E_2.
+\end{eqnarray*}
+It is straight forward to verify that the completeness relation is satisfied and that we have positive operators. On top of that we have
+
+\begin{eqnarray*}
+  \bra{\psi_1}E_1\ket{\psi_1}&=&\bra0E_1\ket0=0\\
+  \bra{\psi_1}E_2\ket{\psi_1}&=&\bra0E_2\ket0>0\\
+  \bra{\psi_2}E_1\ket{\psi_2}&=&\bra+E_1\ket+>0\\
+  \bra{\psi_2}E_2\ket{\psi_2}&=&\bra+E_2\ket+=0.
+\end{eqnarray*}
+
+Therefore, if Bob gets the measurement outcome $E_1$ we know he was given $\bar+$ whereas if Bob gets the outcome $E_2$ we know he was given $\bar0$. On the other had if Bob was given the outcome $E_3$ then we do not know what state he was given. Therefore though Bob cannot perfectly distinguish the two states, but he can do better than nothing.
+
+We can also see problems C1 and C2 from the MS quantum computation for further examples.
+
+\subsection{Phase}
+% page 93
+\subsection{Composite systems}
+
+Postulate 4 describes how to mathematicaly describe the composition of smaller systems.
+\begin{postulate}
+  The state space of a composite physical system is the tensor product of the component physical systems. Moreover, if we have systems numbered $1$ through $n$ and system $i$ is prepared in the state $\ket{\psi_i}$, then the joint state of the total system is $\ket{\psi_1}\otimes\cdots\otimes\ket{\psi_n}$.
+\end{postulate}
+
 \end{document}
