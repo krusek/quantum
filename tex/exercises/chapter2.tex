@@ -100,6 +100,8 @@
   \end{proof}
 \end{lemma}
 \setcounter{exercise}{43}
+
+% 2.44
 \begin{exercise}
   Suppose that $A$ is invertible and that $\{A,B\}=[A,B]=0$. Show that $B$ is 0.
   \begin{proof}
@@ -109,6 +111,7 @@
   \end{proof}
 \end{exercise}
 
+% 2.45
 \begin{exercise}
   Show that $[A,B]^\dagger=[B^\dagger,A^\dagger]$.
   \begin{proof}
@@ -120,6 +123,7 @@
   \end{proof}
 \end{exercise}
 
+% 2.46
 \begin{exercise}
   Show that $[A,B]=-[B,A]$.
   \begin{proof}
@@ -131,6 +135,7 @@
   \end{proof}
 \end{exercise}
 
+% 2.47
 \begin{exercise}
   Suppose that $A$ and $B$ are Hermitian. Show that $i[A,B]$ is Hermitian.
   \begin{proof}
@@ -155,6 +160,7 @@
   \end{proof}
 \end{lemma}
 
+% 2.48
 \begin{exercise}
 What is the polar decomposition of a positive matrix, $P$? Of a unitary matrix, $U$? or a Hermitian matrix, $H$?
 \begin{proof}[Positive matrix]
@@ -168,6 +174,7 @@ What is the polar decomposition of a positive matrix, $P$? Of a unitary matrix, 
 \end{proof}
 \end{exercise}
 
+% 2.49
 \begin{exercise}
   Express the polar decomposition of a normal matrix in the outer product representation.
   \begin{proof}
@@ -175,6 +182,7 @@ What is the polar decomposition of a positive matrix, $P$? Of a unitary matrix, 
   \end{proof}
 \end{exercise}
 
+% 2.50
 \begin{exercise}
   Find the left and right polar decompositions of the matrix
   \[
@@ -198,6 +206,7 @@ What is the polar decomposition of a positive matrix, $P$? Of a unitary matrix, 
     \]
 \end{definition}
 
+% 2.51
 \begin{exercise}
   Verify that th Hadamard gate $H$ is unitary.
   \begin{proof}
@@ -211,6 +220,7 @@ What is the polar decomposition of a positive matrix, $P$? Of a unitary matrix, 
   \end{proof}
 \end{exercise}
 
+% 2.52
 \begin{exercise}
   Verify that $H^2=I$.
   \begin{proof}
@@ -218,6 +228,7 @@ What is the polar decomposition of a positive matrix, $P$? Of a unitary matrix, 
   \end{proof}
 \end{exercise}
 
+% 2.53
 \begin{exercise}
   What are the eigenvalues and eigenvectors of $H$?
   \begin{proof}
@@ -237,6 +248,7 @@ What is the polar decomposition of a positive matrix, $P$? Of a unitary matrix, 
   \end{proof}
 \end{exercise}
 
+% 2.54
 \begin{exercise}
   Suppose $A$ and $B$ are commuting Hermitian operators. Prove that $exp(A)exp(B)=exp(A+B)$.
   \begin{proof}
@@ -258,6 +270,7 @@ What is the polar decomposition of a positive matrix, $P$? Of a unitary matrix, 
     \]
 \end{definition}
 
+% 2.55
 \begin{exercise}
   Prove that $U(t_1,t_2)$ is unitary.
   \begin{proof}
@@ -265,6 +278,7 @@ What is the polar decomposition of a positive matrix, $P$? Of a unitary matrix, 
   \end{proof}
 \end{exercise}
 
+% 2.56
 \begin{exercise}
   Use spectral decomposition to show that $K=-i\log(U)$ is Hermitian for any unitary $U$, and thus $U=\exp(iK)$ for some Hermitian $K$.
   \begin{proof}
@@ -278,6 +292,7 @@ What is the polar decomposition of a positive matrix, $P$? Of a unitary matrix, 
 
 \setcounter{exercise}{57}
 
+% 2.58
 \begin{exercise}
   Suppose we prepare a quantum system in an eigenstate $\ket\psi$ of some observable $M$, with corresponding eigenvalue $m$. What is the average observed value of $M$, and the standard deviation?
   \begin{proof}
@@ -300,6 +315,7 @@ What is the polar decomposition of a positive matrix, $P$? Of a unitary matrix, 
   \end{proof}
 \end{exercise}
 
+% 2.59
 \begin{exercise}
   Suppose we have a qubit in the state $\ket0$, and we measure the observable $X$. What is the average value of $X$? What is the standard deviation of $X$?
   \begin{proof}
@@ -312,6 +328,7 @@ What is the polar decomposition of a positive matrix, $P$? Of a unitary matrix, 
   \end{proof}
 \end{exercise}
 
+% 2.60
 \begin{exercise}
   Show that $v\cdot\sigma$ has eigenvalues $\pm1$ and that the projectors onto the correspnding eigenspaces are given by $P_\pm=(I\pm v\cdot\sigma)/2$.
   \begin{proof}
@@ -324,6 +341,7 @@ What is the polar decomposition of a positive matrix, $P$? Of a unitary matrix, 
   \end{proof}
 \end{exercise}
 
+% 2.61
 \begin{exercise}
   Calculate the probability of obtaining $+1$ for a measurement of $v\cdot\sigma$, given that the state prior to measurement is $\ket0$. What is the state of the system after the measurement?
   \begin{proof}
@@ -337,6 +355,20 @@ What is the polar decomposition of a positive matrix, $P$? Of a unitary matrix, 
     1+c \\
     a+bi
   \end{bmatrix}\sqrt\frac{2}{1+c}\]
+  \end{proof}
+\end{exercise}
+
+\begin{exercise}
+  Show that any measurement where the measurement operators and the POVM elements coincide is a projective measurement.
+  \begin{proof}
+    Let $M_m$ be the collection of measurement operators. We will show that $M_m=M_m^\dagger M_m$. Since $M_m=E_n$ for some $n$, then $M_m^\dagger M_m=E_n^\dagger E_n=E_n=M_m$. This means that $M_m$ is positive. In that case $M_m^\dagger = M_m$ and we have $M_m$ is projective as $M_m^2=M_m$.
+  \end{proof}
+\end{exercise}
+
+\begin{exercise}
+  Suppose a measurement is described by measurement operators, $M_m$. Show that there exist unitary operators $U_m$ such that $M_m=U_m\sqrt{E_m}$, where $E_m$ is the POVM associated to the measurement.
+  \begin{proof}
+    Write $M_m=\sum \lambda_i\ket{i}\bra{i}$. Then $E_m=M_m^\dagger M_m=\sum |\lambda_i|^2\ket{i}\bra{i}$. Therefore $U_m=\sum_i\frac{\lambda_i}{|\lambda_i|}\ket{i}\bra{i}$.
   \end{proof}
 \end{exercise}
 
