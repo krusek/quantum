@@ -65,8 +65,10 @@ def turing_reverse(input):
   """
   lines = [
     [(START_STATE, START_DATA), ("finding_end", START_DATA, 1)],
+
     [("finding_end", 0), ("finding_end", 0, 1)],
     [("finding_end", 1), ("finding_end", 1, 1)],
+
     [("finding_end", EMPTY_DATA), ("on_end", EMPTY_DATA, -1)],
 
     [("on_end", 0), ("writing_digit_0", "a", 1)],
@@ -93,15 +95,18 @@ def turing_reverse(input):
     [("finding_end_2", 1), ("writing_digit_1", "b", 1)],
 
     [("finding_end_2", START_DATA), ("finding_start", START_DATA, 1)],
+
     [("finding_start", "a"), ("finding_start", "a", 1)],
     [("finding_start", "b"), ("finding_start", "b", 1)],
     [("finding_start", "e"), ("finding_start", "e", 1)],
+
     [("finding_start", "c"), ("writing_start_0", "e", -1)],
     [("finding_start", "d"), ("writing_start_1", "e", -1)],
 
     [("writing_start_0", "a"), ("writing_start_0", "b", -1)],
     [("writing_start_0", "b"), ("writing_start_0", "b", -1)],
     [("writing_start_0", "e"), ("writing_start_0", "e", -1)],
+
     [("writing_start_0", 0), ("writing_0", 0, 1)],
     [("writing_start_0", 1), ("writing_0", 1, 1)],
     [("writing_start_0", START_DATA), ("writing_0", START_DATA, 1)],
@@ -109,18 +114,19 @@ def turing_reverse(input):
     [("writing_start_1", "a"), ("writing_start_1", "b", -1)],
     [("writing_start_1", "b"), ("writing_start_1", "b", -1)],
     [("writing_start_1", "e"), ("writing_start_1", "e", -1)],
+
     [("writing_start_1", 0), ("writing_1", 0, 1)],
     [("writing_start_1", 1), ("writing_1", 1, 1)],
     [("writing_start_1", START_DATA), ("writing_1", START_DATA, 1)],
 
     [("writing_1", "a"), ("finding_start", 1, 1)],
     [("writing_1", "b"), ("finding_start", 1, 1)],
-
     [("writing_0", "a"), ("finding_start", 0, 1)],
     [("writing_0", "b"), ("finding_start", 0, 1)],
 
     [("finding_start", EMPTY_DATA), ("cleaning_up", EMPTY_DATA, -1)],
     [("cleaning_up", "e"), ("cleaning_up", EMPTY_DATA, -1)],
+
     [("cleaning_up", 0), (HALT_STATE, 0, -1)],
     [("cleaning_up", 1), (HALT_STATE, 1, -1)],
   ]
