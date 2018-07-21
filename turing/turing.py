@@ -64,71 +64,71 @@ def turing_reverse(input):
   This simulates a turing machine that reverses binary input.
   """
   lines = [
-    [(START_STATE, START_DATA), ("finding_end", START_DATA, 1)],
+    [(START_STATE, START_DATA), ("finding_end", START_DATA, FORWARD)],
 
-    [("finding_end", 0), ("finding_end", 0, 1)],
-    [("finding_end", 1), ("finding_end", 1, 1)],
+    [("finding_end", 0), ("finding_end", 0, FORWARD)],
+    [("finding_end", 1), ("finding_end", 1, FORWARD)],
 
-    [("finding_end", EMPTY_DATA), ("on_end", EMPTY_DATA, -1)],
+    [("finding_end", EMPTY_DATA), ("on_end", EMPTY_DATA, BACKWARD)],
 
-    [("on_end", 0), ("writing_digit_0", "a", 1)],
-    [("on_end", 1), ("writing_digit_1", "b", 1)],
+    [("on_end", 0), ("writing_digit_0", "a", FORWARD)],
+    [("on_end", 1), ("writing_digit_1", "b", FORWARD)],
 
-    [("writing_digit_0", "a"), ("writing_digit_0", "a", 1)],
-    [("writing_digit_0", "b"), ("writing_digit_0", "b", 1)],
-    [("writing_digit_0", "c"), ("writing_digit_0", "c", 1)],
-    [("writing_digit_1", "c"), ("writing_digit_1", "c", 1)],
-    [("writing_digit_0", "d"), ("writing_digit_0", "d", 1)],
-    [("writing_digit_1", "d"), ("writing_digit_1", "d", 1)],
-    [("writing_digit_1", "a"), ("writing_digit_1", "a", 1)],
-    [("writing_digit_1", "b"), ("writing_digit_1", "b", 1)],
+    [("writing_digit_0", "a"), ("writing_digit_0", "a", FORWARD)],
+    [("writing_digit_0", "b"), ("writing_digit_0", "b", FORWARD)],
+    [("writing_digit_0", "c"), ("writing_digit_0", "c", FORWARD)],
+    [("writing_digit_1", "c"), ("writing_digit_1", "c", FORWARD)],
+    [("writing_digit_0", "d"), ("writing_digit_0", "d", FORWARD)],
+    [("writing_digit_1", "d"), ("writing_digit_1", "d", FORWARD)],
+    [("writing_digit_1", "a"), ("writing_digit_1", "a", FORWARD)],
+    [("writing_digit_1", "b"), ("writing_digit_1", "b", FORWARD)],
 
-    [("writing_digit_0", EMPTY_DATA), ("finding_end_2", "c", -1)],
-    [("writing_digit_1", EMPTY_DATA), ("finding_end_2", "d", -1)],
+    [("writing_digit_0", EMPTY_DATA), ("finding_end_2", "c", BACKWARD)],
+    [("writing_digit_1", EMPTY_DATA), ("finding_end_2", "d", BACKWARD)],
 
-    [("finding_end_2", "a"), ("finding_end_2", "a", -1)],
-    [("finding_end_2", "b"), ("finding_end_2", "b", -1)],
-    [("finding_end_2", "c"), ("finding_end_2", "c", -1)],
-    [("finding_end_2", "d"), ("finding_end_2", "d", -1)],
+    [("finding_end_2", "a"), ("finding_end_2", "a", BACKWARD)],
+    [("finding_end_2", "b"), ("finding_end_2", "b", BACKWARD)],
+    [("finding_end_2", "c"), ("finding_end_2", "c", BACKWARD)],
+    [("finding_end_2", "d"), ("finding_end_2", "d", BACKWARD)],
 
-    [("finding_end_2", 0), ("writing_digit_0", "a", 1)],
-    [("finding_end_2", 1), ("writing_digit_1", "b", 1)],
+    [("finding_end_2", 0), ("writing_digit_0", "a", FORWARD)],
+    [("finding_end_2", 1), ("writing_digit_1", "b", FORWARD)],
 
-    [("finding_end_2", START_DATA), ("finding_start", START_DATA, 1)],
+    [("finding_end_2", START_DATA), ("finding_start", START_DATA, FORWARD)],
 
-    [("finding_start", "a"), ("finding_start", "a", 1)],
-    [("finding_start", "b"), ("finding_start", "b", 1)],
-    [("finding_start", "e"), ("finding_start", "e", 1)],
+    [("finding_start", "a"), ("finding_start", "a", FORWARD)],
+    [("finding_start", "b"), ("finding_start", "b", FORWARD)],
+    [("finding_start", "e"), ("finding_start", "e", FORWARD)],
 
-    [("finding_start", "c"), ("writing_start_0", "e", -1)],
-    [("finding_start", "d"), ("writing_start_1", "e", -1)],
+    [("finding_start", "c"), ("writing_start_0", "e", BACKWARD)],
+    [("finding_start", "d"), ("writing_start_1", "e", BACKWARD)],
 
-    [("writing_start_0", "a"), ("writing_start_0", "b", -1)],
-    [("writing_start_0", "b"), ("writing_start_0", "b", -1)],
-    [("writing_start_0", "e"), ("writing_start_0", "e", -1)],
+    [("writing_start_0", "a"), ("writing_start_0", "b", BACKWARD)],
+    [("writing_start_0", "b"), ("writing_start_0", "b", BACKWARD)],
+    [("writing_start_0", "e"), ("writing_start_0", "e", BACKWARD)],
 
-    [("writing_start_0", 0), ("writing_0", 0, 1)],
-    [("writing_start_0", 1), ("writing_0", 1, 1)],
-    [("writing_start_0", START_DATA), ("writing_0", START_DATA, 1)],
+    [("writing_start_0", 0), ("writing_0", 0, FORWARD)],
+    [("writing_start_0", 1), ("writing_0", 1, FORWARD)],
+    [("writing_start_0", START_DATA), ("writing_0", START_DATA, FORWARD)],
 
-    [("writing_start_1", "a"), ("writing_start_1", "b", -1)],
-    [("writing_start_1", "b"), ("writing_start_1", "b", -1)],
-    [("writing_start_1", "e"), ("writing_start_1", "e", -1)],
+    [("writing_start_1", "a"), ("writing_start_1", "b", BACKWARD)],
+    [("writing_start_1", "b"), ("writing_start_1", "b", BACKWARD)],
+    [("writing_start_1", "e"), ("writing_start_1", "e", BACKWARD)],
 
-    [("writing_start_1", 0), ("writing_1", 0, 1)],
-    [("writing_start_1", 1), ("writing_1", 1, 1)],
-    [("writing_start_1", START_DATA), ("writing_1", START_DATA, 1)],
+    [("writing_start_1", 0), ("writing_1", 0, FORWARD)],
+    [("writing_start_1", 1), ("writing_1", 1, FORWARD)],
+    [("writing_start_1", START_DATA), ("writing_1", START_DATA, FORWARD)],
 
-    [("writing_1", "a"), ("finding_start", 1, 1)],
-    [("writing_1", "b"), ("finding_start", 1, 1)],
-    [("writing_0", "a"), ("finding_start", 0, 1)],
-    [("writing_0", "b"), ("finding_start", 0, 1)],
+    [("writing_1", "a"), ("finding_start", 1, FORWARD)],
+    [("writing_1", "b"), ("finding_start", 1, FORWARD)],
+    [("writing_0", "a"), ("finding_start", 0, FORWARD)],
+    [("writing_0", "b"), ("finding_start", 0, FORWARD)],
 
-    [("finding_start", EMPTY_DATA), ("cleaning_up", EMPTY_DATA, -1)],
-    [("cleaning_up", "e"), ("cleaning_up", EMPTY_DATA, -1)],
+    [("finding_start", EMPTY_DATA), ("cleaning_up", EMPTY_DATA, BACKWARD)],
+    [("cleaning_up", "e"), ("cleaning_up", EMPTY_DATA, BACKWARD)],
 
-    [("cleaning_up", 0), (HALT_STATE, 0, -1)],
-    [("cleaning_up", 1), (HALT_STATE, 1, -1)],
+    [("cleaning_up", 0), (HALT_STATE, 0, BACKWARD)],
+    [("cleaning_up", 1), (HALT_STATE, 1, BACKWARD)],
   ]
 
   t = Turing(50)
