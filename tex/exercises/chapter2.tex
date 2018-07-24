@@ -358,6 +358,7 @@ What is the polar decomposition of a positive matrix, $P$? Of a unitary matrix, 
   \end{proof}
 \end{exercise}
 
+%2.62
 \begin{exercise}
   Show that any measurement where the measurement operators and the POVM elements coincide is a projective measurement.
   \begin{proof}
@@ -365,6 +366,7 @@ What is the polar decomposition of a positive matrix, $P$? Of a unitary matrix, 
   \end{proof}
 \end{exercise}
 
+%2.63
 \begin{exercise}
   Suppose a measurement is described by measurement operators, $M_m$. Show that there exist unitary operators $U_m$ such that $M_m=U_m\sqrt{E_m}$, where $E_m$ is the POVM associated to the measurement.
   \begin{proof}
@@ -372,4 +374,118 @@ What is the polar decomposition of a positive matrix, $P$? Of a unitary matrix, 
   \end{proof}
 \end{exercise}
 
+% 2.64
+\begin{exercise}
+  Suppose Bob is given a quantum state chosen from a set $\ket{\psi_1},\dots,\ket{\psi_m}$ of linearly independent states. Construct a POVM $\{E_1,\dots,E_{m+1}\}$ such that if outcome $E_i$ occurs for $1\le i\le m$ then Bob knows with certainty that he was give the state $\ket{\psi_i}$. (The POVM must be such that $\bra{\psi_i}E_i\ket{\psi_i}>0$ for each $i$.)
+  \begin{proof}
+    Let $E_i=\ket{\psi_i}\bra{\psi_i}$ for $1\le i\le m$ and $E_{m+1}=I-\sum E_i$. Then for $1\le i \le m$, we have
+    \begin{eqnarray*}
+      \bra{\psi_i}E_j\ket{\psi_i}&=&
+      \bra{\psi_i}\ket{\psi_j}\bra{psi_j}\ket{\psi_i} \\
+      &=&\delta_{i,j}\delta_{i,j}.
+    \end{eqnarray*}
+    Therefore we only get $E_i$ when we also have $\psi_i$. It's also easy to see that $E_{m+1}$ won't happen for $\psi_i$.
+  \end{proof}
+\end{exercise}
+
+%2.65
+\begin{exercise}
+  Express the states $(\bra{0}+\bra{1})/\sqrt2$ and $(\bra{0}-\bra{1})/\sqrt2$ in a basis in which they are \textit{not} the same up to a relative phase shift.
+  \begin{proof}
+    These elements are the elements $\ket{+}$ and $\ket{-}$, so in that basis they are not the same up to a relative phase shift.
+  \end{proof}
+\end{exercise}
+
+%2.66
+\begin{exercise}
+  Show that the average value of the observable $X_1Z_2$ for a two qubit system measured in the state $(\ket{00}+\ket{11})/\sqrt2$ is zero.
+  \begin{proof}
+    Let $\psi=(\ket{00}+\ket{11})/\sqrt2$. We have
+    \begin{eqnarray*}
+      \bra{\psi}X_1Z_2\ket{\psi}&=&
+      \bra{\psi}X_1Z_2(\ket{00}+\ket{11})/\sqrt2 \\
+      &=&\bra{\psi}X_1(\ket{00}-\ket{11})/\sqrt2 \\
+      &=&\frac{1}{2}(\bra{00}+\bra{11})(\ket{10}-\ket{01}) \\
+      &=&0
+    \end{eqnarray*}
+  \end{proof}
+\end{exercise}
+
+%2.67
+\begin{exercise}
+  Suppose $V$ is a Hilbert space with subspace $W$. Suppose $U:W\rightarrow U$ is a linear operator which preserves inner products, that is, for any $\ket{w_1}$ and $\ket{w_2}$ in $W$,
+  \[\bra{w_1}U^\dagger U\ket{w_2}=\braket{w_1}{w_2}.\]
+  Prove that there exists a unitary operator $U':V\rightarrow V$ which \textit{extends} $U$. That is, $U'\ket{w}=U\ket{w}$ for all $w\in W$, but $U'$ is defined on the entire space $V$. Usually we omit the prime symbol and just write $U$ to denote the extension.
+  \begin{proof}
+    Let the set $\{\ket{w_i}\}$ be an orthonormal basis for $W$. We extend this set with elements $\{\ket{v_j}\}$ such that $\{\ket{w_i}\}\cup \{\ket{v_j}\}$ forms an orthonormal basis of $V$.
+
+    On elements $v_j$ we define $U'$ such that $U'\ket{v_j}=\ket{v_j}$. Then we can linearly extend it to finite linear combinations of elements of $\{\ket{w_i}\}\cup \{\ket{v_j}\}$. It is straight forward to see that we still have inner products preserved.
+  \end{proof}
+\end{exercise}
+
+% 2.68
+\begin{exercise}
+  Define
+  \[\ket\psi = \frac{\ket{00}+\ket{11}}{\sqrt2}.\]
+  Prove that $\psi\ne\ket{a}\ket{b}$ for all single qubit states $\ket{a}$ and $\ket{b}$.
+  \begin{proof}
+    Define $\ket{a}=a_0\ket0+a_1\ket1$ and $\ket{b}=b_0\ket0+b_1\ket1$. Then we have
+    \begin{eqnarray*}
+      \ket{a}\ket{b}&=&(a_0\ket0+a_1\ket1)(b_0\ket0+b_1\ket1) \\
+      &=&a_0b_0\ket{00}+a_0b_1\ket{01}+a_1b_0\ket{01}+a_1b_1\ket{11}.
+    \end{eqnarray*}
+    To have $\ket{\psi}=\ket{a}\ket{b}$ we need to have $a_0b_0=1$ and $a_1b_1=1$. This means that we need $a_0,a_1,b_0,b_1\ne0$. But we also have to have $a_0b_1=0$ and $a_1b_0=0$. This is impossible because none of the values can be $0$.
+  \end{proof}
+\end{exercise}
+
+%2.69
+\begin{exercise}
+  Verify that the Bell basis forms an orthonormal basis for the two qubit state space.
+  \begin{proof}
+    This is straight forward as the only elements from the Bell states that have shared elements have a single element with an opposite sign.
+  \end{proof}
+\end{exercise}
+
+% 2.70
+\begin{exercise}
+  Suppose that $E$ is any positive operator acting on Alice's qubit. Show that $\ket{\psi}E\otimes I\ket{\psi}$ takes the same value when $\ket{\psi}$ is any of the four Bell states. Suppose an malevolent third party, Eve, intercepts Alice's qubit on the way to Bob in the superdence coding protocol. Can Eve infer anything about which of the four possible bit strings $00$, $01$, $10$, $11$ Alice is trying to send? If so, how, or if not, why not?
+  \begin{proof}
+
+  \end{proof}
+\end{exercise}
+
+% 2.71
+\begin{exercise}
+  Let $\rho$ be a density operator. Show that $\textrm{tr}(\rho^2)\ge1$, with equality if and only if $\rho$ is a pure state.
+  \begin{proof}
+    Let $\rho=\sum p_i\ket{\psi_i}\bra{\psi_i}$ be a density operator. Then
+    \begin{eqnarray*}
+      \rho^2&=&(\sum_i p_i\ket{\psi_i}\bra{\psi_i})(\sum_j p_j\ket{\psi_j}\bra{\psi_j}) \\
+      &=&\sum_i\sum_j p_i p_j \ket{\psi_i}\bra{\psi_i}\ket{\psi_j}\bra{\psi_j} \\
+      &=&\sum_i\sum_j p_i p_j \ket{\psi_i}\delta_{i,j}\bra{\psi_j} \\
+      &=&\sum_i p_i^2 \ket{\psi_i}\bra{\psi_i} \\
+    \end{eqnarray*}
+    Now since $p_i>0$ and $\sum p_i=1$ then $\sum p_i^2\le 1$. Now if any $p_i\ne1$ then $\sum p_i^2<1$. That is, that means that $\rho$ is not pure. On the other hand if $\rho$ is pure than $p_i=1$ for one $p_i$ and we have $\textrm{tr}(\rho^2)=1$
+  \end{proof}
+\end{exercise}
+
+% 2.72
+\begin{exercise}[Bloch sphere for mixed states]
+  The Block sphere picture for states of a single qubit was introduced in section 1.2. This description has an important generalization to mixed states as follows.
+  \begin{enumerate}
+    \item Show that an arbitrary density matrix for a mized state qubit may be written as
+    \[\rho = \frac{I + r\cdot v}{2},\]
+    where $r$ is a real three-dimensional vector such that $||r||\le 1$. This vector is known as the \textit{Bloch vector} for the state $\rho$.
+    \item What is the Bloch vector representaiton for the state $\rho=I/2$?
+    \item Show that a state $\rho$ is pure if and only if $||r||=1$.
+    \item Show that for pure states the description of the Bloch vector we have given coincises with that in Section 1.2.
+  \end{enumerate}
+\end{exercise}
+
+% 2.73
+\begin{exercise}
+  Let $\rho$ be a density operator. A \textit{minimal ensemble} for $\rho$ is an ensemble $\{p_i,\ket{\psi_i}\}$ containing a number of elements equal to the rank of $\rho$. Let $\ket{\psi}$ be any state in the support of $\rho$. Show that there is a minimal ensemble for $\rho$ that contains $\ket\psi$, and moreover that in any such ensemble $\ket\psi$ must appear with probability
+  \[p_i=\frac{1}{\bra{\psi_i}\rho^{-1}\ket{\psi_i}},\]
+  where $\rho^{-1}$ is defined to be the inverse of $\rho$.
+\end{exercise}
 \end{document}
