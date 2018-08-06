@@ -68,7 +68,7 @@
 \end{exercise}
 
 \begin{lemma}
-  Let $\ket{x}$ and $\ket{y}$ be orthogonal then the Bloch representations are antipodal.
+  Let $\ket{x}$ and $\ket{y}$ be orthogonal then the Bloch representations are antipodal. \label{lem:bloch}
   \begin{proof}
 
   \end{proof}
@@ -123,6 +123,7 @@ where $\sigma$ denotes the three component vector $(X,Y,Z)$ of Pauli matrices.
   \end{proof}
 \end{exercise}
 
+%4.8
 \begin{exercise}
   An arbitrary single qubit unitary operator can be written in the form
   \[U=\exp(i\alpha)R_n(\theta)\]
@@ -136,6 +137,28 @@ where $\sigma$ denotes the three component vector $(X,Y,Z)$ of Pauli matrices.
       0&i
     \end{bmatrix}.\]
   \end{enumerate}
+  \begin{proof}[Proof of 1]
+    Let $\ket{x}$ and $\ket{y}$ be orthonormal eigenvectors of $U$. Then we can write
+    \[U=\lambda_x\ket{x}\bra{x}+\lambda_y\ket{y}\bra{y},\]
+    where $|\lambda_y|=1$ and $|\lambda_x|=1$. That means we can write $\lambda_x=e^{i\phi_x}$ and $\lambda_y=e^{i\phi_y}$ for some $\phi_x,\phi_y\in\BR$. Let $n$ be the Bloch representation of $\ket{x}$. By lemma \ref{lem:bloch} we know that $\ket{y}=-n$. This means that $\ket{x}$ and $\ket{y}$ are also eigenvectors of $R_n(\theta)$ for any $\theta$. Let us write out and simplify $R_n(\theta)$.
+    \begin{eqnarray*}
+      R_n(\theta)&=&\cos\left(\frac{\theta}{2}\right)I+i\sin\left(\frac{\theta}{2}\right)(n_xX+n_yY+n_zZ) \\
+      &=& \cos\left(\frac{\theta}{2}\right)(\ket{x}\bra{x}+\ket{y}\bra{y})+i\sin\left(\frac{\theta}{2}\right)(\ket{x}\bra{x}-\ket{y}\bra{y}) \\
+      &=& \left[\cos\left(\frac{\theta}{2}\right)
+      +i\sin\left(\frac{\theta}{2}\right)\right]\ket{x}\bra{x}+\left[\cos\left(\frac{\theta}{2}\right)
+      -i\sin\left(\frac{\theta}{2}\right)\right]\ket{y}\bra{y} \\
+      &=&e^{i\frac{\theta}{2}}\ket{x}\bra{x}+e^{-i\frac{\theta}{2}}\ket{y}\bra{y}.
+    \end{eqnarray*}
+    Now choosing $\theta/2=\phi_x-\phi_y$ and $\alpha=\phi_x+\phi_y$, we have
+    \begin{eqnarray*}
+      e^{i\alpha}R_n(\theta)
+      &=&e^{i\alpha}(e^{i\frac{\theta}{2}}\ket{x}\bra{x}+e^{-i\frac{\theta}{2}}\ket{y}\bra{y}) \\
+      &=&e^{i\alpha}(e^{i(\phi_x-\phi_y)}\ket{x}\bra{x}+e^{i(\phi_y-\phi_x)}\ket{y}\bra{y}) \\
+      &=& e^{i(\alpha+\phi_x-\phi_y)}\ket{x}\bra{x}+e^{i(\alpha+\phi_y-\phi_x)}\ket{y}\bra{y} \\
+      &=& e^{i\phi_x}\ket{x}\bra{x}+e^{i\phi_y}\ket{y}\bra{y} \\
+      &=& U.
+    \end{eqnarray*}
+  \end{proof}
 \end{exercise}
 
 \begin{theorem}[$Z-Y$ decomposition for a single qubit]
