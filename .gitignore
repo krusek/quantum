@@ -6,3 +6,5 @@
 *.log
 *.fdb_latexmk
 *.gz
+*.sage.py
+tex/.DS_Store

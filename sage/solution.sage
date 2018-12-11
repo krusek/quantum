@@ -7,6 +7,8 @@ class Solution:
   """
   def assert_signs(self, q, signs):
     mons = q.monomials()
+    if mons == signs:
+      return True
     signed = map(lambda m: (m[0], self.sign(m[1])), mons)
     assert signed == signs, "signs not equal: {0:s}, {1:s}".format(signs, q)
 

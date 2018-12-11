@@ -70,6 +70,23 @@ class Gates:
     return (ones, zeros)
 
   @classmethod
+  def __linear_combination(self, q, index, m):
+    ones, zeros = self.__ones_zeros(q.length, index)
+    l = list(q.v)
+    ll = copy(l)
+    for one, zero in zip(ones, zeros):
+      ll[zero] = m[0][0]*l[zero] + m[0][1]*l[one]
+      ll[one] = m[1][0]*l[zero] + m[1][1]*l[one]
+    q.v = vector(ll)
+    return q
+  
+  @classmethod
+  def XX(self, q, index):
+    self.__linear_combination(q, index, [[0, 1], [1, 0]])
+    return q
+
+
+  @classmethod
   def H(self, q, index):
     ones, zeros = self.__ones_zeros(q.length, index)
     l = list(q.v)
@@ -99,9 +116,46 @@ class Gates:
     return self.__swap(q, ones, zeros, controls = [control])
 
   @classmethod
+  def CZ(self, q, control, index):
+    ones, zeros = self.__ones_zeros(q.length, index)
+    return self.__swap(q, ones, ones, multipliers = [1, -1], controls = [control])
+
+  @classmethod
+  def CY(self, q, control, index):
+    ones, zeros = self.__ones_zeros(q.length, index)
+    return self.__swap(q, ones, zeros, multipliers = [i, -i], controls = [control])
+
+  @classmethod
   def Z(self, q, index):
     ones, zeros = self.__ones_zeros(q.length, index)
     return self.__swap(q, ones, ones, multipliers = [1, -1])
+
+  @classmethod
+  def RX(self, q, alpha, index):
+    self.__linear_combination(q, index, [[cos(alpha / 2), -i * sin(alpha / 2)], [-i * sin(alpha / 2), cos(alpha / 2)]])
+    return q
+
+  @classmethod
+  def RY(self, q, alpha, index):
+    self.__linear_combination(q, index, [[cos(alpha / 2), sin(alpha / 2)], [-sin(alpha / 2), cos(alpha / 2)]])
+    return q
+
+  @classmethod
+  def RZ(self, q, alpha, index):
+    self.__linear_combination(q, index, [[exp(-i*alpha/2), 0], [0, exp(i*alpha)]])
+    return q
+  
+  @classmethod
+  def R1(self, q, alpha, index):
+    self.__linear_combination(q, index, [[1, 0], [0, exp(i*alpha/2)]])
+    return q
+
+
+  @classmethod
+  def RX(self, q, index):
+    self.__linear_combination(q, index, [[0, 1], [1, 0]])
+    return q
+
 
   @classmethod
   def Y(self, q, index):
@@ -114,5 +168,5 @@ class Gates:
 
   @classmethod
   def CCNOT(self, q, control1, control2, ix2):
-    ones, zeros = self.__ones_zeros(q.length, index)
+    ones, zeros = self.__ones_zeros(q.length, ix2)
     return self.__swap(q, ones, zeros, controls = [control1, control2])

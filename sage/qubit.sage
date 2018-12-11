@@ -67,6 +67,7 @@ class Qubits:
   def list(self):
     return list(enumerate(self.v.list()))
 
+  """Returns qubit of the form |000...00>+|111...11>"""
   @classmethod
   def ghz(self, length):
     q = Qubits(length)
@@ -76,7 +77,7 @@ class Qubits:
     l[-1] = 2^(-1/2)
     q.v = vector(l)
     return q
-
+  """"Returns qubits of the form |00...1>+|00...010>+...+|100...0>"""
   @classmethod
   def w(self, length):
     q = Qubits(length)
