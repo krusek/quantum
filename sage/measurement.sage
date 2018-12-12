@@ -61,6 +61,20 @@ class Measurement:
     return m
 
   @classmethod
+  def rr_measure(self, q, index, rnd):
+    """
+    The method performs a measurement using the Z gate at the given index. Based on the value of
+    rnd it will either select all the states where the indexth qubit is 0 or 1. It also updates the
+    value of the input qubit array, q.
+
+    Returns:
+      m - the selected eigenvalue
+    """
+    m, qq = self.r_measure(q, index, rnd)
+    q.v = qq.v
+    return m
+
+  @classmethod
   def r_measure(self, q, index, rnd):
     """
     This is a helper method that will pick one of the measurements based on rnd.

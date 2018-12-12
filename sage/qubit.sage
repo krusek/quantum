@@ -52,8 +52,12 @@ class Qubits:
     self.size = 2**length
     ns = map(lambda x: "{0:d}".format(x+1), xrange(self.size))
     self.group = "(" + ",".join(ns) + ")"
+    self.reset()
+  
+  def reset(self):
     self.v = vector([0]*self.size)
     self.v[0] = 1
+    
 
   def __repr__(self):
     nonzero = self.monomials()
@@ -83,6 +87,16 @@ class Qubits:
     q = Qubits(length)
     l = [0]*q.size
     for ix in xrange(length):
+      number = 2^ix
+      l[number] = length^(-1/2)
+    q.v = vector(l)
+    return q
+
+  @classmethod
+  def wl(self, length, mx):
+    q = Qubits(length)
+    l = [0]*q.size
+    for ix in xrange(min(mx, length)):
       number = 2^ix
       l[number] = length^(-1/2)
     q.v = vector(l)

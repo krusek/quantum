@@ -11,6 +11,9 @@ class Solution:
       return True
     signed = map(lambda m: (m[0], self.sign(m[1])), mons)
     assert signed == signs, "signs not equal: {0:s}, {1:s}".format(signs, q)
+  
+  def assert_qubits(self, q1, q2):
+    assert q1.monomials() == q2.monomials()
 
   def sign(self, x):
     if x < 0:
