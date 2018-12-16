@@ -3,6 +3,17 @@ from sympy import *
 half = Integer(1)/Integer(2)
 two_negative_half_pow = Integer(2)**(-half)
 
+def my_norm(v):
+  # I keep getting floating point values rather than exact values.
+  try:
+    rm = v.transpose().conjugate()*v
+    r = expand(rm[0])
+    return sqrt(r)
+    return r
+  except:
+    r = v.norm()
+    return r
+
 def binary_tuple(number, length):
   s = "{0:b}".format(number)
   if len(s) < length:

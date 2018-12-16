@@ -1,8 +1,24 @@
 from sympy import *
 import random
 from qubit import Qubits
+from gates import Gates
 from helpers import *
 
+class Pauli:
+  def gate(self, q, index):
+    pass
+  
+class PauliX(Pauli):
+  def gate(self, q, index):
+    Gates.X(q, index)
+  
+class PauliY(Pauli):
+  def gate(self, q, index):
+    Gates.Y(q, index)
+  
+class PauliZ(Pauli):
+  def gate(self, q, index):
+    Gates.Z(q, index)
 
 def list_norm_squared(l):
   return reduce(lambda s, x: conjugate(x)*x + s, l, 0)
@@ -28,6 +44,7 @@ class Measurement:
     Returns:
       [(e1, p1, q1), (e2, p2, q2)]: A list of tuples eigenvalues, probabilities, and qubits.
     """
+    return self._d_measurement(q, [PauliZ()], [index])
     qcount = q.length
     zeros = filter(lambda y: flag_value(y, qcount, index) == False, xrange(q.size))
     ones = filter(lambda y: flag_value(y, qcount, index) == True, xrange(q.size))
@@ -59,10 +76,12 @@ class Measurement:
     Returns:
       m - the selected eigenvalue
     """
+    return self.measurement(q, [PauliZ()], [index])
+  
+  @classmethod
+  def measurement(self, q, paulis, idx):
     rnd = random.random()
-    m, qq = self.r_measure(q, index, rnd)
-    q.v = qq.v
-    return m
+    return self.rr_measurement(q, paulis, idx, rnd)
 
   @classmethod
   def rr_measure(self, q, index, rnd):
@@ -75,6 +94,12 @@ class Measurement:
       m - the selected eigenvalue
     """
     m, qq = self.r_measure(q, index, rnd)
+    q.v = qq.v
+    return m
+
+  @classmethod
+  def rr_measurement(self, q, paulis, idx, rnd):
+    m, qq = self.r_measurement(q, paulis, idx, rnd)
     q.v = qq.v
     return m
 
@@ -93,6 +118,39 @@ class Measurement:
       return (m[0][0], m[0][2])
   
   @classmethod
+  def r_measurement(self, q, paulis, idx, rnd):
+    m = self._d_measurement(q, paulis, idx)
+    if rnd > m[0][1]:
+      return (m[1][0], m[1][2])
+    else:
+      return (m[0][0], m[0][2])
+
+  @classmethod
+  def _d_measurement(self, q, paulis, idx):
+    qm = q.clone()
+    for (p, ix) in zip(paulis, idx):
+      p.gate(qm, ix)
+    lm = list(qm.v)
+    ll = list(q.v)
+    lz = map(lambda ix: (lm[ix] + ll[ix])/Integer(2), range(len(lm)))
+    lo = map(lambda ix: (-lm[ix] + ll[ix])/Integer(2), range(len(lm)))
+    vz = Matrix(lz)
+    vo = Matrix(lo)
+    nz = my_norm(vz)**2
+    no = my_norm(vo)**2
+    qz = Qubits(q.length)
+    qo = Qubits(q.length)
+    if nz != 0:
+      qz.v = vz / sqrt(nz)
+    if no != 0:
+      qo.v = vo / sqrt(no)
+    
+    rr = [(1, nz, qz), (-1, no, qo)]
+    return rr
+
+
+
+  @classmethod
   def ZX(self, q, ix, iy):
     qm = q.clone()
     Gates.Z(qm, ix)
@@ -105,8 +163,6 @@ class Measurement:
     vo = Matrix(lo)
     nz = my_norm(vz)**2
     no = my_norm(vo)**2
-    print vz, "norm", nz
-    print vo, "norm", no
     qz = Qubits(q.length)
     qo = Qubits(q.length)
     if nz != 0:

@@ -2,17 +2,6 @@ import random
 from helpers import *
 from sympy import *
 
-def my_norm(v):
-  # I keep getting floating point values rather than exact values.
-  try:
-    rm = v.transpose().conjugate()*v
-    r = expand(rm[0])
-    return sqrt(r)
-    return r
-  except:
-    r = v.norm()
-    return r
-
 class Qubits:
   """
   This class represents an array of qubits.
@@ -125,7 +114,7 @@ class Qubits:
   def monomial_string(self, m, v):
     s = v
     if type(v) == Integer:
-      s = "{0:s}".format(v)
-    return "{0:s} |{1:s}>".format(s, self.binary_string(m))
+      s = "{0:s}".format(str(v))
+    return "{0:s} |{1:s}>".format(str(s), self.binary_string(m))
 
 
