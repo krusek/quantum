@@ -1,4 +1,4 @@
-load("qubit.sage")
+execfile("qubit.sage")
 
 class Solution:
   """

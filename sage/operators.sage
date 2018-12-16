@@ -1,4 +1,4 @@
-load("qubit.sage")
+execfile("qubit.sage")
 class Operators:
   """
   This class has static methods for creating operators that can be used to perform the the given

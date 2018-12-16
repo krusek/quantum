@@ -1,4 +1,8 @@
 import random
+from sympy import *
+
+half = Integer(1)/Integer(2)
+two_negative_half_pow = Integer(2)**(-half)
 
 def binary_tuple(number, length):
   s = "{0:b}".format(number)
@@ -22,7 +26,9 @@ def invert_index(monomial, varlength, index):
 def my_norm(v):
   # I keep getting floating point values rather than exact values.
   try:
-    r = sage_eval("({0:s})^(1/2)".format(v.norm()^2))
+    rm = v.transpose().conjugate()*v
+    r = expand(rm[0])
+    return sqrt(r)
     return r
   except:
     r = v.norm()
@@ -55,9 +61,25 @@ class Qubits:
     self.reset()
   
   def reset(self):
-    self.v = vector([0]*self.size)
-    self.v[0] = 1
-    
+    self.v = Matrix([Integer(0)]*self.size)
+    self.v[0] = Integer(1)
+
+  def clone(self):
+    l = list(self.v)
+    q = Qubits(self.length)
+    q.v = Matrix(l)
+    return q
+  
+  @classmethod
+  def create(self, length, monomials):
+    q = Qubits(length)
+    l = [Integer(0)]*q.size
+    for ix, v in monomials:
+      print ix, v
+      l[ix] = v
+    q.v = Matrix(l)
+    q.v = q.v / my_norm(q.v)
+    return q
 
   def __repr__(self):
     nonzero = self.monomials()
@@ -69,7 +91,7 @@ class Qubits:
     return filter(lambda x: x[1] != 0, en)
 
   def list(self):
-    return list(enumerate(self.v.list()))
+    return list(enumerate(list(self.v)))
 
   """Returns qubit of the form |000...00>+|111...11>"""
   @classmethod
@@ -77,29 +99,29 @@ class Qubits:
     q = Qubits(length)
     number = q.size
     l = [0]*(number)
-    l[0] = 2^(-1/2)
-    l[-1] = 2^(-1/2)
-    q.v = vector(l)
+    l[0] = Integer(2)**(-half)
+    l[-1] = Integer(2)**(-half)
+    q.v = Matrix(l)
     return q
   """"Returns qubits of the form |00...1>+|00...010>+...+|100...0>"""
   @classmethod
   def w(self, length):
     q = Qubits(length)
-    l = [0]*q.size
+    l = [Integer(0)]*q.size
     for ix in xrange(length):
-      number = 2^ix
-      l[number] = length^(-1/2)
-    q.v = vector(l)
+      number = Integer(2)**Integer(ix)
+      l[number] = (Integer(1)/length)**(half)
+    q.v = Matrix(l)
     return q
 
   @classmethod
   def wl(self, length, mx):
     q = Qubits(length)
-    l = [0]*q.size
+    l = [Integer(0)]*q.size
     for ix in xrange(min(mx, length)):
-      number = 2^ix
-      l[number] = length^(-1/2)
-    q.v = vector(l)
+      number = Integer(2)**Integer(ix)
+      l[number] = two_negative_half_pow
+    q.v = Matrix(l)
     return q
 
   @classmethod
@@ -111,7 +133,7 @@ class Qubits:
       [0,1,-1,0]
     ]
     q = Qubits(2)
-    v = vector(bells[ix])
+    v = Matrix(bells[ix])
     v = v / my_norm(v)
     q.v = v
     return q
@@ -125,6 +147,8 @@ class Qubits:
   def monomial_string(self, m, v):
     s = v
     if type(v) == Integer:
-      s = "{0:d}".format(v)
+      print v
+      s = "{0:s}".format(v)
     return "{0:s} |{1:s}>".format(s, self.binary_string(m))
+
 

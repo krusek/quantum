@@ -1,5 +1,5 @@
-load("qubit.sage")
-load("operators.sage")
+execfile("qubit.sage")
+execfile("operators.sage")
 
 class Gates:
   """
@@ -59,12 +59,12 @@ class Gates:
       t = l[one]
       l[one] = multipliers[0]*l[zero]
       l[zero] = multipliers[1]*t
-    q.v = vector(l)
+    q.v = Matrix(l)
     return q
 
   @classmethod
   def __ones_zeros(self, qcount, index):
-    size = 2^qcount
+    size = 2**qcount
     zeros = filter(lambda y: flag_value(y, qcount, index) == False, xrange(size))
     ones = map(lambda y: invert_index(y, qcount, index), zeros)
     return (ones, zeros)
@@ -73,11 +73,11 @@ class Gates:
   def __linear_combination(self, q, index, m):
     ones, zeros = self.__ones_zeros(q.length, index)
     l = list(q.v)
-    ll = copy(l)
+    ll = l[:]
     for one, zero in zip(ones, zeros):
       ll[zero] = m[0][0]*l[zero] + m[0][1]*l[one]
       ll[one] = m[1][0]*l[zero] + m[1][1]*l[one]
-    q.v = vector(ll)
+    q.v = Matrix(ll)
     return q
   
   @classmethod
@@ -90,17 +90,17 @@ class Gates:
   def H(self, q, index):
     ones, zeros = self.__ones_zeros(q.length, index)
     l = list(q.v)
-    lz = copy(l)
-    lo = copy(l)
+    lz = l[:]
+    lo = l[:]
     for one, zero in zip(ones, zeros):
-      lo[zero] = 2^(-1/2)*lo[one]
+      lo[zero] = Integer(2)**(-Integer(1)/Integer(2))*lo[one]
       lo[one] = -lo[zero]
-      lz[zero] = 2^(-1/2)*lz[zero]
+      lz[zero] = Integer(2)**(-Integer(1)/Integer(2))*lz[zero]
       lz[one] = lz[zero]
     qo = Qubits(q.length)
-    qo.v = vector(lo)
+    qo.v = Matrix(lo)
     qz = Qubits(q.length)
-    qz.v = vector(lz)
+    qz.v = Matrix(lz)
     q.v = qo.v + qz.v
     return q
 

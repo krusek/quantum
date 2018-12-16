@@ -1,7 +1,10 @@
-load("solution.sage")
-load("measurement.sage")
-load("gates.sage")
-load("operators.sage")
+execfile("solution.sage")
+execfile("measurement.sage")
+execfile("gates.sage")
+execfile("operators.sage")
+from sympy import *
+
+half = Integer(1)/Integer(2)
 
 """
 This file contains several subclasses of the Solution class. I used it as a playground to solve
@@ -65,10 +68,12 @@ class GHZSolution(Solution):
   def test_ghz_states(self):
     print("testing ghz states")
     total = 5
-    expectations = map(lambda x: [(0,1), (2^x-1, 1)], xrange(1, total+1))
+    expectations = map(lambda x: [(0,1), (2**x-1, 1)], xrange(1, total+1))
     for exp, ix in zip(expectations, xrange(1, total + 1)):
       q = Qubits(ix)
       self.ghz_state(q)
+      print q
+      print exp
       self.assert_signs(q, exp)
     print("ghz states equal")
 
@@ -78,7 +83,7 @@ class SolutionA1(Solution):
       Gates.H(qs, ix)
 
   def assert_qubits(self, qs):
-    coeff = sqrt(1/qs.size)
+    coeff = sqrt(Integer(1)/qs.size)
     ll = [(ix, coeff) for ix in range(qs.size)]
     actual = qs.list()
     assert ll == actual, "{0:s} and {1:s} not equal".format(ll, actual)
@@ -88,6 +93,7 @@ class SolutionA1(Solution):
       print "superposition for {0:d}".format(ix)
       qs = Qubits(ix)
       self.generate_superposition(qs)
+      print qs
       self.assert_qubits(qs)
 
 class SolutionA2(Solution):
@@ -122,7 +128,7 @@ class SolutionB2(Solution):
   def check_state(self, q, rnd):
     l = q.length
     if l % 2 == 1:
-      m = Measurement.r_measure(q, l-1, rnd)
+      m = Measurement.rr_measure(q, l-1, rnd)
       if m == -1:
         m = Measurement.measure(q, 0)
         if m == 1:
@@ -148,26 +154,26 @@ class SolutionB2(Solution):
     for size in [3,4]:
       for rnd in [0.1, 0.9]:
         q = Qubits.w(size)
-        print("w{0:d} state for rnd = {1:s}".format(size, rnd))
-        assert self.check_state(q, rnd) == 1, "incorrect w{0:d} state for m = {1:s}".format(size, rnd)
+        print("w{0:d} state for rnd = {1:f}".format(size, rnd))
+        assert self.check_state(q, rnd) == 1, "incorrect w{0:d} state for m = {1:f}".format(size, rnd)
 
     for size in [3,4]:
       for rnd in [0.1, 0.9]:
         q = Qubits.ghz(size)
         print("ghz{0:d} state".format(size))
-        assert self.check_state(q, rnd) == 0, "incorrect w{0:d} state for m = {1:s}".format(size, rnd)
+        assert self.check_state(q, rnd) == 0, "incorrect w{0:d} state for m = {1:f}".format(size, rnd)
 
 class SolutionB3(Solution):
   @classmethod
   def s_state(self, ix):
     s = [
-      [1/2, 1/2, 1/2, 1/2],
-      [1/2, -1/2, 1/2, -1/2],
-      [1/2, 1/2, -1/2, -1/2],
-      [1/2, -1/2, -1/2, 1/2],
+      [half, half, half, half],
+      [half, -half, half, -half],
+      [half, half, -half, -half],
+      [half, -half, -half, half],
     ]
     q = Qubits(2)
-    v = vector(s[ix])
+    v = Matrix(s[ix])
     q.v = v
     return q
 
@@ -189,13 +195,13 @@ class SolutionB4(Solution):
   @classmethod
   def s_state(self, ix):
     s = [
-      [1/2, -1/2, -1/2, -1/2],
-      [-1/2, 1/2, -1/2, -1/2],
-      [-1/2, -1/2, 1/2, -1/2],
-      [-1/2, -1/2, -1/2, 1/2],
+      [half, -half, -half, -half],
+      [-half, half, -half, -half],
+      [-half, -half, half, -half],
+      [-half, -half, -half, half],
     ]
     q = Qubits(2)
-    v = vector(s[ix])
+    v = Matrix(s[ix])
     q.v = v
     return q
 

@@ -1,4 +1,6 @@
-load("operators.sage")
+execfile("operators.sage")
+from sympy import *
+
 
 def list_norm_squared(l):
   return reduce(lambda s, x: conjugate(x)*x + s, l, 0)
@@ -28,21 +30,21 @@ class Measurement:
     zeros = filter(lambda y: flag_value(y, qcount, index) == False, xrange(q.size))
     ones = filter(lambda y: flag_value(y, qcount, index) == True, xrange(q.size))
     l = list(q.v)
-    lz = copy(l)
-    lo = copy(l)
+    lz = l[:]
+    lo = l[:]
     for io, iz in zip(ones, zeros):
-      lz[io] = 0
-      lo[iz] = 0
+      lz[io] = Integer(0)
+      lo[iz] = Integer(0)
     nz = list_norm_squared(lz)
     no = list_norm_squared(lo)
-    dz = sqrt(nz) if nz != 0 else 1
-    do = sqrt(no) if no != 0 else 1
+    dz = sqrt(nz) if nz != 0 else Integer(1)
+    do = sqrt(no) if no != 0 else Integer(1)
     lz = map(lambda x: x / dz, lz)
     lo = map(lambda x: x / do, lo)
     qz = Qubits(qcount)
     qo = Qubits(qcount)
-    qz.v = vector(lz)
-    qo.v = vector(lo)
+    qz.v = Matrix(lz)
+    qo.v = Matrix(lo)
     return [(1, nz, qz), (-1, no, qo)]
 
   @classmethod
@@ -83,7 +85,31 @@ class Measurement:
       (eigenvalue, qubit array): The eigenvalue and qubit array selected based on rnd.
     """
     m = self._d_measure(q, index)
+    print "measurement: ", m
     if rnd > m[0][1]:
       return (m[1][0], m[1][2])
     else:
       return (m[0][0], m[0][2])
+  
+  @classmethod
+  def ZX(self, q, ix, iy):
+    qm = q.clone()
+    Gates.Z(qm, ix)
+    Gates.X(qm, iy)
+    lm = list(qm.v)
+    ll = list(q.v)
+    lz = map(lambda ix: (lm[ix] + ll[ix])/2, range(len(lm)))
+    lo = map(lambda ix: (lm[ix] - ll[ix])/2, range(len(lm)))
+    vz = Matrix(lz)
+    vo = Matrix(lo)
+    nz = my_norm(vz)**2
+    no = my_norm(vo)**2
+    print vz, "norm", nz
+    print vo, "norm", no
+    qz = Qubits(q.length)
+    qo = Qubits(q.length)
+    if nz != 0:
+      qz.v = vz / sqrt(nz)
+    if no != 0:
+      qo.v = vo / sqrt(no)
+    return [(nz, qz), (no, qo)]
