@@ -1,8 +1,8 @@
 from solution import Solution
-from qubit import Qubits
-from measurement import Measurement
-from gates import Gates
-from helpers import *
+from quantum.qubit import Qubits
+from quantum.measurement import Measurement
+from quantum.gates import Gates
+from quantum.helpers import *
 from sympy import *
 
 half = Integer(1)/Integer(2)
@@ -358,3 +358,6 @@ def run_all_solutions():
   SolutionD2().run_all_tests()
   SolutionD3().run_all_tests()
   SolutionE1().run_all_tests()
+
+if __name__ == '__main__':
+  run_all_solutions()

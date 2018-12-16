@@ -1,5 +1,5 @@
-from qubit import Qubits
-from helpers import *
+from quantum.qubit import Qubits
+from quantum.helpers import *
 
 class Solution:
   """
