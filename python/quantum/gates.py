@@ -88,7 +88,7 @@ class Gates:
   @classmethod
   def CY(self, q, control, index):
     ones, zeros = self.__ones_zeros(q.length, index)
-    return self.__swap(q, ones, zeros, multipliers = [i, -i], controls = [control])
+    return self.__swap(q, ones, zeros, multipliers = [I, -I], controls = [control])
 
   @classmethod
   def Z(self, q, index):
@@ -97,7 +97,7 @@ class Gates:
 
   @classmethod
   def RX(self, q, alpha, index):
-    self.__linear_combination(q, index, [[cos(alpha / 2), -i * sin(alpha / 2)], [-i * sin(alpha / 2), cos(alpha / 2)]])
+    self.__linear_combination(q, index, [[cos(alpha / 2), -I * sin(alpha / 2)], [-I * sin(alpha / 2), cos(alpha / 2)]])
     return q
 
   @classmethod
@@ -107,7 +107,7 @@ class Gates:
 
   @classmethod
   def RZ(self, q, alpha, index):
-    self.__linear_combination(q, index, [[exp(-i*alpha/2), 0], [0, exp(I*alpha)]])
+    self.__linear_combination(q, index, [[exp(-I*alpha/2), 0], [0, exp(I*alpha)]])
     return q
   
   @classmethod
@@ -115,17 +115,10 @@ class Gates:
     self.__linear_combination(q, index, [[1, 0], [0, exp(I*alpha/2)]])
     return q
 
-
-  @classmethod
-  def RX(self, q, index):
-    self.__linear_combination(q, index, [[0, 1], [1, 0]])
-    return q
-
-
   @classmethod
   def Y(self, q, index):
     ones, zeros = self.__ones_zeros(q.length, index)
-    return self.__swap(q, ones, zeros, multipliers = [i, -i])
+    return self.__swap(q, ones, zeros, multipliers = [I, -I])
 
   @classmethod
   def CNOT(self, q, control, ix2):

@@ -8,17 +8,29 @@ class Pauli:
   def gate(self, q, index):
     pass
   
+  def __repr__(self):
+    return "I"
+  
 class PauliX(Pauli):
   def gate(self, q, index):
     Gates.X(q, index)
+  
+  def __repr__(self):
+    return "X"
   
 class PauliY(Pauli):
   def gate(self, q, index):
     Gates.Y(q, index)
   
+  def __repr__(self):
+    return "Y"
+  
 class PauliZ(Pauli):
   def gate(self, q, index):
     Gates.Z(q, index)
+  
+  def __repr__(self):
+    return "Z"
 
 def list_norm_squared(l):
   return reduce(lambda s, x: conjugate(x)*x + s, l, 0)

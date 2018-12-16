@@ -9,19 +9,18 @@ class Qubits:
   NOTE:
 
   Internally a sympy matrix object is used, but at this point it could easily be replaced with
-  a simple list. Likely the only changes would be to remove the slower versions of the gates
-  (oX, oY, oZ, etc) and to remove the Operators class. You would also need to update the my_norm
-  function to do norm calculations.
+  a simple list. You would need to update the my_norm function to do norm calculations. There
+  are also a few places that modify the matrix directly.
   """
 
-  """
-  This is the default constructor for the Qubits class. It will create an array of qubits in the
-  |00...0> basis state.
-
-  Args:
-    length (int): The number of qubits to create.
-  """
   def __init__(self, length):
+    """
+    This is the default constructor for the Qubits class. It will create an array of qubits in the
+    |00...0> basis state.
+
+    Keyword arguments:
+      length -- The number of qubits to create.
+    """
     self.length = length
     self.size = 2**length
     ns = map(lambda x: "{0:d}".format(x+1), xrange(self.size))
@@ -60,9 +59,9 @@ class Qubits:
   def list(self):
     return list(enumerate(list(self.v)))
 
-  """Returns qubit of the form |000...00>+|111...11>"""
   @classmethod
   def ghz(self, length):
+    """Returns qubit of the form |000...00>+|111...11>"""
     q = Qubits(length)
     number = q.size
     l = [0]*(number)
@@ -70,9 +69,10 @@ class Qubits:
     l[-1] = Integer(2)**(-half)
     q.v = Matrix(l)
     return q
-  """"Returns qubits of the form |00...1>+|00...010>+...+|100...0>"""
+    
   @classmethod
   def w(self, length):
+    """"Returns qubits of the form |00...1>+|00...010>+...+|100...0>"""
     q = Qubits(length)
     l = [Integer(0)]*q.size
     for ix in xrange(length):
@@ -115,6 +115,6 @@ class Qubits:
     s = v
     if type(v) == Integer:
       s = "{0:s}".format(str(v))
-    return "{0:s} |{1:s}>".format(str(s), self.binary_string(m))
+    return "{0:s} |{1:s}>".format(str(float(s)), self.binary_string(m))
 
 
