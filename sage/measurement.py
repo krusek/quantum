@@ -1,5 +1,7 @@
-execfile("operators.sage")
 from sympy import *
+import random
+from qubit import Qubits
+from helpers import *
 
 
 def list_norm_squared(l):
@@ -85,7 +87,6 @@ class Measurement:
       (eigenvalue, qubit array): The eigenvalue and qubit array selected based on rnd.
     """
     m = self._d_measure(q, index)
-    print "measurement: ", m
     if rnd > m[0][1]:
       return (m[1][0], m[1][2])
     else:

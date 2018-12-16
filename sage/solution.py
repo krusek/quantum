@@ -1,4 +1,5 @@
-execfile("qubit.sage")
+from qubit import Qubits
+from helpers import *
 
 class Solution:
   """

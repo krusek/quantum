@@ -1,7 +1,8 @@
-execfile("solution.sage")
-execfile("measurement.sage")
-execfile("gates.sage")
-execfile("operators.sage")
+from solution import Solution
+from qubit import Qubits
+from measurement import Measurement
+from gates import Gates
+from helpers import *
 from sympy import *
 
 half = Integer(1)/Integer(2)

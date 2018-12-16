@@ -1,5 +1,5 @@
-execfile("qubit.sage")
-execfile("operators.sage")
+from qubit import Qubits
+from helpers import *
 
 class Gates:
   """
@@ -11,41 +11,6 @@ class Gates:
   One could easily update the Gates to optionally return a new qubit rather than updating the input
   qubit.
   """
-  @classmethod
-  def oX(self, q, index):
-    m = Operators.X(q.length, index)
-    q.v = m * q.v
-    return q
-
-  @classmethod
-  def oY(self, q, index):
-    m = Operators.Y(q.length, index)
-    q.v = m * q.v
-    return q
-
-  @classmethod
-  def oZ(self, q, index):
-    m = Operators.Z(q.length, index)
-    q.v = m * q.v
-    return q
-
-  @classmethod
-  def oH(self, q, index):
-    m = Operators.H(q.length, index)
-    q.v = m * q.v
-    return q
-
-  @classmethod
-  def oCNOT(self, q, control, ix2):
-    m = Operators.CNOT(q.length, control, ix2)
-    q.v = m * q.v
-    return q
-
-  @classmethod
-  def oCCNOT(self, q, control1, control2, ix2):
-    m = Operators.CCNOT(q.length, control1, control2, ix2)
-    q.v = m * q.v
-    return q
 
   @classmethod
   def __swap(self, q, ones, zeros, controls = [], multipliers = [1,1]):

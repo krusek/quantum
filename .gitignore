@@ -7,4 +7,5 @@
 *.fdb_latexmk
 *.gz
 *.sage.py
+*.pyc
 tex/.DS_Store
