@@ -19,7 +19,7 @@ class Qubits:
 
   NOTE:
 
-  Internally a sage vector object is used, but at this point it could easily be replaced with
+  Internally a sympy matrix object is used, but at this point it could easily be replaced with
   a simple list. Likely the only changes would be to remove the slower versions of the gates
   (oX, oY, oZ, etc) and to remove the Operators class. You would also need to update the my_norm
   function to do norm calculations.

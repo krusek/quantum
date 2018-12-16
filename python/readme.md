@@ -1,4 +1,4 @@
-This is a set of sage classes/functions that I wrote to help my understanding of quantum operations.
+This is a set of python classes/functions that I wrote to help my understanding of quantum operations.
 I know there are several codebases for quantum operators, but I wanted to write my own to better
 understand how quantum computing works internally. Also I found it convenient because most quantum
 frameworks that I could find are a little more _honest_ and don't allow you to print out the values
