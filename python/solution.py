@@ -14,7 +14,10 @@ class Solution:
     assert signed == signs, "signs not equal: {0:s}, {1:s}".format(signs, q)
   
   def assert_qubits(self, q1, q2):
-    assert q1.monomials() == q2.monomials()
+    l1 = list(q1.v)
+    l2 = list(q2.v)
+    n = sum(map(lambda ix: (l1[ix] - l2[ix])**2, range(len(l1))))
+    assert (n < 0.001), "qubits not equal"
 
   def sign(self, x):
     if x < 0:
