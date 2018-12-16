@@ -107,12 +107,12 @@ class Gates:
 
   @classmethod
   def RZ(self, q, alpha, index):
-    self.__linear_combination(q, index, [[exp(-i*alpha/2), 0], [0, exp(i*alpha)]])
+    self.__linear_combination(q, index, [[exp(-i*alpha/2), 0], [0, exp(I*alpha)]])
     return q
   
   @classmethod
   def R1(self, q, alpha, index):
-    self.__linear_combination(q, index, [[1, 0], [0, exp(i*alpha/2)]])
+    self.__linear_combination(q, index, [[1, 0], [0, exp(I*alpha/2)]])
     return q
 
 
