@@ -54,7 +54,6 @@ class Qubits:
     q = Qubits(length)
     l = [Integer(0)]*q.size
     for ix, v in monomials:
-      print ix, v
       l[ix] = v
     q.v = Matrix(l)
     q.v = q.v / my_norm(q.v)
@@ -126,7 +125,6 @@ class Qubits:
   def monomial_string(self, m, v):
     s = v
     if type(v) == Integer:
-      print v
       s = "{0:s}".format(v)
     return "{0:s} |{1:s}>".format(s, self.binary_string(m))
 
