@@ -98,12 +98,51 @@ class SolutionA1(Solution):
       self.assert_qubits(qs)
 
 class SolutionA2(Solution):
-  def test_null(self):
-    print "I don't know for sure what this algorithm does."
+  def test_superposition(self):
+    q = Qubits(5)
+    self.superposition(q, [True, False, False, True, True])
+    self.assert_signs(q, [(0,1),(19,1)])
+  
+  def superposition(self, q, bits):
+    Gates.H(q, 0)
+    for ix in range(1, len(bits)):
+      if bits[ix]:
+        Gates.CNOT(q, 0, ix)
 
 class SolutionA3(Solution):
-  def test_null(self):
-    print "I don't know for sure what this algorithm does."
+  def test_superposition(self):
+    q = Qubits(5)
+    self.superposition_bitstrings(q, [True, False, False, True, True], [True, True, False, False, True])
+    self.assert_signs(q, [(19, 1), (25, 1)])
+
+    q = Qubits(5)
+    self.superposition_bitstrings(q, [False, False, False, True, True], [False, True, False, False, True])
+    self.assert_signs(q, [(3, 1), (9, 1)])
+
+    q = Qubits(1)
+    self.superposition_bitstrings(q, [True], [False])
+    self.assert_signs(q, [(0,1), (1,1)])
+    
+
+  def __find_one_zero(self, bits1, bits2):
+    """returns ix, bitsa, bitsb where ix is the first different index and bitsa has a 1 there."""
+    for ix in range(len(bits1)):
+      if bits1[ix] != bits2[ix]:
+        return (ix, bits1, bits2) if bits1[ix] else (ix, bits2, bits1)
+    return (-1, bits1, bits2)
+
+  def superposition_bitstrings(self, q, bits1, bits2):
+    ix, bitsa, bitsb = self.__find_one_zero(bits1, bits2)
+    Gates.H(q, ix)
+    for ii in range(0, len(bits1)):
+      if ix == ii:
+        continue
+      if bitsb[ii]:
+        Gates.X(q, ii)
+        Gates.CNOT(q, ix, ii)
+
+      if bitsa[ii]:
+        Gates.CNOT(q, ix, ii)
 
 class SolutionA4(Solution):
   def w_state(self, q):
@@ -122,8 +161,18 @@ class SolutionA4(Solution):
     return q
 
 class SolutionB1(Solution):
-  def test_null(self):
-    print "I don't know for sure what this algorithm does."
+  def test_state_distinction(self):
+    q = Qubits.w(5)
+    assert self.state_distinction(q) == 1
+
+    q = Qubits(5)
+    assert self.state_distinction(q) == 0
+  
+  def state_distinction(self, q):
+    for ix in range(q.length):
+      if Measurement.measure(q, ix) == -1:
+        return 1
+    return 0
 
 class SolutionB2(Solution):
   def check_state(self, q, rnd):
