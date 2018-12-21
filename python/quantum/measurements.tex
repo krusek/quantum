@@ -1,0 +1,200 @@
+\documentclass{article}
+  \usepackage{amssymb}
+  \usepackage{amsfonts}
+  \usepackage{amsmath}
+  \usepackage{amsthm}
+  \usepackage[all]{xy}
+  \usepackage{ifthen}
+  \usepackage{makeidx}
+  \usepackage{physics}
+  \usepackage{exercise}
+  \usepackage{tikz}
+
+  % TikZ libraries `calc` needed now to tweak bracket.
+  \usetikzlibrary{backgrounds,fit,decorations.pathreplacing,calc}
+
+  \newcommand{\makeind}{\makeindex } \newcommand{\ind}[1]{ } \newcommand{\printind} {}
+  %\usepackage{hyperref} \hypersetup{backref,colorlinks=true} \renewcommand{\ind}[1]{\index{#1}} \renewcommand{\makeind}{\makeindex} \renewcommand{\printind}{\printindex }
+  \makeind
+  \author{Korben Rusek}
+  \title{Quantum Computing}
+  \date{12-20-2018}
+  \pagestyle{myheadings}
+  \markright{Korben Rusek - Quantum Computing}
+  \oddsidemargin 0.1in
+  \evensidemargin 0.0in
+  \textwidth 6.0in
+  \begin{document}
+  \maketitle
+  \newcommand{\gindex}[2]{|#1\!:\!#2|}
+  \newcommand{\lcm}{\textrm{lcm}}
+  \newcommand{\irr}{\textrm{irr}}
+  \newcommand{\sylp}{$Syl_{p}$}
+  \newcommand{\phnt}[1]{$\phantom{1}^{#1}$}
+  \newcommand{\gen}[1]{\langle#1\rangle}
+  \newcommand{\BN}{\mathbb{N}}
+  \newcommand{\BZ}{\mathbb{Z}}
+  \newcommand{\BQ}{\mathbb{Q}}
+  \newcommand{\BR}{\mathbb{R}}
+  \newcommand{\BC}{\mathbb{C}}
+  \newcommand{\BF}{\mathbb{F}}
+  \newcommand{\CF}{\mathcal{F}}
+  \newcommand{\CQ}{\mathcal{Q}}
+  \newcommand{\fa}{\mathfrak{a}}
+  \newcommand{\fb}{\mathfrak{b}}
+  \newcommand{\fp}{\mathfrak{p}}
+  \newcommand{\fq}{\mathfrak{q}}
+  \newcommand{\fm}{\mathfrak{m}}
+  \newcommand{\FN}{\mathfrak{N}}
+  \newcommand{\FR}{\mathfrak{R}}
+  \newcommand{\set}[1]{\{#1\}}
+  \newcommand{\trv}{\set{1}}
+  \newcommand{\Aut}{\mathrm{Aut}}
+  \newcommand{\End}{\mathrm{End}}
+  \newcommand{\Ker}{\mathrm{Ker}}
+  \newcommand{\chr}{\mathrm{char}}
+
+  \theoremstyle{definition}
+  \newtheorem{theorem}{Theorem}[section]
+  \newtheorem{corollary}[theorem]{Corollary}
+  \newtheorem{definition}[theorem]{Definition}
+  \newtheorem{lemma}[theorem]{Lemma}
+  \newtheorem{fact}[theorem]{Fact}
+  \newtheorem{exercise}{Exercise}[section]
+  \newtheorem{example}{Example}[section]
+
+  \setcounter{section}{1}
+  \setcounter{subsection}{1}
+
+\subsection{Joint Measurements}
+
+The Pauli operators and how their measurements act on a 
+set of qubits are well known. But most literature explains
+how to modify the qubits such that you can perform the
+Pauli $Z$ measurement on just the first qubit to achieve
+the same result. 
+
+There is a table containing tensor products of Pauli matrices
+and operators that convert that operation to the simple $Z$
+measurement and operators that convert them back.
+
+The only issue with this method is that
+it is harder to deal with the way that I've written my
+quantum simulator. This document will outline how my 
+simulator performs joint measurements and prove that it 
+achieves the same results. It is not complicated, but I 
+felt the need to more thoroughly document it.
+
+
+\begin{fact}
+  Pauli operators have eigenvalues $\pm1$ that split the
+  quantum space into two equal subspaces.
+\end{fact}
+
+\begin{example}
+  Let 
+  \[
+    \ket\psi= \frac{1}{2}\ket{100} 
+      +\frac{\sqrt{2}}{2}\ket{011}
+      +\frac{1}{2}\ket{101}.
+  \]
+  The Pauli $Z$ gate has the following action:
+  \begin{eqnarray*}
+    \ket{0}&\rightarrow&\ket{0}\\
+    \ket{1}&\rightarrow&-\ket{1}
+  \end{eqnarray*}
+  That is $\ket0$ has $1$ as its eigenvalue and $\ket1$ has
+  $-1$ as its eigenvalue. Therefore if we want to measure
+  $\psi$ with respect to $Z\oplus I\oplus I$ it gets split as
+  \[
+    \frac{1}{2}\ket{100} 
+      +\frac{1}{2}\ket{101}
+  \]
+  and
+  \[
+    \frac{\sqrt{2}}{2}\ket{011}.
+  \]
+  Looking at the coefficients each has a probability of $1/2$.
+  Of course after measurement we need to normalize 
+  (divide by the norm) the result in order to get a valid
+  qubit array.
+
+  Similarly measuring with respect to $I\oplus I\oplus Z$ will
+  split $\ket\psi$ as
+  \[
+    \frac{1}{2}\ket{100}
+  \]
+  and
+  \[
+    \frac{\sqrt{2}}{2}\ket{011}
+  +\frac{1}{2}\ket{101},
+  \]
+  The former with probability $1/4$ and the latter with probability
+  $3/4$.
+\end{example}
+
+\begin{lemma}
+  Let $\ket{\psi}$ be a quantum state and $\varphi$ a Pauli operator. 
+  Suppose $\ket{\psi}$ can be written $\ket\psi=\ket{\alpha_+}+\ket{\alpha_-}$,
+  where $\alpha_+$ has eigenvalue $1$ and $\alpha_-$ has eigenvalue $-1$,
+  then $\ket{\alpha_+}$ and $\ket{\alpha_-}$ are unique.
+  \begin{proof}
+    First assume that
+    $\ket\psi$ can be written two different ways,
+    $\ket\psi=\ket{\alpha_{+}}+\ket{\alpha_{-}}$ and 
+    $\ket\psi=\ket{\beta_+}+\ket{\beta_{-}}$ where
+    $\ket{\alpha_+}$ and $\ket{\beta_+}$ have eigenvalue $1$ and
+    $\ket{\alpha_{-}}$ and $\ket{\beta_{-}}$ have eigenvalue $-1$.
+    I claim that $\ket{\alpha_+}=\ket{\beta_+}$ and 
+    $\ket{\alpha_-}=\ket{\beta_-}$.
+    Since their sum is $\ket\psi$ then we necessarily have
+    \begin{eqnarray*}
+      \ket{\alpha_+}-\ket{\beta_+}&=&\ket{\beta_-}-\ket{\alpha_-}\\
+      \varphi\left(\ket{\alpha_+}-\ket{\beta_+}\right)&=&\varphi\left(\ket{\beta_-}-\ket{\alpha_-}\right)\\
+      \ket{\alpha_+}-\ket{\beta_+}&=&\ket{\alpha_-}-\ket{\beta_-}.
+    \end{eqnarray*}
+    That is, $\ket{\alpha_+}-\ket{\beta_+}=-(\ket{\alpha_+}-\ket{\beta_+})$ and
+    so we must have $\ket{\alpha_+}-\ket{\beta_+}=0$ and $\ket{\alpha_+}=\ket{\beta_+}$.
+    Similarly we have $\ket{\alpha_-}=\ket{\beta_-}$.
+  \end{proof}
+\end{lemma}
+
+This means that if we find a way to write our quantum state as the sum of
+a vector with eigenvalue 1 and a vector with eigenvalue $-1$ then we are 
+done.
+
+\begin{lemma}
+  Let $\ket{\psi}$ be a state and $\varphi$ any Pauli operator. Then
+  $(\ket\psi+\varphi\ket\psi)/2$ has eigenvalue $1$ or is $0$. Similarly,
+  $(\ket\psi-\varphi\ket\psi)/2$ has eigenvalue $-1$ or is $0$.
+  \begin{proof}
+    The proof is pretty straightforward. Assume that $\ket\psi+\varphi\ket\psi\ne0$.
+    Then
+    \begin{eqnarray*}
+      \varphi\left(\ket\psi+\varphi\ket\psi\right) 
+      &=&\varphi(\ket\psi)+\varphi(\varphi(\ket\psi)) \\
+      &=&\varphi(\ket\psi)+\ket\psi \\
+      &=&\ket\psi+\varphi\ket\psi.
+    \end{eqnarray*}
+    Hence it has eigenvalue $1$.
+    
+    Similarly if $\ket\psi-\varphi\ket\psi\ne0$,
+    \begin{eqnarray*}
+      \varphi\left(\ket\psi-\varphi\ket\psi\right) 
+      &=&\varphi(\ket\psi)-\varphi(\varphi(\ket\psi)) \\
+      &=&\varphi(\ket\psi)-\ket\psi \\
+      &=&-(\ket\psi-\varphi(\ket\psi).
+    \end{eqnarray*}
+    Hence it has eigenvalue $-1$.
+  \end{proof}
+\end{lemma}
+
+This is how measurements are performed in my quantum emulator.
+
+% \begin{fact}
+%   A Pauli measurement splits a set of qubits between the
+%   positive eigenvalue parts and the negative eigenvalue parts
+%   then based on the probabilities will 
+% \end{fact}
+
+\end{document}
