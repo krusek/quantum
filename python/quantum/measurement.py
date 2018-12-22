@@ -92,6 +92,15 @@ class Measurement:
   
   @classmethod
   def measurement(self, q, paulis, idx):
+    """
+    This method performs measurements using arbitrary tensor products of Pauli operators. See
+    measurements.pdf for an explanation and proof of how it works.
+
+    Keyword arguments:
+    q - the qubit array to measure
+    paulis - array indicating which operators to use for the measurement.
+    idx - an array of indices indicating which qubits in q to measure. Assumed to be the same length as paulis
+    """
     rnd = random.random()
     return self.rr_measurement(q, paulis, idx, rnd)
 
