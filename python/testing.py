@@ -1,4 +1,9 @@
-execfile("measurement.sag")
+from solution import Solution
+from quantum.qubit import Qubits
+from quantum.measurement import Measurement
+from quantum.gates import Gates
+from quantum.helpers import *
+from sympy import *
 
 def mZZ(q, ix, iy):
   Gates.CNOT(q, iy, ix)

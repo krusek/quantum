@@ -5,6 +5,7 @@ from quantum.measurement import *
 from quantum.gates import Gates
 from quantum.helpers import *
 from sympy import *
+from random import choice
 
 class JointMeasurementTest(Solution):
   """// "Joint Measurements" quantum kata is a series of exercises designed
@@ -98,7 +99,46 @@ class JointMeasurementTest(Solution):
     
     Gates.H(q, 1)
     Gates.Z(q, 0)
+
+  def test_07_controlled_x_general(self):
+    for ix in range(20):
+      a,b, c, d = self.random_unit_vector(4)
+      q = Qubits.create(2, [(0, a), (1, b), (2, c), (3, d)])
+      target = Qubits.create(2, [(0, a), (1, b), (2, d), (3, c)])
+      print "before", q
+      self.controlled_x_general(q)
+      print "after", q
+      self.assert_qubits(q, target)
+
+  def controlled_x_general(self, q):
+    # Gates.CNOT(q, 0, 1)
+    items = [0.1, 0.9]
+    r1, r2, r3 = choice(items), choice(items), choice(items)
+    bad = [[0.1, 0.9, 0.9], [0.9, 0.9, 0.1]]
+    if [r1, r2, r3] in bad:
+      r1, r2, r3 = [0.1, 0.1, 0.1]
+    print r1, r2, r3
+    q.add_qubit()
+    #print "before measurement", q
+    p1 = self.copy_qubit(q, 1, 0, r1)
+    #print "after measurement", q
+    Gates.H(q, 0)
+    Gates.H(q, 2)
+    p2 = Measurement.rr_measurement(q, [PauliZ(), PauliZ()], [0, 2], r2)
+    Gates.H(q, 0)
+    Gates.H(q, 2)
+    if p2 == -1:
+      Gates.Z(q, 1)
+    if p1 != Measurement.rr_measurement(q, [PauliZ()], [0], r3):
+      Gates.X(q, 2)
+    #print "after CNOT", q
+    q.remove_qubit()
   
+  def copy_qubit(self, q, source, target, r):
+    Gates.H(q, target)
+    return Measurement.rr_measurement(q, [PauliZ(), PauliZ()], [target, source], r)
+
+
   def random_unit_vector(self, length):
     v = [0]*length
     a = Float(random.random())
