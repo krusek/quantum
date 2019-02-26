@@ -388,6 +388,30 @@ class SolutionE(Solution):
       q = Qubits.bell(ix)
       assert self.check_bell(q) == ix, "incorrect for {0:d}".format(ix)
 
+class QubitsAddRemove(Solution):
+  def test_add_remove(self):
+    q = Qubits.random_qubits(2)
+    qq = q.clone()
+    q.add_qubit()
+    q.remove_qubit()
+    self.assert_qubits(q, qq)
+
+  def test_add_X_remove(self):
+      q = Qubits.random_qubits(2)
+      qq = q.clone()
+      q.add_qubit()
+      Gates.X(q, 0)
+      q.remove_qubit()
+      self.assert_qubits(q, qq)
+
+  def test_add_CNOT_remove(self):
+      q = Qubits.random_qubits(2)
+      qq = q.clone()
+      q.add_qubit()
+      Gates.CNOT(q, 1, 0)
+      q.remove_qubit()
+      self.assert_qubits(q, qq)
+
 def run_all_solutions():
   PlusMinusSolution().run_all_tests()
   BellSolution().run_all_tests()
@@ -407,6 +431,7 @@ def run_all_solutions():
   SolutionD2().run_all_tests()
   SolutionD3().run_all_tests()
   SolutionE1().run_all_tests()
+  QubitsAddRemove().run_all_tests()
 
 if __name__ == '__main__':
   run_all_solutions()

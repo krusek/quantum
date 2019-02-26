@@ -1,4 +1,5 @@
 import random
+import math
 from helpers import *
 from sympy import *
 
@@ -30,6 +31,11 @@ class Qubits:
   def reset(self):
     self.v = Matrix([Integer(0)]*self.size)
     self.v[0] = Integer(1)
+  
+  @classmethod
+  def random_qubits(self, length):
+    a = map(lambda x: (x, random.uniform(0, 1)), xrange(2**length))
+    return Qubits.create(length, a)
 
   def clone(self):
     l = list(self.v)
@@ -100,10 +106,34 @@ class Qubits:
       [0,1,-1,0]
     ]
     q = Qubits(2)
-    v = Matrix(bells[ix])
-    v = v / my_norm(v)
-    q.v = v
+    q.v = Matrix(bells[ix])
+    q.__normalize()
     return q
+  
+  def __normalize(self):
+    v = self.v
+    v = v / my_norm(v)
+    self.v = v
+
+  def add_qubit(self):
+    m = list(self.v) + [0]*self.size
+    self.v = Matrix(m)
+    self.size = 2*self.size
+    self.length = 1 + self.length
+  
+  def remove_qubit(self):
+    m = list(self.v)
+    newSize = self.size / 2
+    for ix in range(newSize):
+      m[ix] = (m[ix] + m[ix + newSize])
+      m[ix + newSize] = 0
+    m = m[:self.size / 2]
+    self.v = Matrix(m)
+    self.size = self.size / 2
+    self.length = self.length - 1
+    self.__normalize()
+
+
 
   def binary_string(self, number):
     s = "{0:b}".format(number)
@@ -115,6 +145,6 @@ class Qubits:
     s = v
     if type(v) == Integer:
       s = "{0:s}".format(str(v))
-    return "{0:s} |{1:s}>".format(str(float(s)), self.binary_string(m))
+    return "{0:s} |{1:s}>".format(str(s), self.binary_string(m))
 
 
