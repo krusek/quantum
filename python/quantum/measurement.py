@@ -133,7 +133,7 @@ class Measurement:
       (eigenvalue, qubit array): The eigenvalue and qubit array selected based on rnd.
     """
     m = self._d_measure(q, index)
-    if rnd > m[0][1]:
+    if rnd > Abs(m[0][1]*1.0):
       return (m[1][0], m[1][2])
     else:
       return (m[0][0], m[0][2])
