@@ -107,10 +107,10 @@ class Qubits:
     ]
     q = Qubits(2)
     q.v = Matrix(bells[ix])
-    q.__normalize()
+    q._normalize()
     return q
   
-  def __normalize(self):
+  def _normalize(self):
     v = self.v
     v = v / my_norm(v)
     self.v = v
@@ -131,7 +131,7 @@ class Qubits:
     self.v = Matrix(m)
     self.size = self.size / 2
     self.length = self.length - 1
-    self.__normalize()
+    self._normalize()
 
 
 
