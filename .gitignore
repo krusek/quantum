@@ -9,3 +9,5 @@
 *.sage.py
 *.pyc
 tex/.DS_Store
+obj
+bin
