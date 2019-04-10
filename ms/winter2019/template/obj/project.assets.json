@@ -6018,11 +6018,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/korbenrusek/Documents/code/quantum_winter_2019/template/Solution.csproj",
+      "projectUniqueName": "/Users/korbenrusek/Documents/code/quantum/ms/winter2019/template/Solution.csproj",
       "projectName": "Solution",
-      "projectPath": "/Users/korbenrusek/Documents/code/quantum_winter_2019/template/Solution.csproj",
+      "projectPath": "/Users/korbenrusek/Documents/code/quantum/ms/winter2019/template/Solution.csproj",
       "packagesPath": "/Users/korbenrusek/.nuget/packages/",
-      "outputPath": "/Users/korbenrusek/Documents/code/quantum_winter_2019/template/obj/",
+      "outputPath": "/Users/korbenrusek/Documents/code/quantum/ms/winter2019/template/obj/",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
