@@ -69,6 +69,31 @@ class Gates:
     q.v = qo.v + qz.v
     return q
 
+  @classmethod
+  def CH(self, q, controls, index):
+    ones, zeros = self.__ones_zeros(q.length, index)
+    cones, czeros = self.__ones_zeros(q.length, controls[0])
+
+    l = list(q.v)
+    lz = l[:]
+    lo = l[:]
+    for one, zero in zip(ones, zeros):
+      if one not in cones:
+        continue
+      # if zero not in czeros:
+      #   continue
+      lo[zero] = Integer(2)**(-Integer(1)/Integer(2))*lo[one]
+      lo[one] = -lo[zero]
+      lz[zero] = Integer(2)**(-Integer(1)/Integer(2))*lz[zero]
+      lz[one] = lz[zero]
+    qo = Qubits(q.length)
+    qo.v = Matrix(lo)
+    qz = Qubits(q.length)
+    qz.v = Matrix(lz)
+    q.v = qo.v + qz.v
+    q._normalize()
+    return q
+
 
   @classmethod
   def X(self, q, index):
@@ -128,3 +153,9 @@ class Gates:
   def CCNOT(self, q, control1, control2, ix2):
     ones, zeros = self.__ones_zeros(q.length, ix2)
     return self.__swap(q, ones, zeros, controls = [control1, control2])
+  
+  @classmethod
+  def SWAP(self, q, ix1, ix2):
+    self.CNOT(q, ix1, ix2)
+    self.CNOT(q, ix2, ix1)
+    self.CNOT(q, ix1, ix2)
