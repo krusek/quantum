@@ -1,9 +1,13 @@
 from solution import Solution
 from quantum.qubit import Qubits
-from quantum.measurement import Measurement
+from quantum.measurement import *
 from quantum.gates import Gates
 from quantum.helpers import *
 from sympy import *
+from mpmath import *
+
+# This is just a file that I created to play around with 
+# different attempts at solving problems.
 
 def mZZ(q, ix, iy):
   Gates.CNOT(q, iy, ix)
