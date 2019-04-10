@@ -32,8 +32,4 @@ Both are a work in progress as I work through the book.
 
 # ms
 
-This folder contains my solutions to a Microsoft Q# coding competition:
-
-http://codeforces.com/contest/1002
-
-C1 is the only one that I didn't solve, and I haven't updated the code to a valid solution.
+This folder contains my solutions to a few Microsoft Q# coding competitions.
