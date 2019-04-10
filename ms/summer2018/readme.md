@@ -1,0 +1,1 @@
+This folder contains my solutions (or attempts at them) for [Microsoft's Q# coding contest - summer 2018](https://codeforces.com/contest/1002). For a newbie I didn't do so bad. I got 14 out of 15 problems solved.

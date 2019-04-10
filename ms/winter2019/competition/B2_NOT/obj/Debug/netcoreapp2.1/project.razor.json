@@ -1,0 +1,14 @@
+{
+  "ProjectFilePath": "/Users/korbenrusek/Documents/code/quantum_winter_2019/competition/B2_NOT/Solution.csproj",
+  "TargetFramework": "netcoreapp2.1",
+  "TagHelpers": [],
+  "Configuration": {
+    "ConfigurationName": "UnsupportedRazor",
+    "LanguageVersion": "1.0",
+    "Extensions": [
+      {
+        "ExtensionName": "UnsupportedRazorExtension"
+      }
+    ]
+  }
+}
