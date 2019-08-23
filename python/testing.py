@@ -40,3 +40,14 @@ def mZX(q, ix, iy):
   Gates.CNOT(q, iy, ix)
   Gates.H(q, iy)
   print m, q
+
+
+q = Qubits(2)
+Gates.H(q, 0)
+Gates.H(q, 1)
+Gates.CY(q, 1, 0)
+Gates.CZ(q, 0, 1)
+Gates.Z(q, 0)
+Gates.Z(q, 1)
+
+print(q)

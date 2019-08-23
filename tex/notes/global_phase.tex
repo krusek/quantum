@@ -1,0 +1,184 @@
+\documentclass{article}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage[all]{xy}
+\usepackage{ifthen}
+\usepackage{makeidx}
+\usepackage{physics}
+\usepackage{exercise}
+\newcommand{\makeind}{\makeindex } \newcommand{\ind}[1]{ } \newcommand{\printind} {}
+%\usepackage{hyperref} \hypersetup{backref,colorlinks=true} \renewcommand{\ind}[1]{\index{#1}} \renewcommand{\makeind}{\makeindex} \renewcommand{\printind}{\printindex }
+\makeind
+\author{Korben Rusek}
+\title{Quantum Computing}
+\date{7-16-2019}
+\pagestyle{myheadings}
+\markright{Korben Rusek - Global Phase}
+\oddsidemargin 0.1in
+\evensidemargin 0.0in
+\textwidth 6.0in
+\begin{document}
+\maketitle
+\newcommand{\gindex}[2]{|#1\!:\!#2|}
+\newcommand{\lcm}{\textrm{lcm}}
+\newcommand{\irr}{\textrm{irr}}
+\newcommand{\sylp}{$Syl_{p}$}
+\newcommand{\phnt}[1]{$\phantom{1}^{#1}$}
+\newcommand{\gen}[1]{\langle#1\rangle}
+\newcommand{\BN}{\mathbb{N}}
+\newcommand{\BZ}{\mathbb{Z}}
+\newcommand{\BQ}{\mathbb{Q}}
+\newcommand{\BR}{\mathbb{R}}
+\newcommand{\BC}{\mathbb{C}}
+\newcommand{\BF}{\mathbb{F}}
+\newcommand{\CF}{\mathcal{F}}
+\newcommand{\CQ}{\mathcal{Q}}
+\newcommand{\fa}{\mathfrak{a}}
+\newcommand{\fb}{\mathfrak{b}}
+\newcommand{\fp}{\mathfrak{p}}
+\newcommand{\fq}{\mathfrak{q}}
+\newcommand{\fm}{\mathfrak{m}}
+\newcommand{\FN}{\mathfrak{N}}
+\newcommand{\FR}{\mathfrak{R}}
+\newcommand{\set}[1]{\{#1\}}
+\newcommand{\trv}{\set{1}}
+\newcommand{\Aut}{\mathrm{Aut}}
+\newcommand{\End}{\mathrm{End}}
+\newcommand{\Ker}{\mathrm{Ker}}
+\newcommand{\chr}{\mathrm{char}}
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{postulate}{Postulate}[section]
+
+\section{Global Phase}
+
+\setcounter{subsection}{0}
+\subsection{Global Phase}
+
+Let's begin with a definition of global phase. It is a rather simple
+concept. We can basically just say that global phase is multiplying 
+a of qubit by a constant of length 1. It is important to distinguish 
+this from multiplication in a controlled fashion. That is, multiplying 
+qubit $q_0$ by $\alpha$ whenever $q_1$ is in the $\ket1$ state.
+
+In the end we will show that a quantum computer cannot distinguish 
+two qubits that differ by a global phase. That is to say, suppose you 
+have two buckets of qubits. The qubits in the first bucket are all
+the same and the qubits in the second bucket are all the same. Now 
+someone tells you that all the qubits in the second bucket are either
+the same as the first or differ by a global phase. There would be 
+no way of knowing which of the two was the case.
+The implication being that we can safely disregard global phase.
+
+\subsection{Measurement}
+Let's begin by a short discussion of measurement. We begin with
+two qubits $\ket{a}$ and $\ket{b}$ that form a basis. This means 
+that any qubit $\ket{q}$ can be written as a linear combination
+$\ket{q}=a_0\ket{a}+b_0\ket{b}$, with $|a_0|^2+|b_0|^2=1$. Next
+we have a measurement $M$ that for which $\ket{a}$ has eigenvalue 
+$\alpha$ and $\ket{b}$ has eigenvalue $\beta$. This means that
+upon measurement of $\ket{q}$ using $M$, we are given either 
+$(\alpha,\ket{a})$ or $(\beta,\ket{b})$ with probabilities
+$|a_0|^2$ and $|b_0|^2$, respectively. Note that the coefficients 
+on $\ket{a}$ and $\ket{b}$ disappear entirely.
+
+It is worth realizing that the concept of measurement is the 
+\textit{only} way to dig into the inside of a qubit. Furthermore, 
+it is the only way to distinguish between two qubits. This is 
+a fundamental property of quantum physics.
+
+We can make this more precise with a definition.
+
+\begin{definition}[Measurably Distinct]
+  Let $\ket{q_0}$ and $\ket{q_1}$ be two qubits. Let $\ket{a}$
+  and $\ket{b}$ be a basis with eigenvalues $\alpha$ and $\beta$, 
+  respectively. Let $M$ be a measurement that emits $\ket{a}$ 
+  and $\ket{b}$. Finally suppose
+  \begin{eqnarray*}
+    \ket{q_0}&=&a_0\ket{a}+b_0\ket{b}\\
+    \ket{q_1}&=&a_1\ket{a}+b_1\ket{b}.
+  \end{eqnarray*}
+  Then $\ket{q_0}$ and $\ket{q_1}$ are \textit{measureably distinct}
+  if $|a_0|^2\ne|a_1|^2$ or $|b_0|^2\ne|b_1|^2$.
+\end{definition}
+
+If we have understood everything thus far, then our task to show
+that global phase is inconsequential is to show that a global phase
+change will not affect any measurement. That is, if the only way
+for a quantum computer to differentiate two qubits is through 
+measurement then we must show that a global phase has no bearing
+on measurements.
+
+We will start by showing that global phase has no bearing on 
+$Z$ measurement.
+
+\begin{lemma}
+  Global phase has no bearing on $Z$ measurement.\label{lem:phasez}
+  \begin{proof}
+    This is very easy.
+    Let $q=\alpha\ket{0}+\beta\ket{1}$. Now if you measure $q$
+    then you get $\ket{0}$ with probability $|\alpha|^2$ and
+    $\ket{1}$ with probability $|\beta|^2$. We will write that as
+    \[
+      M(q) = 
+      \left\{
+      \begin{matrix}
+        \ket{0}&\quad&p=|\alpha|^2 \\
+        \ket{1}&\quad&p=|\beta|^2
+      \end{matrix}
+      \right.
+    \]
+
+    Let $\gamma\in\BC$ such that $|\gamma|^2=1$. That is,
+    $\gamma q$ differs from $q$ by a global phase. This means
+    that $\gamma g = \gamma\alpha\ket0 + \gamma\beta\ket1$. 
+    In this case measurement will give
+    \[
+      M(\gamma q) = 
+      \left\{
+      \begin{matrix}
+        \ket{0}&\quad&p=|\gamma\alpha|^2=|\alpha|^2 \\
+        \ket{1}&\quad&p=|\gamma\beta|^2=|\beta|^2
+      \end{matrix}
+      \right.
+    \]
+    That is the two qubits are not measurably distinct when
+    we use a $Z$ measurement.
+  \end{proof}
+\end{lemma}
+
+\begin{corollary}
+  Global phase has no bearing on general measurements.\label{cor:phasegen}
+  \begin{proof}
+    Based on the proof of the above lemma it is easy to see how this follows.
+  \end{proof}
+\end{corollary}
+
+\begin{corollary}
+  Global phase has no bearing on measurements even when other 
+  operations are involved.
+  \begin{proof}
+    Let $q$ be a qubit. Let $\gamma\in\BC$ such that $|\gamma|^2=1$.
+    We will show that a chain of operators applied to $q$ is not
+    measurably distinct from the same chain of operators applied to
+    $\gamma q$. Let us start by simplifying the question to a single 
+    operator applied to $q$ and $\gamma q$. We can make this assumption
+    because the product of operators is yet another operator. Let 
+    $N$ be any operator. Let $\psi = Nq$ be the qubit that results
+    from applying $N$ to $q$. Then we have
+    \begin{eqnarray*}
+      N\gamma q &=& \gamma N q \\
+      &=&\gamma\psi.
+    \end{eqnarray*}
+    Now by corollary \ref{cor:phasegen} we know that $\psi$ and 
+    $\gamma\psi$ are not measurably distinct. Hence we have the 
+    desired result.
+  \end{proof}
+\end{corollary}
+
+\end{document}

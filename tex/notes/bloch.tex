@@ -1,0 +1,347 @@
+\documentclass{article}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage[all]{xy}
+\usepackage{ifthen}
+\usepackage{makeidx}
+\usepackage{physics}
+\usepackage{exercise}
+\newcommand{\makeind}{\makeindex } \newcommand{\ind}[1]{ } \newcommand{\printind} {}
+%\usepackage{hyperref} \hypersetup{backref,colorlinks=true} \renewcommand{\ind}[1]{\index{#1}} \renewcommand{\makeind}{\makeindex} \renewcommand{\printind}{\printindex }
+\makeind
+\author{Korben Rusek}
+\title{Quantum Computing}
+\date{7-9-2019}
+\pagestyle{myheadings}
+\markright{Korben Rusek - Bloch Sphere and Pauli Gates}
+\oddsidemargin 0.1in
+\evensidemargin 0.0in
+\textwidth 6.0in
+\begin{document}
+\maketitle
+\newcommand{\gindex}[2]{|#1\!:\!#2|}
+\newcommand{\lcm}{\textrm{lcm}}
+\newcommand{\irr}{\textrm{irr}}
+\newcommand{\sylp}{$Syl_{p}$}
+\newcommand{\phnt}[1]{$\phantom{1}^{#1}$}
+\newcommand{\gen}[1]{\langle#1\rangle}
+\newcommand{\BN}{\mathbb{N}}
+\newcommand{\BZ}{\mathbb{Z}}
+\newcommand{\BQ}{\mathbb{Q}}
+\newcommand{\BR}{\mathbb{R}}
+\newcommand{\BC}{\mathbb{C}}
+\newcommand{\BF}{\mathbb{F}}
+\newcommand{\CF}{\mathcal{F}}
+\newcommand{\CQ}{\mathcal{Q}}
+\newcommand{\fa}{\mathfrak{a}}
+\newcommand{\fb}{\mathfrak{b}}
+\newcommand{\fp}{\mathfrak{p}}
+\newcommand{\fq}{\mathfrak{q}}
+\newcommand{\fm}{\mathfrak{m}}
+\newcommand{\FN}{\mathfrak{N}}
+\newcommand{\FR}{\mathfrak{R}}
+\newcommand{\set}[1]{\{#1\}}
+\newcommand{\trv}{\set{1}}
+\newcommand{\Aut}{\mathrm{Aut}}
+\newcommand{\End}{\mathrm{End}}
+\newcommand{\Ker}{\mathrm{Ker}}
+\newcommand{\chr}{\mathrm{char}}
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{postulate}{Postulate}[section]
+
+\section{Linear Algebra}
+
+\setcounter{subsection}{2}
+\subsection{The Pauli matrices}
+
+To understand the relationship between the Bloch Sphere and 
+the Pauli gates there are a few things we need to understand
+about the Pauli gates in particular. Long story short, we will
+see that the Pauli gates are 180 degree rotations of the 
+Bloch sphere centered at each of the $x, y,$ and $z$-axes.
+
+The first thing we want to understand is the eigenvectors of
+each of the Pauli gates. It is well known that the Pauli 
+operators have eigenvalues $1$ and $-1$. We will call the
+basis vector with eigenvalue $1$ the positive eigenvector 
+and the eigevector with eigenvalue $-1$ we will call the 
+negative eigenvector.
+
+$Z$ has positive and negative eigenvectors, $\ket{0}$ and
+$\ket{1}$, respectively. $X$ has positive and negative 
+eigenvectors, $\ket{+}$ and $\ket{-}$, respectively. Lastly, 
+$Y$ has positive and negative eigenvectors,
+$\ket{i}=\frac{\ket0 + i\ket1}{\sqrt2}$ and
+$\ket{-i}=\frac{\ket0 - i\ket1}{\sqrt2}$, respectively.
+
+
+\[
+  \sigma_0=I
+\]
+
+\[
+  \sigma_1=\sigma_x=X=
+  \begin{bmatrix}
+    0&1 \\
+    1&0
+  \end{bmatrix}
+\]
+
+\[
+  \sigma_2=\sigma_y=Y=
+  \begin{bmatrix}
+    0&-i \\
+    i&0
+  \end{bmatrix}
+\]
+
+\[
+  \sigma_3=\sigma_z=Z=
+  \begin{bmatrix}
+    1&0 \\
+    0&-1
+  \end{bmatrix}
+\]
+
+\setcounter{subsection}{5}
+\subsection{Adjoints and Hermitian operators}
+
+\begin{definition}[Hermitian]
+  An operator $A$ is Hermitian if $A=A^\dagger$.
+\end{definition}
+
+\begin{theorem}
+  Two eigenvectors of a Hermitian operator with different eigenvalues are orthogonal.
+\end{theorem}
+
+\begin{definition}
+  A matrix is normal if $AA^\dagger=A^\dagger A$.
+\end{definition}
+
+\begin{theorem}
+  A normal matrix is Hermitian iff it has real eigenvalues.
+\end{theorem}
+
+\begin{definition}[Unitary]
+  A matrix $U$ is unitary if $U^\dagger U=I$.
+\end{definition}
+
+\begin{definition}[Positive and Positive definite]
+  A positive operator $A$ is defined to be an operator
+  such that for any vector $\ket{v}$, $(\ket{v},A\ket{v})$
+  is a real, non-negative number. If $(\ket{v}, A\ket{v})>0$
+  then $A$ is positive definite.
+\end{definition}
+
+\subsection{Tensor products}
+\subsection{Operator functions}
+\subsection{The commutator and anti-commutator}
+\begin{definition}[Commutator]
+  The \textit{commutator} between two operators $A$ and $B$ is defined to be
+  \[[A,B]=AB-BA.\]
+  If $[A,B]=0$ then we say that $A$ commutes with $B$.
+\end{definition}
+\begin{definition}[Anti-commutator]
+  The \textit{anti-commutator} between to operators $A$ and $B$ is defined to be
+  \[\{A,B\}=AB+BA.\]
+  If $\{A,B\}=0$ then we say that $A$ anti-commutes with $B$.
+\end{definition}
+
+\begin{definition}[Simultaneously Diagonalizable]
+  Hermitian operators $A$ and $B$ are said to be \textit{simultaneously diagonalizable} if there exist some orthonormal set of vectors $\bra{i}$ such that $A=\sum a_i\ket{i}\bra{i}$ and $B=\sum b_i\ket{i}\bra{i}$.
+\end{definition}
+
+\begin{theorem}[Simultaneous diagonalization theorem]
+  Suppose $A$ and $B$ are Hermitian operators. Then $[A,B]=0$ iff $A$ and $B$ are simultaneously diagonalizable.
+\end{theorem}
+
+Here are some facts
+
+\[
+  [X,Y]=2iZ; [Y,Z]=2iX; [Z,X]=2iY
+\]
+\[
+  [A,B]^\dagger = [B^\dagger, A^\dagger]
+\]
+
+\begin{theorem}
+  Suppose $A$ and $B$ are Hermitian. Then $i[A,B]$ is also Hermitian.
+\end{theorem}
+\subsection{The polar and singular value decompositions}
+
+\begin{theorem}[Polar decompositions]
+  Let $A$ be a linear operator on a vector space $V$. Then
+  there exists unitary $U$ and positive operators $J$ and $K$
+  such that
+  \[A=UJ=KU,\]
+  where the unique positive operators $J$ and $K$ satisfying
+  these equations are $J=\sqrt{A^\dagger A}$ and $K=\sqrt{AA^\dagger}$.
+  Moreover, if $A$ is invertible then $U$ is unique.
+\end{theorem}
+
+\begin{theorem}[Singular value decomposition]
+  Let $A$ be a square matrix. Then there exist unitary matrices
+  $U$ and $V$, and a diagonal matrix $D$ with non-negative entries
+  such that
+  \[A=UDV.\]
+  The diagonal elements of $D$ are known as the
+  \textit{singular values} of $A$.
+\end{theorem}
+
+\section{The postulates of quantum mechanics}
+\subsection{State Space}
+
+
+\begin{postulate}
+  Associated to any isolated physical system is a complex vector space with inner product (that is, a Hilbert space) known as the \textit{state space} of the system. The system is completely described by its \textit{state vector}, which is a unit vector in the system's state space.
+\end{postulate}
+
+\subsection{Evolution}
+
+\begin{postulate}
+  The evolution of a \textit{closed} quantum system is described by a \textit{unitary transformation}. That is, the state $\ket{\phi}$ of the system at time $t_1$ is related to the state $\ket{\phi'}$ of the system at time $t_2$ by a unitary operator $U$ which depends only on the times $t_1$ and $t_2$,
+  \[\ket{\phi'}=U\ket{\phi}.\]
+\end{postulate}
+
+The $X$ Pauli matrix is often referred to as the not gate or the \textit{bit flip} gate. It will send $\ket0$ to $\ket1$ and $\ket1$ to $\ket0$.
+
+The $Z$ Pauli matrix is called the \textit{phase flip} gate. It leaves $\ket0$ invariant but sends $\ket1$ to $-\ket1$.
+
+\begin{definition}[Hadamard Gate]
+  An interesting unitary operator is the \textit{Hadamard gate}. This had the matrix representation
+  \[H=\frac{1}{\sqrt2}
+  \begin{bmatrix}
+    1&1 \\
+    1&-1
+  \end{bmatrix}\]
+\end{definition}
+
+\setcounter{postulate}{1}
+
+\begin{postulate}[Revised]
+  The time evolution of the state of a closed quantum system is described by the \textit{Schr\"odinger equation},
+  \[i\hbar\frac{d\ket\phi}{dt}=H\ket\phi.\]
+  In this equation, $\hbar$ is a physical constant known as \textit{Planck's constant} whose value must be experimentally determined. The exact value is not important to us. In practice, it is common to absorb the factor $\hbar$ into $H$, effectively setting $\hbar=1$. $H$ is a fixed Hermitian operator known as the \textit{Hamiltonian} of the closed system.
+\end{postulate}
+
+\subsection{Quantum measurement}
+
+We introduce Postulate 3 in order to describe the effects that measurement have on a system.
+
+\begin{postulate}
+  Quantum measurements are described by a collection $\{M_m\}$ of \textit{measurement operators}. These are operators acing on the state space of the system being measured. The index $m$ refers to the measurement outcomes that may occur in the experiment. If the state of the quantum system is $\ket\phi$ immediately before the measurement then the probability that result $m$ occurs is given by
+  \[p(m)=\bra{\phi}M_m^\dagger M_m\ket{\phi},\]
+  and the state of the system after the measurement is
+  \[\frac{M_m\ket{\phi}}{\sqrt{\bra\phi M_m^\dagger M_m\ket\phi}}.\]
+  The measurement operators satisfy the \textit{completeness equation},
+  \[\sum_m M_m^\dagger M_m = I.\]
+\end{postulate}
+
+The completeness equation expresses the fact that probabilities sum to one:
+\[I=\sum p(m)=\sum \bra\phi M^\dagger_m M_m\ket\phi.\]
+
+
+We can use this understanding to illustrate measurement of a single qubit in the computational basis. We have two measurement operators, $M_0=\ket{0}\bra{0}$ and $M_1=\ket{1}\bra{1}$. Of course each is Hermitian as we have real eigenvalues on computational basis elements. We see that $M_0^\dagger M_0=M_0^2=M_0$ and similarly $M_1^\dagger M_1=M_1^2=M_1$. Thus the completeness relation is obeyed, $I=M_0^\dagger M_0+M_1^\dagger M_1$. Then the probability of obtaining the measurement outcome $0$ is
+\[
+  p(0)=\bra{\psi}M_0^\dagger M_0\ket{\psi}
+  =\bra{\psi}M_0\ket{\psi}=|a|^2.
+\]
+Similarly $p(1)=|b|^2$. The state after measurement is therefore
+\begin{eqnarray*}
+  \frac{M_0\ket\psi}{|a|}&=&\frac{a}{|a|}\ket0\\
+  \frac{M_1\ket\psi}{|b|}&=&\frac{b}{|b|}\ket1.\\
+\end{eqnarray*}
+Later we will see that modulus one multipliers like $\frac{a}{|a|}$ can effectively be ignored so we can consider the post-measurement states as $\ket0$ and $\ket1$.
+
+\subsection{Distinguishing quantum states}
+
+\subsection{Projective measurements}
+
+\begin{definition}[Projective measurements]
+  A projectiv measurement is described by an \textit{observable}, $M$, a Hermitian operator on the state space of the system being observed. The observable has a spectral decomposition,
+  \[M=\sum_m mP_m,\]
+  where $P_m$ is the projector onto the eigenspace of $M$ is eigenvalue $m$. The possible outcomes of the easurement correspond to the eigenvalues, $m$ of the observable. Upon measuring the state $\ket\psi$, the probability of getting result $m$ is given by
+  \[p(m)=\bra\psi P_m\ket\psi.\]
+  Given that the outcome of $m$ occursed, the state of the quantum system immediately after the measurement is
+  \[\frac{P_m\ket\psi}{\sqrt{p(m)}}.\]
+\end{definition}
+
+Projective measurements can be viewed as a special case of Postulate 3. We have the added restriction that the measurement operators $M_m$ are orthoganal projectors. That is $M_m$ are Hermitian and $M_m M_{m'}=\delta_{m,m'}M_m$ and $\sum M_m^\dagger M_m=I$.
+
+Projective measurements have many nice properties. For example, the average value of the measurment is
+
+\begin{eqnarray*}
+  E(M)&=&\sum_m mp(m) \\
+  &=&\sum_m m\bra{\psi}P_m\ket{\psi} \\
+  &=&\bra{\psi}\left(\sum_m mP_m\right)\ket\psi\\
+  &=&\bra\psi M\ket\psi.
+\end{eqnarray*}
+
+The average value of an observable $M$ is often written $\langle M\rangle =\bra\psi M\ket\psi$. This gives us a formula for standard deviation as
+\begin{eqnarray*}
+  [\Delta(M)]^2&=&\langle(M-\langle M\rangle)^2\rangle \\
+  &=&\langle M^2\rangle-\langle M\rangle^2.
+\end{eqnarray*}
+
+\begin{theorem}[Heisenberg uncertainty principle, Box 2.4, page 89]
+  Suppose $C$ and $D$ are two observables. Then we have the Heisenberg uncertainty principle,
+  \[\Delta(C)\Delta(D)\ge \frac{|\bra\psi [C,D]\ket\psi|}{2}.\]
+\end{theorem}
+
+A very common misconception about the uncertainty principle is that measuring an observable $C$ to some 'accuracy' $\Delta(C)$ causes the value of $D$ to be 'disturbed' by an amount $\Delta(D)$ in such a way that some sort of inequality like the above inequality is satisified.
+
+The correct interpretation is that if we prepare a large number of quantum systems in identical states, $\ket\psi$, and then perform measurements of $C$ on some of those systems and of $D$ on others, the the standard deviation $\Delta(C)$ of the $C$ results times the standard deviation $\Delta(D)$ of the $D$ results will satisfy the above inequality.
+
+\subsection{POVM measurements}
+
+\begin{definition}[POVM elements]
+   Suppose a measurement is described by the measurement operators $M_m$. The probability of a measurement $m$ is given by $p(m)=\bra\psi M_m^\dagger M_m\ket\psi$. Then we define the elements $E_m=M_m^\dagger M_m$. From Postulate 3 and linear algebra we see that $E_m$ are positive operators and $\sum_m E_m=I$ and $p(m)=\bra\psi E_m\ket\psi$. This set of operators $E_m$ is sufficient to determine the probabilities of different measurement outcomes. The individual operators $E_m$ are known as the \textit{POVM elements} associated with the measurement. The complete set $\{E_m\}$ is known as a \textit{POVM}.
+\end{definition}
+
+A simple example of a POVM is a projective measurement, where the elements are disjoint projections and $\sum P_m=I$. In this case, and only this case the POVM elements are the same as the measurement operators themselves.
+
+We defined a POVM in terms of an preexisting set of measurement operators. A worthwhile observation follows. Suppose that $\{E_m\}$ is some arbitrary set of positive operators such that $\sum_m E_m=I$. Then there is a set of measurement operators $M_m$ defining a measurement described by the POVM $\{E_m\}$. We can define $M_m=\sqrt{E_m}$. We see that $\sum_m M_m^\dagger M_m=\sum_mE_m = I$, and therefore the set $\{M_m\}$ describes a measurement with POVM $\{E_m\}$. For this reason the following definition  of POVM is often used:
+
+\begin{definition}[POVM]
+  We define a \textit{POVM} to be any set of operators $\{E_m\}$ such that
+  \begin{itemize}
+    \item[a] each operator $E_m$ is positive
+    \item[b] the completeness relation $\sum_m E_m=I$ is obeyed.
+  \end{itemize}
+  As in other places, the completeness relation expresses the fact that probabilities sum to one. We reiterate the fact that
+  \[p(m)=\bra\psi E_m\ket\psi.\]
+\end{definition}
+
+This gives rise to a worthwhile example regarding distinguising quantum states that are not orthognonal. Suppose Alice gives Bob a qubit prepared in either $\ket{\psi_1}=\ket0$ or $\ket{\psi_2}=\ket+$. Since these two states are not orthogonal it is not possible to distinguish them with without error. However it is possible to perform a measurement that sometimes is able to correctly identify the states, but never makes an error. (This is in some ways related to an BPP style algorithm.) Consider the POVM containing three elements:
+\begin{eqnarray*}
+  E_1&=&\frac{\sqrt2}{1+\sqrt2}\ket1\bra1 \\
+  E_2&=&\frac{\sqrt2}{1+\sqrt2}\ket{-}\bra{-} \\
+  E_3&=&I-E_1-E_2.
+\end{eqnarray*}
+It is straight forward to verify that the completeness relation is satisfied and that we have positive operators. On top of that we have
+
+\begin{eqnarray*}
+  \bra{\psi_1}E_1\ket{\psi_1}&=&\bra0E_1\ket0=0\\
+  \bra{\psi_1}E_2\ket{\psi_1}&=&\bra0E_2\ket0>0\\
+  \bra{\psi_2}E_1\ket{\psi_2}&=&\bra+E_1\ket+>0\\
+  \bra{\psi_2}E_2\ket{\psi_2}&=&\bra+E_2\ket+=0.
+\end{eqnarray*}
+
+Therefore, if Bob gets the measurement outcome $E_1$ we know he was given $\bar+$ whereas if Bob gets the outcome $E_2$ we know he was given $\bar0$. On the other had if Bob was given the outcome $E_3$ then we do not know what state he was given. Therefore though Bob cannot perfectly distinguish the two states, but he can do better than nothing.
+
+We can also see problems C1 and C2 from the MS quantum computation for further examples.
+
+\subsection{Phase}
+% page 93
+\subsection{Composite systems}
+
+Postulate 4 describes how to mathematicaly describe the composition of smaller systems.
+\begin{postulate}
+  The state space of a composite physical system is the tensor product of the component physical systems. Moreover, if we have systems numbered $1$ through $n$ and system $i$ is prepared in the state $\ket{\psi_i}$, then the joint state of the total system is $\ket{\psi_1}\otimes\cdots\otimes\ket{\psi_n}$.
+\end{postulate}
+
+\end{document}

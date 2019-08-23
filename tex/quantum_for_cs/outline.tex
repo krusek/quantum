@@ -1,0 +1,103 @@
+\documentclass{article}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage[all]{xy}
+\usepackage{ifthen}
+\usepackage{makeidx}
+\usepackage{physics}
+\usepackage{exercise}
+\newcommand{\makeind}{\makeindex } \newcommand{\ind}[1]{ } \newcommand{\printind} {}
+%\usepackage{hyperref} \hypersetup{backref,colorlinks=true} \renewcommand{\ind}[1]{\index{#1}} \renewcommand{\makeind}{\makeindex} \renewcommand{\printind}{\printindex }
+\makeind
+\author{Korben Rusek}
+\title{My Quantum Model}
+\date{7-22-2019}
+\pagestyle{myheadings}
+\markright{Korben Rusek - Outline}
+\oddsidemargin 0.1in
+\evensidemargin 0.0in
+\textwidth 6.0in
+\begin{document}
+\maketitle
+\newcommand{\gindex}[2]{|#1\!:\!#2|}
+\newcommand{\lcm}{\textrm{lcm}}
+\newcommand{\irr}{\textrm{irr}}
+\newcommand{\sylp}{$Syl_{p}$}
+\newcommand{\phnt}[1]{$\phantom{1}^{#1}$}
+\newcommand{\gen}[1]{\langle#1\rangle}
+\newcommand{\BN}{\mathbb{N}}
+\newcommand{\BZ}{\mathbb{Z}}
+\newcommand{\BQ}{\mathbb{Q}}
+\newcommand{\BR}{\mathbb{R}}
+\newcommand{\BC}{\mathbb{C}}
+\newcommand{\BF}{\mathbb{F}}
+\newcommand{\CF}{\mathcal{F}}
+\newcommand{\CQ}{\mathcal{Q}}
+\newcommand{\fa}{\mathfrak{a}}
+\newcommand{\fb}{\mathfrak{b}}
+\newcommand{\fp}{\mathfrak{p}}
+\newcommand{\fq}{\mathfrak{q}}
+\newcommand{\fm}{\mathfrak{m}}
+\newcommand{\FN}{\mathfrak{N}}
+\newcommand{\FR}{\mathfrak{R}}
+\newcommand{\set}[1]{\{#1\}}
+\newcommand{\trv}{\set{1}}
+\newcommand{\Aut}{\mathrm{Aut}}
+\newcommand{\End}{\mathrm{End}}
+\newcommand{\Ker}{\mathrm{Ker}}
+\newcommand{\chr}{\mathrm{char}}
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{postulate}{Postulate}[section]
+
+\section{Classical Computation with Quantum Rules}
+
+\subsection{Classic Computation with Quantum Notation}
+
+I assume that readers are familiar with "classical" computation. Nevertheless,
+we will begin with a brief introduction to some classical computation. The 
+difference is that we will approach it with the rules of quantum compuation.
+
+At its simplest form classical computation has a collection of bits and a few
+operations. We work with a collection of $n$ bits, where each bit only has
+two possible values, $0$ or $1$. To follow quantum computing notation we will
+write our $n$ bits as:
+\[b=\ket{b_0b_1\cdots b_n}, b_i\in\{0,1\}.\]
+
+For example, suppose we have $4$ bits and we want to represent the number $2$. 
+This would look like $\ket{0010}$. There really is nothing magical here, we are
+just writing our normal bitstring but with $\ket{\cdot}$ surrounding the bits.
+
+To make things a little easier we will introduce some notation. Let 
+$b$ be a bitstring. Then we will define $b_i$ to be the bit at the $i^{th}$ 
+location. That is, if $b=\ket{0110}$ then $b_0=\ket{0}$, $b_1=\ket{1}$, 
+$b_2=\ket{1}$, and $b_3=\ket{0}$. Notice that even though $b_i$ is a single 
+bit we can also consider it to be a bitstring.
+
+\subsection{$X$ as a $\mathrm{NOT}$ gate}
+
+Now bits really are not very useful by themselves. We need to introduce some
+operations to get any utility out of them. In classical computation the 
+simplest of gates is the $\mathrm{NOT}$ gate. That is, a gate that simply
+flips a bit from $\ket{0}$ to $\ket{1}$ or from $\ket{1}$ to $\ket{0}$. To
+follow quantum computing convention we will call that operator $X$ instead 
+of $\mathrm{NOT}$. 
+
+\subsection{$\mathrm{CNOT}$ and controlled gates}
+
+So far as have bits and we have the ability to flip the bits. But as yet,
+we have no way to make changes to bits that depend on other bits. For that
+we will introduce the "controlled" $X$ gate ($CX$ for short).
+
+There are several ways to look at $CX$.
+
+\section{Borrowing Qubits}
+\subsection{Why $\mathrm{AND}$ and $\mathrm{OR}$ don't work}
+\subsection{Borrowing Qubits}
+
+
+
+\end{document}
