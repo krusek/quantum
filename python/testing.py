@@ -42,3 +42,12 @@ def mZX(q, ix, iy):
   print(m, q)
 
 
+q = Qubits(2)
+Gates.H(q, 0)
+Gates.X(q, 1)
+m = Measurement.d_measurement(q, [PauliX(), PauliX()], [0, 1])
+print(m)
+
+q = Qubits(2)
+m = Measurement.measurement(q, [PauliX(), PauliX()], [0, 1])
+print(m)

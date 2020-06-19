@@ -43,20 +43,20 @@ class Measurement:
   """
 
   @classmethod
-  def _d_measure(self, q, index):
+  def d_measure(self, q, index):
     """
     This is an internal helper method used for measurement. It is provided as public to aid in
     understanding how measurement works in quantum computation. This method returns a list
     containing tuples of eigenvalue, probability, and qubits. For example, suppose that
     q = 1/sqrt(3)|00> + 1/sqrt(3)|10> + 1/sqrt(3)|11>
 
-    Then _d_measure(q, 0) will return
+    Then d_measure(q, 0) will return
     [(1, 1/3, |00>), (-1, 2/3, 1/sqrt(2)|10> + 1/sqrt(2)|11>)]
 
     Returns:
       [(e1, p1, q1), (e2, p2, q2)]: A list of tuples eigenvalues, probabilities, and qubits.
     """
-    return self._d_measurement(q, [PauliZ()], [index])
+    return self.d_measurement(q, [PauliZ()], [index])
     qcount = q.length
     zeros = filter(lambda y: flag_value(y, qcount, index) == False, range(q.size))
     ones = filter(lambda y: flag_value(y, qcount, index) == True, range(q.size))
@@ -132,7 +132,7 @@ class Measurement:
     Returns
       (eigenvalue, qubit array): The eigenvalue and qubit array selected based on rnd.
     """
-    m = self._d_measure(q, index)
+    m = self.d_measure(q, index)
     if rnd > Abs(m[0][1]*1.0):
       return (m[1][0], m[1][2])
     else:
@@ -140,14 +140,14 @@ class Measurement:
   
   @classmethod
   def r_measurement(self, q, paulis, idx, rnd):
-    m = self._d_measurement(q, paulis, idx)
+    m = self.d_measurement(q, paulis, idx)
     if rnd > m[0][1]:
       return (m[1][0], m[1][2])
     else:
       return (m[0][0], m[0][2])
 
   @classmethod
-  def _d_measurement(self, q, paulis, idx):
+  def d_measurement(self, q, paulis, idx):
     qm = q.clone()
     for (p, ix) in zip(paulis, idx):
       p.gate(qm, ix)
