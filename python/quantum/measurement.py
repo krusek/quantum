@@ -1,8 +1,8 @@
 from sympy import *
 import random
-from qubit import Qubits
-from gates import Gates
-from helpers import *
+from quantum.qubit import Qubits
+from quantum.gates import Gates
+from quantum.helpers import *
 
 class Pauli:
   def gate(self, q, index):
@@ -58,8 +58,8 @@ class Measurement:
     """
     return self._d_measurement(q, [PauliZ()], [index])
     qcount = q.length
-    zeros = filter(lambda y: flag_value(y, qcount, index) == False, xrange(q.size))
-    ones = filter(lambda y: flag_value(y, qcount, index) == True, xrange(q.size))
+    zeros = filter(lambda y: flag_value(y, qcount, index) == False, range(q.size))
+    ones = filter(lambda y: flag_value(y, qcount, index) == True, range(q.size))
     l = list(q.v)
     lz = l[:]
     lo = l[:]
@@ -70,8 +70,8 @@ class Measurement:
     no = list_norm_squared(lo)
     dz = sqrt(nz) if nz != 0 else Integer(1)
     do = sqrt(no) if no != 0 else Integer(1)
-    lz = map(lambda x: x / dz, lz)
-    lo = map(lambda x: x / do, lo)
+    lz = [*map(lambda x: x / dz, lz)]
+    lo = [*map(lambda x: x / do, lo)]
     qz = Qubits(qcount)
     qo = Qubits(qcount)
     qz.v = Matrix(lz)
@@ -153,8 +153,8 @@ class Measurement:
       p.gate(qm, ix)
     lm = list(qm.v)
     ll = list(q.v)
-    lz = map(lambda ix: (lm[ix] + ll[ix])/Integer(2), range(len(lm)))
-    lo = map(lambda ix: (-lm[ix] + ll[ix])/Integer(2), range(len(lm)))
+    lz = [*map(lambda ix: (lm[ix] + ll[ix])/Integer(2), range(len(lm)))]
+    lo = [*map(lambda ix: (-lm[ix] + ll[ix])/Integer(2), range(len(lm)))]
     vz = Matrix(lz)
     vo = Matrix(lo)
     nz = my_norm(vz)**2
@@ -178,8 +178,8 @@ class Measurement:
     Gates.X(qm, iy)
     lm = list(qm.v)
     ll = list(q.v)
-    lz = map(lambda ix: (lm[ix] + ll[ix])/2, range(len(lm)))
-    lo = map(lambda ix: (lm[ix] - ll[ix])/2, range(len(lm)))
+    lz = [*map(lambda ix: (lm[ix] + ll[ix])/2, range(len(lm)))]
+    lo = [*map(lambda ix: (lm[ix] - ll[ix])/2, range(len(lm)))]
     vz = Matrix(lz)
     vo = Matrix(lo)
     nz = my_norm(vz)**2

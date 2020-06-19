@@ -25,10 +25,10 @@ class Turing:
       index = index + offset
       line = self.find_step((state, self.tape[index]), program)
     if state == HALT_STATE:
-      print "completed"
+      print("completed")
       return self.trim_empty(self.tape)
     else:
-      print "ERROR couldn't find", (state, self.tape[index])
+      print("ERROR couldn't find", (state, self.tape[index]))
       return None
 
   def find_step(self, state, program):
@@ -40,7 +40,7 @@ class Turing:
   def trim_empty(self, tape):
     length = len(tape)
     index = length-1
-    for ix in xrange(length-1, 0, -1):
+    for ix in range(length-1, 0, -1):
       if tape[ix] != EMPTY_DATA:
         index = ix
         break
@@ -57,7 +57,7 @@ def test_program():
     [(3, EMPTY_DATA), (HALT_STATE, 1, 0)],
   ]
   t = Turing([1,2,3], [1, 0], 50)
-  print t.run(lines, [1,0,1,1,0,1])
+  print(t.run(lines, [1,0,1,1,0,1]))
 
 def turing_reverse(input):
   """
@@ -136,8 +136,8 @@ def turing_reverse(input):
   reversed = input[:]
   reversed.reverse()
   assert reversed == output
-  print "input", input
-  print "output", output
+  print("input", input)
+  print("output", output)
 
 def test_reverse():
   input = [1,1,0,1,1,0,0,1]

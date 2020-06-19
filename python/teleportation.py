@@ -17,11 +17,11 @@ class TeleportationTest(Solution):
     Gates.H(q, alice)
     Gates.CNOT(q, alice, bob)
     # entangle message with alice
-    print Gates.CNOT(q, message, alice)
-    print Gates.H(q, message)
+    print(Gates.CNOT(q, message, alice))
+    print(Gates.H(q, message))
     am = Measurement.measure(q, alice)
     mm = Measurement.measure(q, message)
-    print am == -1, mm == -1, q
+    print(am == -1, mm == -1, q)
 
 
 if __name__ == '__main__':

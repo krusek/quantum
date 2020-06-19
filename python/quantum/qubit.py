@@ -1,6 +1,6 @@
 import random
 import math
-from helpers import *
+from quantum.helpers import *
 from sympy import *
 
 class Qubits:
@@ -24,7 +24,7 @@ class Qubits:
     """
     self.length = length
     self.size = 2**length
-    ns = map(lambda x: "{0:d}".format(x+1), xrange(self.size))
+    ns = map(lambda x: "{0:d}".format(x+1), range(self.size))
     self.group = "(" + ",".join(ns) + ")"
     self.reset()
   
@@ -34,7 +34,7 @@ class Qubits:
   
   @classmethod
   def random_qubits(self, length):
-    a = map(lambda x: (x, random.uniform(0, 1)), xrange(2**length))
+    a = map(lambda x: (x, random.uniform(0, 1)), range(2**length))
     return Qubits.create(length, a)
 
   def clone(self):
@@ -60,7 +60,7 @@ class Qubits:
 
   def monomials(self):
     en = self.list()
-    return filter(lambda x: x[1] != 0, en)
+    return list(filter(lambda x: x[1] != 0, en))
 
   def list(self):
     return list(enumerate(list(self.v)))
@@ -81,7 +81,7 @@ class Qubits:
     """"Returns qubits of the form |00...1>+|00...010>+...+|100...0>"""
     q = Qubits(length)
     l = [Integer(0)]*q.size
-    for ix in xrange(length):
+    for ix in range(length):
       number = Integer(2)**Integer(ix)
       l[number] = (Integer(1)/length)**(half)
     q.v = Matrix(l)
@@ -91,7 +91,7 @@ class Qubits:
   def wl(self, length, mx):
     q = Qubits(length)
     l = [Integer(0)]*q.size
-    for ix in xrange(min(mx, length)):
+    for ix in range(min(mx, length)):
       number = Integer(2)**Integer(ix)
       l[number] = two_negative_half_pow
     q.v = Matrix(l)
@@ -123,13 +123,13 @@ class Qubits:
   
   def remove_qubit(self):
     m = list(self.v)
-    newSize = self.size / 2
+    newSize = self.size // 2
     for ix in range(newSize):
       m[ix] = (m[ix] + m[ix + newSize])
       m[ix + newSize] = 0
-    m = m[:self.size / 2]
+    m = m[:self.size // 2]
     self.v = Matrix(m)
-    self.size = self.size / 2
+    self.size = self.size // 2
     self.length = self.length - 1
     self._normalize()
 

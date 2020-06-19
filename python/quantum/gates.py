@@ -1,5 +1,6 @@
-from qubit import Qubits
-from helpers import *
+from quantum.qubit import Qubits
+from quantum.helpers import *
+from functools import reduce
 
 class Gates:
   """
@@ -17,7 +18,7 @@ class Gates:
     l = list(q.v)
     qcount = q.length
     for one, zero in zip(ones, zeros):
-      flags = map(lambda control: flag_value(one, qcount, control) and flag_value(zero, qcount, control), controls)
+      flags = [*map(lambda control: flag_value(one, qcount, control) and flag_value(zero, qcount, control), controls)]
       flag = reduce(lambda f, x: f and x, flags, True)
       if len(flags) > 0 and flag == False:
         continue
@@ -30,8 +31,9 @@ class Gates:
   @classmethod
   def __ones_zeros(self, qcount, index):
     size = 2**qcount
-    zeros = filter(lambda y: flag_value(y, qcount, index) == False, xrange(size))
-    ones = map(lambda y: invert_index(y, qcount, index), zeros)
+    print(F"size: {size}")
+    zeros = list(filter(lambda y: flag_value(y, qcount, index) == False, range(size)))
+    ones = [*map(lambda y: invert_index(y, qcount, index), zeros)]
     return (ones, zeros)
 
   @classmethod
@@ -98,6 +100,7 @@ class Gates:
   @classmethod
   def X(self, q, index):
     ones, zeros = self.__ones_zeros(q.length, index)
+    print(F"ones: {list(ones)}, zeros: {list(zeros)}")
     return self.__swap(q, ones, zeros)
 
   @classmethod

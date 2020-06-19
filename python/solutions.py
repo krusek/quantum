@@ -63,18 +63,16 @@ class GHZSolution(Solution):
   def ghz_state(self, q):
     l = q.length
     Gates.H(q, 0)
-    for ix in xrange(1, l):
+    for ix in range(1, l):
       Gates.CNOT(q, 0, ix)
 
   def test_ghz_states(self):
     print("testing ghz states")
     total = 5
-    expectations = map(lambda x: [(0,1), (2**x-1, 1)], xrange(1, total+1))
-    for exp, ix in zip(expectations, xrange(1, total + 1)):
+    expectations = [*map(lambda x: [(0,1), (2**x-1, 1)], range(1, total+1))]
+    for exp, ix in zip(expectations, range(1, total + 1)):
       q = Qubits(ix)
       self.ghz_state(q)
-      print q
-      print exp
       self.assert_signs(q, exp)
     print("ghz states equal")
 
@@ -91,10 +89,10 @@ class SolutionA1(Solution):
 
   def test_superposition(self):
     for ix in range(1, 5):
-      print "superposition for {0:d}".format(ix)
+      print("superposition for {0:d}".format(ix))
       qs = Qubits(ix)
       self.generate_superposition(qs)
-      print qs
+      print(qs)
       self.assert_qubits(qs)
 
 class SolutionA2(Solution):
@@ -188,9 +186,9 @@ class SolutionB2(Solution):
         return
       l = l - 1
 
-    for ix in xrange(1, l):
+    for ix in range(1, l):
       Gates.CNOT(q, ix, 0)
-    for ix in xrange(1, l):
+    for ix in range(1, l):
       Gates.CNOT(q, 0, ix)
     # if l % 2 == 1:
     #   Gates.H(q, 0)
@@ -272,23 +270,23 @@ class SolutionB4(Solution):
 
 class SolutionC1(Solution):
   def test_null(self):
-    print "I don't know for sure what this algorithm does."
+    print("I don't know for sure what this algorithm does.")
 
 class SolutionC2(Solution):
   def test_null(self):
-    print "I don't know for sure what this algorithm does."
+    print("I don't know for sure what this algorithm does.")
 
 class SolutionD1(Solution):
   def test_null(self):
-    print "I don't know for sure what this algorithm does."
+    print("I don't know for sure what this algorithm does.")
 
 class SolutionD2(Solution):
   def test_null(self):
-    print "I don't know for sure what this algorithm does."
+    print("I don't know for sure what this algorithm does.")
 
 class SolutionD3(Solution):
   def test_null(self):
-    print "I don't know for sure what this algorithm does."
+    print("I don't know for sure what this algorithm does.")
 
 class OracleE1:
   def __init__(self, bits):
@@ -308,13 +306,13 @@ class SolutionE1(Solution):
   def check_bva(self, n, oracle):
     q = Qubits(n+1)
     Gates.X(q, n)
-    for ix in xrange(n+1):
+    for ix in range(n+1):
       Gates.H(q, ix)
     oracle(q)
-    for ix in xrange(n):
+    for ix in range(n):
       Gates.H(q, ix)
     r = [True]*n
-    for ix in xrange(n):
+    for ix in range(n):
       m = Measurement.measure(q, ix)
       if m == -1:
         Gates.X(q, ix)
@@ -384,9 +382,9 @@ class SolutionE(Solution):
     return i + 2*ii
 
   def test_check_bell(self):
-    for ix in xrange(4):
+    for ix in range(4):
       q = Qubits.bell(ix)
-      assert self.check_bell(q) == ix, "incorrect for {0:d}".format(ix)
+      assert self.check_bell(q) == ix, F"incorrect for {ix}"
 
 class QubitsAddRemove(Solution):
   def test_add_remove(self):

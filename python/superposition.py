@@ -151,7 +151,7 @@ class SuperpositionTest(Solution):
     for ix in range(1, 5):
       q = Qubits(ix)
       self.all_superposition(q)
-      signs = map(lambda x: (x, 1), range(0,2**ix))
+      signs = [*map(lambda x: (x, 1), range(0,2**ix))]
       self.assert_signs(q, signs)
   
   def all_superposition(self, q):

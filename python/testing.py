@@ -11,27 +11,27 @@ from mpmath import *
 
 def mZZ(q, ix, iy):
   Gates.CNOT(q, iy, ix)
-  print q
+  print(q)
   m = Measurement.measure(q, ix)
-  print m, q
+  print(m, q)
   Gates.CNOT(q, iy, ix)
-  print m, q
+  print(m, q)
 
 def mXX(q, ix, iy):
   Gates.H(q, ix)
-  print q
+  print(q)
   Gates.H(q, iy)
-  print q
+  print(q)
   Gates.CNOT(q, iy, ix)
-  print q
+  print(q)
   m = Measurement.measure(q, ix)
-  print m, q
+  print(m, q)
   Gates.CNOT(q, iy, ix)
-  print m, q
+  print(m, q)
   Gates.H(q, iy)
-  print m, q
+  print(m, q)
   Gates.H(q, ix)
-  print m, q
+  print(m, q)
 
 def mZX(q, ix, iy):
   Gates.H(q, iy)
@@ -39,15 +39,6 @@ def mZX(q, ix, iy):
   m = Measurement.measure(q, ix)
   Gates.CNOT(q, iy, ix)
   Gates.H(q, iy)
-  print m, q
+  print(m, q)
 
 
-q = Qubits(2)
-Gates.H(q, 0)
-Gates.H(q, 1)
-Gates.CY(q, 1, 0)
-Gates.CZ(q, 0, 1)
-Gates.Z(q, 0)
-Gates.Z(q, 1)
-
-print(q)

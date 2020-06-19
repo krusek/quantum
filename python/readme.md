@@ -10,9 +10,9 @@ As a simple example here is how one would construct a GHZ state:
 l = 4
 q = Qubits(l)
 Gates.H(q, 0)
-for ix in xrange(1, l):
+for ix in range(1, l):
   Gates.CNOT(q, 0, ix)
-print q
+print(q)
 ```
 
 This will output `1/2*sqrt(2) |0000> + 1/2*sqrt(2) |1111>`.
@@ -21,7 +21,7 @@ We can also perform measurements (currently only Z measurements are supported).
 
 ```{python}
 m, q = Measurement.measure(q, 0)
-print m, q
+print(m, q)
 ```
 
 Assuming the `1` measurement was selected this will output `1` and `|1111>`.

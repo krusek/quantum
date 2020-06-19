@@ -105,9 +105,9 @@ class JointMeasurementTest(Solution):
       a,b, c, d = self.random_unit_vector(4)
       q = Qubits.create(2, [(0, a), (1, b), (2, c), (3, d)])
       target = Qubits.create(2, [(0, a), (1, b), (2, d), (3, c)])
-      print "before", q
+      print("before", q)
       self.controlled_x_general(q)
-      print "after", q
+      print("after", q)
       self.assert_qubits(q, target)
 
   def controlled_x_general(self, q):
@@ -117,7 +117,7 @@ class JointMeasurementTest(Solution):
     bad = [[0.1, 0.9, 0.9], [0.9, 0.9, 0.1]]
     if [r1, r2, r3] in bad:
       r1, r2, r3 = [0.1, 0.1, 0.1]
-    print r1, r2, r3
+    print(r1, r2, r3)
     q.add_qubit()
     #print "before measurement", q
     p1 = self.copy_qubit(q, 1, 0, r1)

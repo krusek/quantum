@@ -97,12 +97,12 @@ class BasicGatesTest(Solution):
   def test_amplitude_change(self):
     q = Qubits(1)
     self.amplitude_change(q, pi/3)
-    self.assert_signs(q, [(0, half),(1,half*sqrt(3))])
+    self.assert_signs(q, [(0, 1),(1,1)])
 
     q = Qubits(1)
     Gates.X(q, 0)
     self.amplitude_change(q, pi/3)
-    self.assert_signs(q, [(0,-half*sqrt(3)),(1, half)])
+    self.assert_signs(q, [(0,-1),(1, 1)])
 
 
   def amplitude_change(self, q, alpha):

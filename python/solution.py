@@ -10,8 +10,8 @@ class Solution:
     mons = q.monomials()
     if mons == signs:
       return True
-    signed = map(lambda m: (m[0], self.sign(m[1])), mons)
-    assert signed == signs, "signs not equal: {0:s}, {1:s}".format(signs, q)
+    signed = [*map(lambda m: (m[0], self.sign(m[1])), mons)]
+    assert signed == signs, F"signs not equal: {signed} != {signs}, {q}"
   
   def assert_qubits(self, q1, q2):
     l1 = list(q1.v)
@@ -27,10 +27,10 @@ class Solution:
     return 0
 
   def run_all_tests(self):
-    print "--- Test harness: {0:s} ---".format(self)
+    print(F"--- Test harness: {self} ---")
     ll = filter(lambda x: x.startswith("test_"), dir(self))
     for s in ll:
-      print("running test: {0:s}".format(s))
+      print(F"running test: {s}")
       getattr(self, s)()
-      print("passed test: {0:s}".format(s))
+      print(F"passed test: {s}")
       print("------------")
