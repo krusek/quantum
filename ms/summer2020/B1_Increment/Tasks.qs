@@ -21,22 +21,30 @@ namespace Solution {
     /// </summary>
 
     operation Solve (register : LittleEndian) : Unit is Adj+Ctl {
-        let l = Length(register!);
-        using (qs = Qubit[l]) {
-            X(qs[0]);
+        // let l = Length(register!);
+        // using (qs = Qubit[l]) {
+        //     X(qs[0]);
             
-            for (ix in 0 .. (l-1)) {
-                if (ix < l - 1) {
-                    CCNOT(qs[ix], register![ix], qs[ix + 1]);
-                }
-                CNOT(qs[ix], register![ix]);
-            }
-            for (ix in 2 .. (l)) {
-                X(register![l-ix]);
-                CCNOT(qs[l-ix], register![l-ix], qs[l-ix+1]);
-                X(register![l-ix]);
-            }
-            X(qs[0]);
+        //     for (ix in 0 .. (l-1)) {
+        //         if (ix < l - 1) {
+        //             CCNOT(qs[ix], register![ix], qs[ix + 1]);
+        //         }
+        //         CNOT(qs[ix], register![ix]);
+        //     }
+        //     for (ix in 2 .. (l)) {
+        //         X(register![l-ix]);
+        //         CCNOT(qs[l-ix], register![l-ix], qs[l-ix+1]);
+        //         X(register![l-ix]);
+        //     }
+        //     X(qs[0]);
+        // }
+        Increment(register!);
+    }
+
+    operation Increment(qs: Qubit[]) : Unit is Adj+Ctl {
+        if (Length(qs) > 1) {
+            Controlled Increment([qs[0]], qs[1...]);
         }
+        X(qs[0]);
     }
 }
