@@ -20,38 +20,43 @@ namespace Solution {
     
     
     operation Solve_Test () : Unit {
-        for (iy in 0..10) {
-        Solve(new Qubit[0]);
+        Solve(new Qubit[0], 0);
         using (qs = Qubit[1]) {
-            Solve(qs);
-            AssertProbInt(0, 1.0, LittleEndian(qs), 0.1); // 000
-        }
-        using (qs = Qubit[2]) {
-            Solve(qs);
-            AssertProbInt(0, 1.0/3.0, LittleEndian(qs), 0.1); // 00
-            AssertProbInt(1, 1.0/3.0, LittleEndian(qs), 0.1); // 01
-            AssertProbInt(2, 1.0/3.0, LittleEndian(qs), 0.1); // 10
+            Solve(qs, 0);
+            AssertProbInt(0, 1.0, LittleEndian(qs), 0.1);
             ResetAll(qs);
-        }
-        using (qs = Qubit[3]) {
-            Solve(qs);
-            AssertProbInt(0, 1.0/6.0, LittleEndian(qs), 0.1); // 000
-            AssertProbInt(0, 1.0/6.0, LittleEndian(qs), 0.1); // 001
-            AssertProbInt(0, 1.0/6.0, LittleEndian(qs), 0.1); // 010
-            AssertProbInt(0, 1.0/6.0, LittleEndian(qs), 0.1); // 011
-            AssertProbInt(0, 1.0/6.0, LittleEndian(qs), 0.1); // 100
-            AssertProbInt(0, 1.0/6.0, LittleEndian(qs), 0.1); // 101
-            AssertProbInt(0, 1.0/6.0, LittleEndian(qs), 0.1); // 110
-            ResetAll(qs);
-        }
-        using (qs = Qubit[4]) {
-            Solve(qs);
-            for (ix in 0..15) {
-                AssertProbInt(ix, 1.0/15.0, LittleEndian(qs), 0.1); // 000
-            }
+
+            Solve(qs, 1);
+            AssertProbInt(1, 1.0, LittleEndian(qs), 0.1);
             ResetAll(qs);
         }
 
+        using (qs = Qubit[2]) {
+            Solve(qs, 0);
+            AssertProbInt(0, 0.5, LittleEndian(qs), 0.1);
+            AssertProbInt(3, 0.5, LittleEndian(qs), 0.1);
+            ResetAll(qs);
+
+            Solve(qs, 1);
+            AssertProbInt(1, 0.5, LittleEndian(qs), 0.1);
+            AssertProbInt(2, 0.5, LittleEndian(qs), 0.1);
+            ResetAll(qs);
+        }
+
+        using (qs = Qubit[3]) {
+            Solve(qs, 0);
+            AssertProbInt(0, 0.25, LittleEndian(qs), 0.1); // 000
+            AssertProbInt(3, 0.25, LittleEndian(qs), 0.1); // 011
+            AssertProbInt(5, 0.25, LittleEndian(qs), 0.1); // 101
+            AssertProbInt(6, 0.25, LittleEndian(qs), 0.1); // 110
+            ResetAll(qs);
+
+            Solve(qs, 1);
+            AssertProbInt(1, 0.25, LittleEndian(qs), 0.1); // 001
+            AssertProbInt(2, 0.25, LittleEndian(qs), 0.1); // 010
+            AssertProbInt(4, 0.25, LittleEndian(qs), 0.1); // 100
+            AssertProbInt(7, 0.25, LittleEndian(qs), 0.1); // 111
+            ResetAll(qs);
         }
     }
 
